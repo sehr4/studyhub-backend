@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres  # Superuser for initialization
+      POSTGRES_PASSWORD: admin  # Superuser password
+      POSTGRES_DB: studyhub-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+    networks:
+      - studyhub-network
+    command: ["postgres", "-c", "log_statement=all"]
+
+  backend:
+    image: studyhub-backend:latest
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/studyhub-db
+      SPRING_DATASOURCE_USERNAME: studyhub_admin
+      SPRING_DATASOURCE_PASSWORD: studyhubPass
+      SPRING_PROFILES_ACTIVE: dev
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - studyhub-network
+
+networks:
+  studyhub-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
