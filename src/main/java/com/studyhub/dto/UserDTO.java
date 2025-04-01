@@ -6,8 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Data Transfer Object for representing a user in API requests and responses.
@@ -15,8 +13,6 @@ import org.slf4j.LoggerFactory;
 @Getter
 @Setter
 public class UserDTO {
-
-    private static final Logger logger = LoggerFactory.getLogger(UserDTO.class);
 
     private Long id;
 
@@ -34,7 +30,7 @@ public class UserDTO {
     private String password;
 
     public UserDTO() {
-        logger.debug("Creating new UserDTO instance");
+        // Default constructor for deserialization
     }
 
     public UserDTO(Long id, String firstName, String lastName, String email, RoleConstants role) {
@@ -43,7 +39,6 @@ public class UserDTO {
         this.lastName = lastName;
         this.email = email;
         this.role = role;
-        logger.info("Created UserDTO instance: id={}, email={}, role={}", id, email, role);
     }
 
     @Override
