@@ -45,7 +45,7 @@ public class UserService {
      */
     public UserDTO registerUser(UserDTO userDTO) {
         // Validate that the email is unique
-        Optional<User> existingUserByEmail = userRepository.findByEmail(userDTO.getEmail());
+        Optional<User> existingUserByEmail = userRepository.findUserByEmail(userDTO.getEmail());
         if (existingUserByEmail.isPresent()) {
             throw new BadRequestException("Email already exists: " + userDTO.getEmail());
         }
@@ -99,7 +99,7 @@ public class UserService {
         }
 
         // Find the user by email
-        User user = userRepository.findByEmail(userDTO.getEmail())
+        User user = userRepository.findUserByEmail(userDTO.getEmail())
                 .orElseThrow(() -> new BadRequestException("Invalid email or password"));
 
         // Verify the password
