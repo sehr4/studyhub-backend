@@ -34,7 +34,6 @@ public class UserController {
     public ResponseEntity<UserDTO> registerUser(@Valid @RequestBody UserDTO userDTO) {
         // Delegate to the service layer to register the user
         UserDTO registeredUser = userService.registerUser(userDTO);
-
         return ResponseEntity.ok(registeredUser);
     }
 
@@ -49,7 +48,6 @@ public class UserController {
 
         // Delegate to the service layer to authenticate the user
         UserDTO loggedInUser = userService.login(userDTO);
-
         return ResponseEntity.ok(loggedInUser);
     }
 
@@ -64,7 +62,6 @@ public class UserController {
 
         // Delegate to the service layer to retrieve the user
         UserDTO userDTO = userService.getUserById(id);
-
         return ResponseEntity.ok(userDTO);
     }
 }
