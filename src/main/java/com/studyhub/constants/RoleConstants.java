@@ -5,9 +5,9 @@ package com.studyhub.constants;
  * Enum representing the possible roles a user can have in the StudyHub application.
  */
 public enum RoleConstants {
-    ROLE_STUDENT,
-    ROLE_INSTRUCTOR,
-    ROLE_ADMIN;
+    STUDENT,
+    INSTRUCTOR,
+    ADMIN;
 
     /**
      * Converts a string to the corresponding RoleConstants enum value.
