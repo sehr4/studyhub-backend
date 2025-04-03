@@ -2,15 +2,13 @@ package com.studyhub.model;
 
 import com.studyhub.constants.RoleConstants;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * Entity representing a user in the StudyHub application.
  * Maps to the 'users' table in the database.
  */
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "users")
 public class User {
@@ -45,16 +43,5 @@ public class User {
         this.email = email;
         this.role = role;
         this.password = password;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", role=" + role +
-                '}';
     }
 }

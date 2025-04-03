@@ -9,5 +9,4 @@ public class StudyhubBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(StudyhubBackendApplication.class, args);
     }
-
 }
