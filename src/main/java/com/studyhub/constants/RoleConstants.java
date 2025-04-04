@@ -12,7 +12,7 @@ public enum RoleConstants {
     /**
      * Converts a string to the corresponding RoleConstants enum value.
      *
-     * @param role the string representation of the role (e.g., "ROLE_STUDENT")
+     * @param role the string representation of the role (e.g., "STUDENT")
      * @return the corresponding RoleConstants enum value
      */
     public static RoleConstants fromString(String role) {

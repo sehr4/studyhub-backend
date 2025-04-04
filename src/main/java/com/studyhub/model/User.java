@@ -4,10 +4,7 @@ import com.studyhub.constants.RoleConstants;
 import jakarta.persistence.*;
 import lombok.*;
 
-/**
- * Entity representing a user in the StudyHub application.
- * Maps to the 'users' table in the database.
- */
+// User entity, maps to 'users' table in the db
 @Data
 @Entity
 @Table(name = "users")
