@@ -20,7 +20,6 @@ public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -31,28 +30,22 @@ public class Course {
     )
     private Set<User> instructors = new HashSet<>();
 
-    @Column(name = "code", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     @NotBlank(message = "Course code cannot be blank")
     private String code;
 
-    @Column (name = "department", nullable = false)
+    @Column (nullable = false)
     @NotBlank(message = "Department cannot be blank")
     private String department;
 
-    @Column(name = "title", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     @NotBlank(message = "Title cannot be blank")
     private String title;
 
-    @Column(name = "credits")
+
     private Integer credits;
-
-    @Column(name = "description")
     private String description;
-
-    @Column(name = "start_date")
     private LocalDate startDate;
-
-    @Column(name = "end_date")
     private LocalDate endDate;
 
     @ManyToMany(fetch = FetchType.LAZY)

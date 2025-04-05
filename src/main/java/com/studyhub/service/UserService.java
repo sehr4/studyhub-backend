@@ -13,7 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 /**
- * Service class for handling user-related business logic, such as registration, retrieval, and login.
+ * UserService for handling user-related business logic,
+ * such as registration, retrieval, login, etc.
  */
 @Service
 @Transactional

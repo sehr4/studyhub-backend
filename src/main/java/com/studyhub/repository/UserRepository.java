@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 /**
- * Repository interface for performing CRUD operations on the User entity.
+ * UserRepository interface for CRUD operations on the User entity
  * Provides a method to find users by email.
  */
 @Repository
