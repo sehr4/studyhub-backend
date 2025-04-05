@@ -6,9 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * REST controller for handling user-related API requests.
- */
+// REST controller for handling user-related API requests
 @RestController
 @RequestMapping("/users") // /api prefix is set in application.properties
 public class UserController {

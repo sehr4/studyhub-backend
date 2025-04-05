@@ -3,8 +3,6 @@ package com.studyhub.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -13,8 +11,6 @@ import java.util.Set;
 // Course entity, maps to 'courses' table in the db
 @Data
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "courses")
 public class Course {
 
@@ -55,4 +51,19 @@ public class Course {
             inverseJoinColumns = @JoinColumn(name = "student_id")
     )
     private Set<User> students = new HashSet<>();
+
+    public Course() {
+    }
+
+    public Course(Set<User> instructors, String code, String department, String title, Integer credits, String description, LocalDate startDate, LocalDate endDate, Set<User> students) {
+        this.instructors = instructors;
+        this.code = code;
+        this.department = department;
+        this.title = title;
+        this.credits = credits;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.students = students;
+    }
 }

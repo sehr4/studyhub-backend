@@ -1,6 +1,6 @@
 package com.studyhub.model;
 
-import com.studyhub.constants.RoleConstants;
+import com.studyhub.constant.RoleConstant;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,7 +22,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private RoleConstants role;
+    private RoleConstant role;
 
     @Column(nullable = false)
     private String password;
@@ -30,7 +30,7 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, RoleConstants role, String password) {
+    public User(String firstName, String lastName, String email, RoleConstant role, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

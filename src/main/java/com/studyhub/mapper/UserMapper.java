@@ -4,14 +4,12 @@ import com.studyhub.dto.UserDTO;
 import com.studyhub.model.User;
 import org.springframework.stereotype.Component;
 
-/**
- * Mapper class for converting between User entities and UserDTOs.
- */
+// UserMapper for converting between User and UserDTOs
 @Component
 public class UserMapper {
 
     /**
-     * Converts a User entity to a UserDTO.
+     * Converts a User entity to a UserDTO
      *
      * @param user the User entity to convert
      * @return the corresponding UserDTO, or null if the input is null
@@ -31,7 +29,7 @@ public class UserMapper {
     }
 
     /**
-     * Converts a UserDTO to a User entity.
+     * Converts a UserDTO to a User entity
      *
      * @param userDTO the UserDTO to convert
      * @return the corresponding User entity, or null if the input is null
@@ -47,7 +45,7 @@ public class UserMapper {
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());
         user.setRole(userDTO.getRole());
-        // 'Password' is not set here as it's handled separately (e.g., during registration)
+        // 'Password' is not set here, handled separately during registration
 
         return user;
     }

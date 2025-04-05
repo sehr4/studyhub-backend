@@ -1,17 +1,13 @@
 package com.studyhub.dto;
 
-import com.studyhub.constants.RoleConstants;
+import com.studyhub.constant.RoleConstant;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-/**
- * Data Transfer Object for representing a user in API requests and responses.
- */
-@Getter
-@Setter
+// Data Transfer Object for user in API
+@Data
 public class UserDTO {
 
     private Long id;
@@ -21,35 +17,21 @@ public class UserDTO {
     private String email;
 
     private String firstName;
-
     private String lastName;
 
     @NotNull(message = "Role cannot be null")
-    private RoleConstants role;
+    private RoleConstant role;
 
     private String password;
 
     public UserDTO() {
-        // Default constructor for deserialization
     }
 
-    public UserDTO(Long id, String firstName, String lastName, String email, RoleConstants role) {
+    public UserDTO(Long id, String firstName, String lastName, String email, RoleConstant role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.role = role;
-    }
-
-    @Override
-    public String toString() {
-        return "UserDTO{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", role=" + role +
-                ", password='" + (password != null ? "[REDACTED]" : null) + '\'' +
-                '}';
     }
 }
