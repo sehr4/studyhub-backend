@@ -27,18 +27,8 @@ public class CourseMapper {
         courseDTO.setDescription(course.getDescription());
         courseDTO.setStartDate(course.getStartDate());
         courseDTO.setEndDate(course.getEndDate());
-
-        Set<Long> instructorIds = new HashSet<>();
-        for (User instructor : course.getInstructors()) {
-            instructorIds.add(instructor.getId());
-        }
-        courseDTO.setInstructorIds(instructorIds);
-
-        Set<Long> studentIds = new HashSet<>();
-        for (User student : course.getStudents()) {
-            studentIds.add(student.getId());
-        }
-        courseDTO.setStudentIds(studentIds);
+        courseDTO.setInstructorIds(convertUsersToIds(course.getInstructors()));
+        courseDTO.setStudentIds(convertUsersToIds(course.getStudents()));
 
         return courseDTO;
     }
@@ -58,5 +48,14 @@ public class CourseMapper {
         course.setEndDate(courseCreateDTO.getEndDate());
 
         return course;
+    }
+
+    // Helper method to convert a set of User entities to id's
+    private Set<Long> convertUsersToIds(Set<User> users) {
+        Set<Long> ids = new HashSet<>();
+        for (User user : users) {
+            ids.add(user.getId());
+        }
+        return ids;
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.HashMap;
 import java.util.Map;
 
-// I have included a commented ResponseEntity builderunder each return for my own learning
+// I have included a commented ResponseEntity builder under each return for my own learning
 
 // Global exception handler
 // Maps exceptions to appropriate HTTP status codes and responses

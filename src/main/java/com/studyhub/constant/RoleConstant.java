@@ -8,6 +8,10 @@ public enum RoleConstant {
     ADMIN;
 
     public static RoleConstant fromString(String role) {
-        return RoleConstant.valueOf(role);
+        try {
+            return RoleConstant.valueOf(role.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid role: " + role);
+        }
     }
 }

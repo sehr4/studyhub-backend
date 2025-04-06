@@ -30,18 +30,16 @@ public class UserService {
 
     public UserDTO registerUser(UserDTO userDTO) {
         // Validate that the email is unique
-        Optional<User> existingUserByEmail = userRepository.findByEmail(userDTO.getEmail());
-        if (existingUserByEmail.isPresent()) {
+        if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
             throw new BadRequestException("Email already exists: " + userDTO.getEmail());
         }
 
-        // Convert DTO to entity
+        // Convert DTO to entity for registration
         User user = userMapper.toEntity(userDTO);
 
-        // Set a temporary password and hash it
-        String temporaryPassword = "temporaryPassword";
-        String hashedPassword = passwordEncoder.encode(temporaryPassword);
-        user.setPassword(hashedPassword);
+        // Use the provided password if present, otherwise set a temporary one
+        String password = userDTO.getPassword() != null ? userDTO.getPassword() : "temporaryPassword";
+        user.setPassword(passwordEncoder.encode(password));
 
         // Save the user to the database
         User savedUser = userRepository.save(user);
@@ -61,14 +59,6 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserDTO login(LoginRequestDTO loginRequestDTO) {
-        // Validate that email and password are provided
-//        if (loginRequestDTO.getEmail() == null || loginRequestDTO.getEmail().isBlank()) {
-//            throw new BadRequestException("Email is required");
-//        }
-//        if (loginRequestDTO.getPassword() == null || loginRequestDTO.getPassword().isBlank()) {
-//            throw new BadRequestException("Password is required");
-//        }
-
         // Find the user by email
         User user = userRepository.findByEmail(loginRequestDTO.getEmail())
                 .orElseThrow(() -> new BadRequestException("Invalid email or password"));

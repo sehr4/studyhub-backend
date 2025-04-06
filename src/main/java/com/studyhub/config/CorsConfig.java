@@ -13,7 +13,7 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5173", "https://thankful-glacier-09f37ef03.6.azurestaticapps.net") // Vite and Azure URL
+                .allowedOrigins("http://localhost:5173", "https://thankful-glacier-09f37ef03.6.azurestaticapps.net") // Local dev (Vite) and Azure Static Web App
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);

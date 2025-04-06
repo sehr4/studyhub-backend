@@ -1,6 +1,5 @@
 package com.studyhub.service;
 
-
 import com.studyhub.constant.RoleConstant;
 import com.studyhub.dto.CourseCreateDTO;
 import com.studyhub.dto.CourseDTO;
@@ -20,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+// Service class for handling course-related operations
 @Service
 @Transactional
 public class CourseService {
@@ -34,13 +34,14 @@ public class CourseService {
         this.courseMapper = courseMapper;
     }
 
+    // Creates a new course
     public CourseDTO createCourse(CourseCreateDTO courseCreateDTO) {
         // Check for duplicate code or title
         if (courseRepository.findCourseByCode(courseCreateDTO.getCode()).isPresent()) {
-            throw new BadRequestException("Course with code: " + courseCreateDTO.getCode() + " already exists");
+            throw new BadRequestException("Course with code '" + courseCreateDTO.getCode() + "' already exists");
         }
         if (courseRepository.findCourseByTitle(courseCreateDTO.getTitle()).isPresent()) {
-            throw new BadRequestException("Course with title: " + courseCreateDTO.getTitle() + " already exists");
+            throw new BadRequestException("Course with title '" + courseCreateDTO.getTitle() + "' already exists");
         }
 
         // Map DTO to entity
@@ -51,10 +52,13 @@ public class CourseService {
             Set<User> instructors = new HashSet<>();
             for (Long id : courseCreateDTO.getInstructorIds()) {
                 User user = userRepository.findById(id)
-                        .orElseThrow(() -> new ResourceNotFoundException("Instructor with ID: " + id + " not found"));
-                if (user.getRole().equals(RoleConstant.INSTRUCTOR)) {
-                    instructors.add(user);
+                        .orElseThrow(() -> new ResourceNotFoundException("Instructor not found with ID: " + id));
+
+                // Validate that user has an instructor role
+                if (!user.getRole().equals(RoleConstant.INSTRUCTOR)) {
+                    throw new BadRequestException("User with ID " + id + " is not an instructor");
                 }
+                instructors.add(user);
             }
             course.setInstructors(instructors);
         }
@@ -64,51 +68,59 @@ public class CourseService {
         return courseMapper.toDTO(savedCourse);
     }
 
+    // Retrieves a course by its ID
     public CourseDTO getCourseById(Long id) {
         Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Course with ID: " + id + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found with ID: " + id));
         return courseMapper.toDTO(course);
     }
 
+    // Enrolls a student in a course
     public void enrollStudent(EnrollmentDTO enrollmentDTO) {
         Course course = courseRepository.findById(enrollmentDTO.getCourseId())
-                .orElseThrow(() -> new ResourceNotFoundException("Course with ID: " + enrollmentDTO.getCourseId() + "was not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found with ID: " + enrollmentDTO.getCourseId()));
         User student = userRepository.findById(enrollmentDTO.getStudentId())
-                .orElseThrow(() -> new ResourceNotFoundException("Student with ID: " + enrollmentDTO.getStudentId() + "was not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + enrollmentDTO.getStudentId()));
 
+        // Validate student role
         if (!student.getRole().equals(RoleConstant.STUDENT)) {
-            throw new BadRequestException("User: " + enrollmentDTO.getStudentId() + " is not a student");
+            throw new BadRequestException("User with ID " + enrollmentDTO.getStudentId() + " is not a student");
         }
         course.getStudents().add(student);
         courseRepository.save(course);
     }
 
-    public List<CourseDTO> getCourseByDepartment(String department) {
+    // Retrieves courses by department
+    public List<CourseDTO> getCoursesByDepartment(String department) {
         List<Course> courses = courseRepository.findCoursesByDepartment(department);
         if (courses.isEmpty()) {
             throw new ResourceNotFoundException("No courses found in department: " + department);
         }
-        // Convert each course to CourseDTO
-        List<CourseDTO> courseDTOs = new ArrayList<>();
-        for (Course course : courses) {
-            courseDTOs.add(courseMapper.toDTO(course));
-        }
-        return courseDTOs;
+
+        return convertToDTOList(courses);
     }
 
+    // Retrieves courses for a specific student
     public List<CourseDTO> getCoursesByStudent(Long studentId) {
-        // Check that user exists and with student role
+        // Verify student exists and has student role
         User student = userRepository.findById(studentId)
-                .orElseThrow(() -> new ResourceNotFoundException("Student with ID: " + studentId + " not found "));
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + studentId));
+
         if (!student.getRole().equals(RoleConstant.STUDENT)) {
-            throw new BadRequestException("User is not a student: " + studentId);
+            throw new BadRequestException("User with ID " + studentId + " is not a student");
         }
-        // Check that student has courses
+
+        // Retrieve student's courses
         List<Course> courses = courseRepository.findCoursesByStudents(student);
         if (courses.isEmpty()) {
             throw new ResourceNotFoundException("No courses found for student with ID: " + studentId);
         }
-        // Convert to DTOs
+
+        return convertToDTOList(courses);
+    }
+
+    // Helper method to convert a list of Course entities to DTOs
+    private List<CourseDTO> convertToDTOList(List<Course> courses) {
         List<CourseDTO> courseDTOs = new ArrayList<>();
         for (Course course : courses) {
             courseDTOs.add(courseMapper.toDTO(course));
