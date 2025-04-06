@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.util.Set;
 
-// Data Transfer Object for course in API (info retrieval)
+// Data Transfer Object for course in API
 @Data
 public class CourseDTO {
 

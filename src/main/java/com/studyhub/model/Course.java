@@ -38,7 +38,6 @@ public class Course {
     @NotBlank(message = "Title cannot be blank")
     private String title;
 
-
     private Integer credits;
     private String description;
     private LocalDate startDate;

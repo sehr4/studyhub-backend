@@ -8,12 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-    /**
-     * Converts a User entity to a UserDTO
-     *
-     * @param user the User entity to convert
-     * @return the corresponding UserDTO, or null if the input is null
-     */
+    // Converts a User entity to a UserDTO
     public UserDTO toDTO(User user) {
         if (user == null) {
             return null;
@@ -28,12 +23,7 @@ public class UserMapper {
         return userDTO;
     }
 
-    /**
-     * Converts a UserDTO to a User entity
-     *
-     * @param userDTO the UserDTO to convert
-     * @return the corresponding User entity, or null if the input is null
-     */
+    // Converts a UserDTO to a User entity
     public User toEntity(UserDTO userDTO) {
         if (userDTO == null) {
             return null;

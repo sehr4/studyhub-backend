@@ -13,21 +13,12 @@ public class UserController {
 
     private final UserService userService;
 
-    /**
-     * Constructor for dependency injection.
-     *
-     * @param userService the service for handling user-related business logic
-     */
+    // Constructor for dependency injection.
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    /**
-     * Registers a new user.
-     *
-     * @param userDTO the UserDTO containing the user's details
-     * @return a ResponseEntity containing the registered user's details
-     */
+    // Create a new user
     @PostMapping("/register")
     public ResponseEntity<UserDTO> registerUser(@Valid @RequestBody UserDTO userDTO) {
         // Delegate to the service layer to register the user
@@ -35,12 +26,7 @@ public class UserController {
         return ResponseEntity.ok(registeredUser);
     }
 
-    /**
-     * Authenticates a user by verifying their email and password.
-     *
-     * @param userDTO the UserDTO containing the email and password
-     * @return a ResponseEntity containing the user's details if authentication is successful
-     */
+    // Authenticates a user by verifying their email and password
     @PostMapping("/login")
     public ResponseEntity<UserDTO> login(@RequestBody UserDTO userDTO) {
 
@@ -49,12 +35,7 @@ public class UserController {
         return ResponseEntity.ok(loggedInUser);
     }
 
-    /**
-     * Retrieves a user by their ID.
-     *
-     * @param id the ID of the user to retrieve
-     * @return a ResponseEntity containing the user's details
-     */
+    // Retrieves a user by their ID.
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
 

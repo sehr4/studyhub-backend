@@ -12,10 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-/**
- * UserService for handling user-related business logic,
- * such as registration, retrieval, login, etc.
- */
+// UserService component, handling user-related business logic
 @Service
 @Transactional
 public class UserService {
@@ -24,29 +21,15 @@ public class UserService {
     private final UserMapper userMapper;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    /**
-     * Constructor for dependency injection.
-     *
-     * @param userRepository  the repository for accessing user data
-     * @param userMapper      the mapper for converting between User entities and DTOs
-     * @param passwordEncoder the encoder for hashing passwords
-     */
     public UserService(UserRepository userRepository, UserMapper userMapper, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
     }
 
-    /**
-     * Registers a new user in the system.
-     *
-     * @param userDTO the UserDTO containing the user's details
-     * @return the registered user's details as a UserDTO
-     * @throws BadRequestException if the username or email already exists
-     */
     public UserDTO registerUser(UserDTO userDTO) {
         // Validate that the email is unique
-        Optional<User> existingUserByEmail = userRepository.findUserByEmail(userDTO.getEmail());
+        Optional<User> existingUserByEmail = userRepository.findByEmail(userDTO.getEmail());
         if (existingUserByEmail.isPresent()) {
             throw new BadRequestException("Email already exists: " + userDTO.getEmail());
         }
@@ -66,13 +49,6 @@ public class UserService {
         return userMapper.toDTO(savedUser);
     }
 
-    /**
-     * Retrieves a user by their ID.
-     *
-     * @param id the ID of the user to retrieve
-     * @return the UserDTO containing the user's details
-     * @throws ResourceNotFoundException if the user is not found
-     */
     @Transactional(readOnly = true)
     public UserDTO getUserById(Long id) {
         // Find the user in the database or throw an exception
@@ -82,13 +58,6 @@ public class UserService {
         return userMapper.toDTO(user);
     }
 
-    /**
-     * Authenticates a user by verifying their email and password.
-     *
-     * @param userDTO the UserDTO containing the email and password
-     * @return the UserDTO containing the user's details if authentication is successful
-     * @throws BadRequestException if the email or password is invalid
-     */
     @Transactional(readOnly = true)
     public UserDTO login(UserDTO userDTO) {
         // Validate that email and password are provided
@@ -100,7 +69,7 @@ public class UserService {
         }
 
         // Find the user by email
-        User user = userRepository.findUserByEmail(userDTO.getEmail())
+        User user = userRepository.findByEmail(userDTO.getEmail())
                 .orElseThrow(() -> new BadRequestException("Invalid email or password"));
 
         // Verify the password

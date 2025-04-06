@@ -13,6 +13,7 @@ import java.util.Set;
 @Component
 public class CourseMapper {
 
+    // Converts a Course entity to a CourseDTO
     public CourseDTO toDTO(Course course) {
         if (course == null) {
             return null;
@@ -42,6 +43,7 @@ public class CourseMapper {
         return courseDTO;
     }
 
+    // Converts a CourseDTO to a Course entity
     public Course toEntity(CourseCreateDTO courseCreateDTO) {
         if (courseCreateDTO == null) {
             return null;

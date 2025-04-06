@@ -73,7 +73,7 @@ public class CourseService {
     public void enrollStudent(EnrollmentDTO enrollmentDTO) {
         Course course = courseRepository.findById(enrollmentDTO.getCourseId())
                 .orElseThrow(() -> new ResourceNotFoundException("Course with ID: " + enrollmentDTO.getCourseId() + "was not found"));
-        User student = userRepository.findUserById(enrollmentDTO.getStudentId())
+        User student = userRepository.findById(enrollmentDTO.getStudentId())
                 .orElseThrow(() -> new ResourceNotFoundException("Student with ID: " + enrollmentDTO.getStudentId() + "was not found"));
 
         if (!student.getRole().equals(RoleConstant.STUDENT)) {
@@ -89,6 +89,26 @@ public class CourseService {
             throw new ResourceNotFoundException("No courses found in department: " + department);
         }
         // Convert each course to CourseDTO
+        List<CourseDTO> courseDTOs = new ArrayList<>();
+        for (Course course : courses) {
+            courseDTOs.add(courseMapper.toDTO(course));
+        }
+        return courseDTOs;
+    }
+
+    public List<CourseDTO> getCoursesByStudent(Long studentId) {
+        // Check that user exists and with student role
+        User student = userRepository.findById(studentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Student with ID: " + studentId + " not found "));
+        if (!student.getRole().equals(RoleConstant.STUDENT)) {
+            throw new BadRequestException("User is not a student: " + studentId);
+        }
+        // Check that student has courses
+        List<Course> courses = courseRepository.findCoursesByStudents(student);
+        if (courses.isEmpty()) {
+            throw new ResourceNotFoundException("No courses found for student with ID: " + studentId);
+        }
+        // Convert to DTOs
         List<CourseDTO> courseDTOs = new ArrayList<>();
         for (Course course : courses) {
             courseDTOs.add(courseMapper.toDTO(course));
