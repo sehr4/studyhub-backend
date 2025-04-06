@@ -1,21 +1,17 @@
 package com.studyhub.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
 // Data Transfer Object for login requests
-@Getter
-@Setter
+@Data
 public class LoginRequestDTO {
 
+    @NotBlank(message = "Email is required")
+    @Email(message = "Enter a valid email address")
     private String email;
+
+    @NotBlank(message = "Password is required")
     private String password;
-
-    public LoginRequestDTO() {
-    }
-
-    public LoginRequestDTO(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
 }

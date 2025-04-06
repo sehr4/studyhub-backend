@@ -1,7 +1,14 @@
 package com.studyhub.controller;
 
+import com.studyhub.dto.LoginRequestDTO;
 import com.studyhub.dto.UserDTO;
+import com.studyhub.model.User;
 import com.studyhub.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 // REST controller for handling user-related API requests
 @RestController
 @RequestMapping("/users") // /api prefix is set in application.properties
+@Tag(name = "User Controller", description = "APIs for managing user related operations")
+
 public class UserController {
 
     private final UserService userService;
@@ -20,6 +29,7 @@ public class UserController {
 
     // Create a new user
     @PostMapping("/register")
+    @Operation(summary = "Register a new user", description = "Creates a new user")
     public ResponseEntity<UserDTO> registerUser(@Valid @RequestBody UserDTO userDTO) {
         // Delegate to the service layer to register the user
         UserDTO registeredUser = userService.registerUser(userDTO);
@@ -28,10 +38,13 @@ public class UserController {
 
     // Authenticates a user by verifying their email and password
     @PostMapping("/login")
-    public ResponseEntity<UserDTO> login(@RequestBody UserDTO userDTO) {
+    @Operation(summary = "Log in a user", description = "Authenticate a user and return their details")
+    @ApiResponse(responseCode = "200", description = "Successful login", content = @Content(schema = @Schema(implementation = UserDTO.class)))
+    @ApiResponse(responseCode = "400", description = "Invalid email or password")
+    public ResponseEntity<UserDTO> login(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
 
         // Delegate to the service layer to authenticate the user
-        UserDTO loggedInUser = userService.login(userDTO);
+        UserDTO loggedInUser = userService.login(loginRequestDTO);
         return ResponseEntity.ok(loggedInUser);
     }
 

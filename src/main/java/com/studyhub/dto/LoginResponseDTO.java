@@ -1,11 +1,9 @@
 package com.studyhub.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 // Data Transfer Object, returning login response data, including a JWT token.
-@Getter
-@Setter
+@Data
 public class LoginResponseDTO {
 
     private String token;

@@ -1,5 +1,6 @@
 package com.studyhub.service;
 
+import com.studyhub.dto.LoginRequestDTO;
 import com.studyhub.dto.UserDTO;
 import com.studyhub.exception.BadRequestException;
 import com.studyhub.exception.ResourceNotFoundException;
@@ -59,21 +60,21 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserDTO login(UserDTO userDTO) {
+    public UserDTO login(LoginRequestDTO loginRequestDTO) {
         // Validate that email and password are provided
-        if (userDTO.getEmail() == null || userDTO.getEmail().isBlank()) {
-            throw new BadRequestException("Email is required");
-        }
-        if (userDTO.getPassword() == null || userDTO.getPassword().isBlank()) {
-            throw new BadRequestException("Password is required");
-        }
+//        if (loginRequestDTO.getEmail() == null || loginRequestDTO.getEmail().isBlank()) {
+//            throw new BadRequestException("Email is required");
+//        }
+//        if (loginRequestDTO.getPassword() == null || loginRequestDTO.getPassword().isBlank()) {
+//            throw new BadRequestException("Password is required");
+//        }
 
         // Find the user by email
-        User user = userRepository.findByEmail(userDTO.getEmail())
+        User user = userRepository.findByEmail(loginRequestDTO.getEmail())
                 .orElseThrow(() -> new BadRequestException("Invalid email or password"));
 
         // Verify the password
-        if (!passwordEncoder.matches(userDTO.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(loginRequestDTO.getPassword(), user.getPassword())) {
             throw new BadRequestException("Invalid email or password");
         }
 
