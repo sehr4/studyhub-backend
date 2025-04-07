@@ -43,8 +43,10 @@ public class CourseController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get course by ID", description = "Retrieves a course by its unique ID")
-    @ApiResponse(responseCode = "200", description = "Course found", content = @Content(schema = @Schema(implementation = CourseDTO.class)))
-    @ApiResponse(responseCode = "404", description = "Course not found", content = @Content)
+    @ApiResponses ({
+            @ApiResponse(responseCode = "200", description = "Course found", content = @Content(schema = @Schema(implementation = CourseDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Course not found", content = @Content)
+    })
     public ResponseEntity<CourseDTO> getCourseById(@PathVariable Long id) {
         CourseDTO courseDTO = courseService.getCourseById(id);
         return ResponseEntity.ok(courseDTO);
@@ -52,9 +54,11 @@ public class CourseController {
 
     @PostMapping("/enroll")
     @Operation(summary = "Enroll a student to a course", description = "Enrolls a student to a specified course")
-    @ApiResponse(responseCode = "200", description = "Enrollment successful")
-    @ApiResponse(responseCode = "400", description = "Invalid student role or input", content = @Content)
-    @ApiResponse(responseCode = "404", description = "Course or student not found", content = @Content)
+    @ApiResponses ({
+            @ApiResponse(responseCode = "200", description = "Enrollment successful"),
+            @ApiResponse(responseCode = "400", description = "Invalid student role or input", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Course or student not found", content = @Content)
+    })
     public ResponseEntity<Void> enrollStudent(@Valid @RequestBody EnrollmentDTO enrollmentDTO) {
         courseService.enrollStudent(enrollmentDTO);
         return ResponseEntity.ok().build();
@@ -62,8 +66,10 @@ public class CourseController {
 
     @GetMapping("/department/{department}")
     @Operation(summary = "Get courses by department", description = "Retrieves all courses in a specified department")
-    @ApiResponse(responseCode = "200", description = "Courses found", content = @Content(schema = @Schema(implementation = CourseDTO.class)))
-    @ApiResponse(responseCode = "404", description = "No courses found in department", content = @Content)
+    @ApiResponses ({
+            @ApiResponse(responseCode = "200", description = "Courses found", content = @Content(schema = @Schema(implementation = CourseDTO.class))),
+            @ApiResponse(responseCode = "404", description = "No courses found in department", content = @Content)
+    })
     public ResponseEntity<List<CourseDTO>> getCoursesByDepartment(@PathVariable String department) {
         List<CourseDTO> courses = courseService.getCoursesByDepartment(department);
         return ResponseEntity.ok(courses);
@@ -71,9 +77,11 @@ public class CourseController {
 
     @GetMapping("/student/{studentId}")
     @Operation(summary = "Get courses by student", description = "Retrieves all courses a student is enrolled in")
-    @ApiResponse(responseCode = "200", description = "Courses found", content = @Content(schema = @Schema(implementation = CourseDTO.class)))
-    @ApiResponse(responseCode = "400", description = "User is not a student", content = @Content)
-    @ApiResponse(responseCode = "404", description = "Student or courses not found", content = @Content)
+    @ApiResponses ({
+            @ApiResponse(responseCode = "200", description = "Courses found", content = @Content(schema = @Schema(implementation = CourseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "User is not a student", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Student or courses not found", content = @Content)
+    })
     public ResponseEntity<List<CourseDTO>> getCoursesByStudent(@PathVariable Long studentId) {
         List<CourseDTO> courses = courseService.getCoursesByStudent(studentId);
         return ResponseEntity.ok(courses);

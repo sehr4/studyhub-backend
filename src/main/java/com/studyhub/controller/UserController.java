@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +30,10 @@ public class UserController {
     // Create a new user
     @PostMapping("/register")
     @Operation(summary = "Register a new user", description = "Creates a new user with the provided details")
-    @ApiResponse(responseCode = "200", description = "User registered successfully", content = @Content(schema = @Schema(implementation = UserDTO.class)))
-    @ApiResponse(responseCode = "400", description = "Invalid input or email already exists", content = @Content)
+    @ApiResponses ({
+            @ApiResponse(responseCode = "200", description = "User registered successfully", content = @Content(schema = @Schema(implementation = UserDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input or email already exists", content = @Content)
+    })
     public ResponseEntity<UserDTO> registerUser(@Valid @RequestBody UserDTO userDTO) {
         // Delegate to the service layer to register the user
         UserDTO registeredUser = userService.registerUser(userDTO);
@@ -40,8 +43,10 @@ public class UserController {
     // Authenticates a user by verifying their email and password
     @PostMapping("/login")
     @Operation(summary = "Log in a user", description = "Authenticates a user with email and password")
-    @ApiResponse(responseCode = "200", description = "Login successful", content = @Content(schema = @Schema(implementation = UserDTO.class)))
-    @ApiResponse(responseCode = "400", description = "Invalid email or password", content = @Content)
+    @ApiResponses ({
+            @ApiResponse(responseCode = "200", description = "Login successful", content = @Content(schema = @Schema(implementation = UserDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid email or password", content = @Content)
+    })
     public ResponseEntity<UserDTO> login(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
         // Delegate to the service layer to authenticate the user
         UserDTO loggedInUser = userService.login(loginRequestDTO);
@@ -51,8 +56,10 @@ public class UserController {
     // Retrieves a user by their ID.
     @GetMapping("/{id}")
     @Operation(summary = "Get user by ID", description = "Retrieve a user by their unique ID")
-    @ApiResponse(responseCode = "200", description = "User found", content = @Content(schema = @Schema(implementation = UserDTO.class)))
-    @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+    @ApiResponses ({
+            @ApiResponse(responseCode = "200", description = "User found", content = @Content(schema = @Schema(implementation = UserDTO.class))),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+    })
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         // Delegate to the service layer to retrieve the user
         UserDTO userDTO = userService.getUserById(id);
