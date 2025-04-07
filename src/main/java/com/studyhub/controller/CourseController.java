@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +32,10 @@ public class CourseController {
 
     @PostMapping
     @Operation(summary = "Create a new course", description = "Creates a course with the provided details")
-    @ApiResponse(responseCode = "200", description = "Course created successfully", content = @Content(schema = @Schema(implementation = CourseDTO.class)))
-    @ApiResponse(responseCode = "400", description = "Invalid input or duplicate code/title", content = @Content)
+    @ApiResponses ({
+            @ApiResponse(responseCode = "200", description = "Course created successfully", content = @Content(schema = @Schema(implementation = CourseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input or duplicate code/title", content = @Content)
+    })
     public ResponseEntity<CourseDTO> createCourse(@Valid @RequestBody CourseCreateDTO courseCreateDTO) {
         CourseDTO courseDTO = courseService.createCourse(courseCreateDTO);
         return ResponseEntity.ok(courseDTO);
