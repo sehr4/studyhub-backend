@@ -2,6 +2,7 @@ package com.studyhub.service;
 
 import com.studyhub.dto.LoginRequestDTO;
 import com.studyhub.dto.UserDTO;
+import com.studyhub.dto.UserUpdateDTO;
 import com.studyhub.exception.BadRequestException;
 import com.studyhub.exception.ResourceNotFoundException;
 import com.studyhub.mapper.UserMapper;
@@ -79,7 +80,7 @@ public class UserService {
         return userMapper.toDTO(user);
     }
 
-    public UserDTO updateUser(Long id, UserDTO userDTO) {
+    public UserDTO updateUser(UserUpdateDTO userDTO) {
         User existingUser = userRepository.findById(userDTO.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + userDTO.getId()));
 

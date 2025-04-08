@@ -1,6 +1,7 @@
 package com.studyhub.mapper;
 
 import com.studyhub.dto.UserDTO;
+import com.studyhub.dto.UserUpdateDTO;
 import com.studyhub.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -52,5 +53,5 @@ public interface UserMapper {
 
 
     @Mapping(target = "password", ignore = true)
-    void updateEntityFromDTO(UserDTO userDTO, @MappingTarget User user);
+    void updateEntityFromDTO(UserUpdateDTO userDTO, @MappingTarget User user);
 }

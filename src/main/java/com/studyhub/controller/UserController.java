@@ -2,6 +2,7 @@ package com.studyhub.controller;
 
 import com.studyhub.dto.LoginRequestDTO;
 import com.studyhub.dto.UserDTO;
+import com.studyhub.dto.UserUpdateDTO;
 import com.studyhub.model.User;
 import com.studyhub.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -92,9 +93,9 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO userDTO) {
         userDTO.setId(id);
-        UserDTO updatedUser = userService.updateUser(id, userDTO);
+        UserDTO updatedUser = userService.updateUser(userDTO);
         return ResponseEntity.ok(updatedUser);
     }
 }
