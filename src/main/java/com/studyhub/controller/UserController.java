@@ -32,7 +32,8 @@ public class UserController {
     @Operation(summary = "Register a new user", description = "Creates a new user with the provided details")
     @ApiResponses ({
             @ApiResponse(responseCode = "200", description = "User registered successfully", content = @Content(schema = @Schema(implementation = UserDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid input or email already exists", content = @Content)
+            @ApiResponse(responseCode = "400", description = "Invalid input or email already exists", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<UserDTO> registerUser(@Valid @RequestBody UserDTO userDTO) {
         // Delegate to the service layer to register the user
@@ -45,7 +46,8 @@ public class UserController {
     @Operation(summary = "Log in a user", description = "Authenticates a user with email and password")
     @ApiResponses ({
             @ApiResponse(responseCode = "200", description = "Login successful", content = @Content(schema = @Schema(implementation = UserDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid email or password", content = @Content)
+            @ApiResponse(responseCode = "400", description = "Invalid email or password", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<UserDTO> login(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
         // Delegate to the service layer to authenticate the user
@@ -58,7 +60,8 @@ public class UserController {
     @Operation(summary = "Get user by ID", description = "Retrieve a user by their unique ID")
     @ApiResponses ({
             @ApiResponse(responseCode = "200", description = "User found", content = @Content(schema = @Schema(implementation = UserDTO.class))),
-            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         // Delegate to the service layer to retrieve the user
@@ -71,7 +74,8 @@ public class UserController {
     @Operation(summary = "Get user by email", description = "Retrieve a user by their unique email")
     @ApiResponses ({
             @ApiResponse(responseCode = "200", description = "User found", content = @Content(schema = @Schema(implementation = UserDTO.class))),
-            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<UserDTO> getUserByEmail(@Valid @PathVariable String email) {
         // Delegate to the service layer to retrieve the user
@@ -80,6 +84,17 @@ public class UserController {
     }
 
     // Update a user by their ID
-//    @PutMapping("/{id}")
-//    @Operation(summary = "Update user by ID", description = "Update user's details by their unique ID")
+    @PutMapping("/{id}")
+    @Operation(summary = "Update user by ID", description = "Updates an existing user by their ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User updated successfully", content = @Content(schema = @Schema(implementation = UserDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO userDTO) {
+        userDTO.setId(id);
+        UserDTO updatedUser = userService.updateUser(id, userDTO);
+        return ResponseEntity.ok(updatedUser);
+    }
 }

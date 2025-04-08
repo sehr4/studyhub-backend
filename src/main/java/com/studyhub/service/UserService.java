@@ -78,4 +78,27 @@ public class UserService {
         // Convert to DTO and return
         return userMapper.toDTO(user);
     }
+
+    public UserDTO updateUser(Long id, UserDTO userDTO) {
+        User existingUser = userRepository.findById(userDTO.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + userDTO.getId()));
+
+        // Check if email is changing and already taken
+        if (!existingUser.getEmail().equals(userDTO.getEmail()) &&
+                userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
+            throw new BadRequestException("Email already exists: " + userDTO.getEmail());
+        }
+
+        // Update entity with DTO fields (excluding password)
+        userMapper.updateEntityFromDTO(userDTO, existingUser);
+
+        // Handle password separately if provided
+        if (userDTO.getPassword() != null && !userDTO.getPassword().isBlank()) {
+            existingUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        }
+
+        // Convert the updated entity back to a DTO and return
+        User updatedUser = userRepository.save(existingUser);
+        return userMapper.toDTO(updatedUser);
+    }
 }

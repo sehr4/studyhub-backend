@@ -48,7 +48,6 @@ public class GlobalExceptionHandler {
     }
 
     // Generic exception handler for other uncaught exceptions returns generic error message and 500 status
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGenericException(Exception ex) {
         return new ResponseEntity<>("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
