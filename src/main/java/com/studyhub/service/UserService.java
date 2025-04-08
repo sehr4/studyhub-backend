@@ -56,6 +56,15 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public UserDTO getUserByEmail(String email) {
+        // Find the user in the database or throw an exception
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
+        // Convert to DTO and return
+        return userMapper.toDTO(user);
+    }
+
+    @Transactional(readOnly = true)
     public UserDTO login(LoginRequestDTO loginRequestDTO) {
         // Find the user by email
         User user = userRepository.findByEmail(loginRequestDTO.getEmail())

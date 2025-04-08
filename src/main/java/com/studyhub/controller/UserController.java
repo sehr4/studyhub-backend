@@ -22,7 +22,7 @@ public class UserController {
 
     private final UserService userService;
 
-    // Constructor for dependency injection.
+    // Constructor for dependency injection
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -53,8 +53,8 @@ public class UserController {
         return ResponseEntity.ok(loggedInUser);
     }
 
-    // Retrieves a user by their ID.
-    @GetMapping("/{id}")
+    // Retrieves a user by their ID
+    @GetMapping("/id/{id}")
     @Operation(summary = "Get user by ID", description = "Retrieve a user by their unique ID")
     @ApiResponses ({
             @ApiResponse(responseCode = "200", description = "User found", content = @Content(schema = @Schema(implementation = UserDTO.class))),
@@ -65,4 +65,21 @@ public class UserController {
         UserDTO userDTO = userService.getUserById(id);
         return ResponseEntity.ok(userDTO);
     }
+
+    // Retrieves a user by their email
+    @GetMapping("/email/{email}")
+    @Operation(summary = "Get user by email", description = "Retrieve a user by their unique email")
+    @ApiResponses ({
+            @ApiResponse(responseCode = "200", description = "User found", content = @Content(schema = @Schema(implementation = UserDTO.class))),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+    })
+    public ResponseEntity<UserDTO> getUserByEmail(@Valid @PathVariable String email) {
+        // Delegate to the service layer to retrieve the user
+        UserDTO userDTO = userService.getUserByEmail(email);
+        return ResponseEntity.ok(userDTO);
+    }
+
+    // Update a user by their ID
+//    @PutMapping("/{id}")
+//    @Operation(summary = "Update user by ID", description = "Update user's details by their unique ID")
 }
