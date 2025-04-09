@@ -6,6 +6,7 @@ import com.studyhub.dto.CourseUpdateDTO;
 import com.studyhub.dto.EnrollmentDTO;
 import com.studyhub.service.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -16,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 
 // REST controller for handling course-related API requests
 @RestController
@@ -33,9 +33,10 @@ public class CourseController {
     @PostMapping
     @Operation(summary = "Create a new course", description = "Creates a course with the provided details")
     @ApiResponses ({
-            @ApiResponse(responseCode = "200", description = "Course created successfully", content = @Content(schema = @Schema(implementation = CourseDTO.class))),
+            @ApiResponse(responseCode = "200", description = "Course created successfully",
+                    content = @Content(schema = @Schema(implementation = CourseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Invalid input or duplicate code/title", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = "500", description = "Unexpected server error")
     })
     public ResponseEntity<CourseDTO> createCourse(@Valid @RequestBody CourseCreateDTO courseCreateDTO) {
         CourseDTO courseDTO = courseService.createCourse(courseCreateDTO);
@@ -45,9 +46,10 @@ public class CourseController {
     @GetMapping("/{id}")
     @Operation(summary = "Get course by ID", description = "Retrieves a course by its unique ID")
     @ApiResponses ({
-            @ApiResponse(responseCode = "200", description = "Course found", content = @Content(schema = @Schema(implementation = CourseDTO.class))),
+            @ApiResponse(responseCode = "200", description = "Course found",
+                    content = @Content(schema = @Schema(implementation = CourseDTO.class))),
             @ApiResponse(responseCode = "404", description = "Course not found", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = "500", description = "Unexpected server error")
     })
     public ResponseEntity<CourseDTO> getCourseById(@PathVariable Long id) {
         CourseDTO courseDTO = courseService.getCourseById(id);
@@ -60,7 +62,7 @@ public class CourseController {
             @ApiResponse(responseCode = "200", description = "Enrollment successful"),
             @ApiResponse(responseCode = "400", description = "Invalid student role or input", content = @Content),
             @ApiResponse(responseCode = "404", description = "Course or student not found", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = "500", description = "Unexpected server error")
     })
     public ResponseEntity<Void> enrollStudent(@Valid @RequestBody EnrollmentDTO enrollmentDTO) {
         courseService.enrollStudent(enrollmentDTO);
@@ -70,9 +72,10 @@ public class CourseController {
     @GetMapping("/department/{department}")
     @Operation(summary = "Get courses by department", description = "Retrieves all courses in a specified department")
     @ApiResponses ({
-            @ApiResponse(responseCode = "200", description = "Courses found", content = @Content(schema = @Schema(implementation = CourseDTO.class))),
+            @ApiResponse(responseCode = "200", description = "Courses found",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = CourseDTO.class)))),
             @ApiResponse(responseCode = "404", description = "No courses found in department", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = "500", description = "Unexpected server error")
     })
     public ResponseEntity<List<CourseDTO>> getCoursesByDepartment(@PathVariable String department) {
         List<CourseDTO> courses = courseService.getCoursesByDepartment(department);
@@ -82,10 +85,11 @@ public class CourseController {
     @GetMapping("/student/{studentId}")
     @Operation(summary = "Get courses by student", description = "Retrieves all courses a student is enrolled in")
     @ApiResponses ({
-            @ApiResponse(responseCode = "200", description = "Courses found", content = @Content(schema = @Schema(implementation = CourseDTO.class))),
+            @ApiResponse(responseCode = "200", description = "Courses found",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = CourseDTO.class)))),
             @ApiResponse(responseCode = "400", description = "User is not a student", content = @Content),
             @ApiResponse(responseCode = "404", description = "Student or courses not found", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = "500", description = "Unexpected server error")
     })
     public ResponseEntity<List<CourseDTO>> getCoursesByStudent(@PathVariable Long studentId) {
         List<CourseDTO> courses = courseService.getCoursesByStudent(studentId);
@@ -96,10 +100,11 @@ public class CourseController {
     @PutMapping("/{id}")
     @Operation(summary = "Update a course", description = "Updates an existing course by its ID")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Course updated successfully", content = @Content(schema = @Schema(implementation = CourseDTO.class))),
+            @ApiResponse(responseCode = "200", description = "Course updated successfully",
+                    content = @Content(schema = @Schema(implementation = CourseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
             @ApiResponse(responseCode = "404", description = "Course not found", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = "500", description = "Unexpected server error")
     })
     public ResponseEntity<CourseDTO> updateCourse(@PathVariable Long id, @Valid @RequestBody CourseUpdateDTO courseUpdateDTO) {
         courseUpdateDTO.setId(id);
@@ -113,7 +118,7 @@ public class CourseController {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Course deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Course not found", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = "500", description = "Unexpected server error")
     })
     public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
         courseService.deleteCourse(id);

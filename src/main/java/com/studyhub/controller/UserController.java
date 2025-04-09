@@ -2,6 +2,7 @@ package com.studyhub.controller;
 
 import com.studyhub.dto.LoginRequestDTO;
 import com.studyhub.dto.UserDTO;
+import com.studyhub.dto.UserResponseDTO;
 import com.studyhub.dto.UserUpdateDTO;
 import com.studyhub.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,13 +32,14 @@ public class UserController {
     @PostMapping("/register")
     @Operation(summary = "Register a new user", description = "Creates a new user with the provided details")
     @ApiResponses ({
-            @ApiResponse(responseCode = "200", description = "User registered successfully", content = @Content(schema = @Schema(implementation = UserDTO.class))),
+            @ApiResponse(responseCode = "200", description = "User registered successfully",
+                    content = @Content(schema = @Schema(implementation = UserResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Invalid input or email already exists", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = "500", description = "Unexpected server error")
     })
-    public ResponseEntity<UserDTO> registerUser(@Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserResponseDTO> registerUser(@Valid @RequestBody UserDTO userDTO) {
         // Delegate to the service layer to register the user
-        UserDTO registeredUser = userService.registerUser(userDTO);
+        UserResponseDTO registeredUser = userService.registerUser(userDTO);
         return ResponseEntity.ok(registeredUser);
     }
 
@@ -45,27 +47,29 @@ public class UserController {
     @PostMapping("/login")
     @Operation(summary = "Log in a user", description = "Authenticates a user with email and password")
     @ApiResponses ({
-            @ApiResponse(responseCode = "200", description = "Login successful", content = @Content(schema = @Schema(implementation = UserDTO.class))),
+            @ApiResponse(responseCode = "200", description = "Login successful",
+                    content = @Content(schema = @Schema(implementation = UserResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Invalid email or password", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = "500", description = "Unexpected server error")
     })
-    public ResponseEntity<UserDTO> login(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
+    public ResponseEntity<UserResponseDTO> login(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
         // Delegate to the service layer to authenticate the user
-        UserDTO loggedInUser = userService.login(loginRequestDTO);
+        UserResponseDTO loggedInUser = userService.login(loginRequestDTO);
         return ResponseEntity.ok(loggedInUser);
     }
 
     // Retrieves a user by their ID
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     @Operation(summary = "Get user by ID", description = "Retrieve a user by their unique ID")
     @ApiResponses ({
-            @ApiResponse(responseCode = "200", description = "User found", content = @Content(schema = @Schema(implementation = UserDTO.class))),
+            @ApiResponse(responseCode = "200", description = "User found",
+                    content = @Content(schema = @Schema(implementation = UserResponseDTO.class))),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = "500", description = "Unexpected server error")
     })
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
         // Delegate to the service layer to retrieve the user
-        UserDTO userDTO = userService.getUserById(id);
+        UserResponseDTO userDTO = userService.getUserById(id);
         return ResponseEntity.ok(userDTO);
     }
 
@@ -73,13 +77,14 @@ public class UserController {
     @GetMapping("/email/{email}")
     @Operation(summary = "Get user by email", description = "Retrieve a user by their unique email")
     @ApiResponses ({
-            @ApiResponse(responseCode = "200", description = "User found", content = @Content(schema = @Schema(implementation = UserDTO.class))),
+            @ApiResponse(responseCode = "200", description = "User found",
+                    content = @Content(schema = @Schema(implementation = UserResponseDTO.class))),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = "500", description = "Unexpected server error")
     })
-    public ResponseEntity<UserDTO> getUserByEmail(@Valid @PathVariable String email) {
+    public ResponseEntity<UserResponseDTO> getUserByEmail(@Valid @PathVariable String email) {
         // Delegate to the service layer to retrieve the user
-        UserDTO userDTO = userService.getUserByEmail(email);
+        UserResponseDTO userDTO = userService.getUserByEmail(email);
         return ResponseEntity.ok(userDTO);
     }
 
@@ -87,15 +92,16 @@ public class UserController {
     @PutMapping("/{id}")
     @Operation(summary = "Update user by ID", description = "Updates an existing user by their ID")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "User updated successfully", content = @Content(schema = @Schema(implementation = UserDTO.class))),
+            @ApiResponse(responseCode = "200", description = "User updated successfully",
+                    content = @Content(schema = @Schema(implementation = UserResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = "500", description = "Unexpected server error")
     })
     // URL: defines resource. Body: provides updated state
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO userDTO) {
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO userDTO) {
         userDTO.setId(id);
-        UserDTO updatedUser = userService.updateUser(userDTO);
+        UserResponseDTO updatedUser = userService.updateUser(userDTO);
         return ResponseEntity.ok(updatedUser);
     }
 
@@ -106,7 +112,7 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "User deleted successfully"),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = "500", description = "Unexpected server error")
     })
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);

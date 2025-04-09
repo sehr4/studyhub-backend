@@ -11,6 +11,6 @@ public class OpenApiConfig {
 
     @Bean
     public OpenAPI studyhubOpenAPI() {
-        return new OpenAPI().info(new Info().title("StudyHub RESTful API").description("My StudyHub service").version("Version 1.1"));
+        return new OpenAPI().info(new Info().title("StudyHub RESTful API").description("StudyHub service and documentation").version("Version 1.1"));
     }
 }

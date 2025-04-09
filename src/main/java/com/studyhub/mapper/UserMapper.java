@@ -1,6 +1,7 @@
 package com.studyhub.mapper;
 
 import com.studyhub.dto.UserDTO;
+import com.studyhub.dto.UserResponseDTO;
 import com.studyhub.dto.UserUpdateDTO;
 import com.studyhub.model.User;
 import org.mapstruct.Mapper;
@@ -19,6 +20,9 @@ public interface UserMapper {
     // Converts a UserDTO to a User entity
     @Mapping(target = "password", ignore = true)
     User toEntity(UserDTO userDTO);
+
+    // Responses only
+    UserResponseDTO toResponseDTO(User user);
 
     // Set persistence from UserUpdateDTO to User if not 'null' for each data field
     @Mapping(target = "password", ignore = true)

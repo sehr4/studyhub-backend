@@ -2,6 +2,7 @@ package com.studyhub.service;
 
 import com.studyhub.dto.LoginRequestDTO;
 import com.studyhub.dto.UserDTO;
+import com.studyhub.dto.UserResponseDTO;
 import com.studyhub.dto.UserUpdateDTO;
 import com.studyhub.exception.BadRequestException;
 import com.studyhub.exception.ResourceNotFoundException;
@@ -33,7 +34,7 @@ public class UserService {
         this.courseRepository = courseRepository;
     }
 
-    public UserDTO registerUser(UserDTO userDTO) {
+    public UserResponseDTO registerUser(UserDTO userDTO) {
         // Validate that the email is unique
         if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
             throw new BadRequestException("Email already exists: " + userDTO.getEmail());
@@ -50,29 +51,29 @@ public class UserService {
         User savedUser = userRepository.save(user);
 
         // Convert the saved entity back to a DTO and return
-        return userMapper.toDTO(savedUser);
+        return userMapper.toResponseDTO(savedUser);
     }
 
     @Transactional(readOnly = true)
-    public UserDTO getUserById(Long id) {
+    public UserResponseDTO getUserById(Long id) {
         // Find the user in the database or throw an exception
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + id));
         // Convert to DTO and return
-        return userMapper.toDTO(user);
+        return userMapper.toResponseDTO(user);
     }
 
     @Transactional(readOnly = true)
-    public UserDTO getUserByEmail(String email) {
+    public UserResponseDTO getUserByEmail(String email) {
         // Find the user in the database or throw an exception
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
         // Convert to DTO and return
-        return userMapper.toDTO(user);
+        return userMapper.toResponseDTO(user);
     }
 
     @Transactional(readOnly = true)
-    public UserDTO login(LoginRequestDTO loginRequestDTO) {
+    public UserResponseDTO login(LoginRequestDTO loginRequestDTO) {
         // Find the user by email
         User user = userRepository.findByEmail(loginRequestDTO.getEmail())
                 .orElseThrow(() -> new BadRequestException("Invalid email"));
@@ -83,10 +84,10 @@ public class UserService {
         }
 
         // Convert to DTO and return
-        return userMapper.toDTO(user);
+        return userMapper.toResponseDTO(user);
     }
 
-    public UserDTO updateUser(UserUpdateDTO userDTO) {
+    public UserResponseDTO updateUser(UserUpdateDTO userDTO) {
         User existingUser = userRepository.findById(userDTO.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + userDTO.getId()));
 
@@ -106,7 +107,7 @@ public class UserService {
 
         // Convert the updated entity back to a DTO and return
         User updatedUser = userRepository.save(existingUser);
-        return userMapper.toDTO(updatedUser);
+        return userMapper.toResponseDTO(updatedUser);
     }
 
     public void deleteUser(Long id) {
