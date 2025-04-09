@@ -22,6 +22,9 @@ public interface CourseMapper {
     CourseDTO toDTO(Course course);
 
     // Converts a CourseDTO to a Course entity
+    @Mapping(target = "id", ignore = true) // auto-generated
+    @Mapping(target = "instructors", ignore = true) // Handle in CourseService
+    @Mapping(target = "students", ignore = true) // adding in enrollment
     Course toEntity(CourseCreateDTO courseCreateDTO);
 
     // Helper method to convert a set of User entities to id's
