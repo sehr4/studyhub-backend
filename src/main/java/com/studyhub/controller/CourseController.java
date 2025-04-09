@@ -1,6 +1,5 @@
 package com.studyhub.controller;
 
-
 import com.studyhub.dto.CourseCreateDTO;
 import com.studyhub.dto.CourseDTO;
 import com.studyhub.dto.CourseUpdateDTO;
@@ -95,7 +94,7 @@ public class CourseController {
 
     // Update a course by ID
     @PutMapping("/{id}")
-     @Operation(summary = "Update a course", description = "Updates an existing course by its ID")
+    @Operation(summary = "Update a course", description = "Updates an existing course by its ID")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Course updated successfully", content = @Content(schema = @Schema(implementation = CourseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
@@ -106,5 +105,18 @@ public class CourseController {
         courseUpdateDTO.setId(id);
         CourseDTO updatedCourse = courseService.updateCourse(courseUpdateDTO);
         return ResponseEntity.ok(updatedCourse);
+    }
+
+    // Delete a course by its ID
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete a course", description = "Deletes a course by its ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Course deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Course not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
+        courseService.deleteCourse(id);
+        return ResponseEntity.noContent().build();
     }
 }

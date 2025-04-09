@@ -11,9 +11,10 @@ import java.util.Optional;
 // CourseRepository interface for Crud operation on the Course entity
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
-    Optional<Course> findCourseByCode(String code);
-    Optional<Course> findCourseByTitle(String title);
+    Optional<Course> findByCode(String code);
+    Optional<Course> findByTitle(String title);
 
-    List<Course> findCoursesByDepartment(String department);
-    List<Course> findCoursesByStudents(User student);
+    List<Course> findByDepartment(String department);
+    List<Course> findByInstructors(User instructor);
+    List<Course> findByStudents(User student);
 }

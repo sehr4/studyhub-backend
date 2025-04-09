@@ -6,11 +6,15 @@ import com.studyhub.dto.UserUpdateDTO;
 import com.studyhub.exception.BadRequestException;
 import com.studyhub.exception.ResourceNotFoundException;
 import com.studyhub.mapper.UserMapper;
+import com.studyhub.model.Course;
 import com.studyhub.model.User;
+import com.studyhub.repository.CourseRepository;
 import com.studyhub.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 // UserService component, handling user-related business logic
 @Service
@@ -20,11 +24,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final CourseRepository courseRepository;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, UserMapper userMapper, BCryptPasswordEncoder passwordEncoder, CourseRepository courseRepository) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
+        this.courseRepository = courseRepository;
     }
 
     public UserDTO registerUser(UserDTO userDTO) {
@@ -101,5 +107,26 @@ public class UserService {
         // Convert the updated entity back to a DTO and return
         User updatedUser = userRepository.save(existingUser);
         return userMapper.toDTO(updatedUser);
+    }
+
+    public void deleteUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + id));
+
+        // Remove user from instructors
+        List<Course> instructorCourses = courseRepository.findByInstructors(user);
+        for (Course course : instructorCourses) {
+            course.getInstructors().remove(user);
+        }
+        courseRepository.saveAll(instructorCourses);
+
+        // Remove user from students
+        List<Course> studentCourses = courseRepository.findByStudents(user);
+        for (Course course : studentCourses) {
+            course.getStudents().remove(user);
+        }
+        courseRepository.saveAll(studentCourses);
+
+        userRepository.delete(user);
     }
 }

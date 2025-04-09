@@ -98,4 +98,18 @@ public class UserController {
         UserDTO updatedUser = userService.updateUser(userDTO);
         return ResponseEntity.ok(updatedUser);
     }
+
+
+    // Delete a user by their ID
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete a user", description = "Deletes a user by their ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "User deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
 }

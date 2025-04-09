@@ -38,10 +38,10 @@ public class CourseService {
     // Creates a new course
     public CourseDTO createCourse(CourseCreateDTO courseCreateDTO) {
         // Check for duplicate code or title
-        if (courseRepository.findCourseByCode(courseCreateDTO.getCode()).isPresent()) {
+        if (courseRepository.findByCode(courseCreateDTO.getCode()).isPresent()) {
             throw new BadRequestException("Course with code '" + courseCreateDTO.getCode() + "' already exists");
         }
-        if (courseRepository.findCourseByTitle(courseCreateDTO.getTitle()).isPresent()) {
+        if (courseRepository.findByTitle(courseCreateDTO.getTitle()).isPresent()) {
             throw new BadRequestException("Course with title '" + courseCreateDTO.getTitle() + "' already exists");
         }
 
@@ -93,7 +93,7 @@ public class CourseService {
 
     // Retrieves courses by department
     public List<CourseDTO> getCoursesByDepartment(String department) {
-        List<Course> courses = courseRepository.findCoursesByDepartment(department);
+        List<Course> courses = courseRepository.findByDepartment(department);
         if (courses.isEmpty()) {
             throw new ResourceNotFoundException("No courses found in department: " + department);
         }
@@ -112,7 +112,7 @@ public class CourseService {
         }
 
         // Retrieve student's courses
-        List<Course> courses = courseRepository.findCoursesByStudents(student);
+        List<Course> courses = courseRepository.findByStudents(student);
         if (courses.isEmpty()) {
             throw new ResourceNotFoundException("No courses found for student with ID: " + studentId);
         }
@@ -127,12 +127,12 @@ public class CourseService {
         // Check for duplicate code or title if it is to be changed
         if (courseUpdateDTO.getCode() != null &&
                 !existingCourse.getCode().equals(courseUpdateDTO.getCode()) &&
-                courseRepository.findCourseByCode(courseUpdateDTO.getCode()).isPresent()) {
+                courseRepository.findByCode(courseUpdateDTO.getCode()).isPresent()) {
             throw new BadRequestException("Course with code '" + courseUpdateDTO.getCode() + "' already exists");
         }
         if (courseUpdateDTO.getTitle() != null &&
                 !existingCourse.getTitle().equals(courseUpdateDTO.getTitle()) &&
-                courseRepository.findCourseByTitle(courseUpdateDTO.getTitle()).isPresent()) {
+                courseRepository.findByTitle(courseUpdateDTO.getTitle()).isPresent()) {
             throw new BadRequestException("Course with title '" + courseUpdateDTO.getTitle() + "' already exists");
         }
 
@@ -154,6 +154,12 @@ public class CourseService {
         }
         Course updatedCourse = courseRepository.save(existingCourse);
         return courseMapper.toDTO(updatedCourse);
+    }
+
+    public void deleteCourse(Long id) {
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found with ID: " + id));
+        courseRepository.delete(course);
     }
 
     // Helper method to convert a list of Course entities to DTOs
