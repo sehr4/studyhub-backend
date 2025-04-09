@@ -16,21 +16,22 @@ public class CourseDTO {
     private Long id;
 
     @NotBlank(message = "Course code cannot be blank")
-    @Size(min = 6, max = 6)
+    @Size(min = 6, max = 6, message = "Course code must be exactly 6 characters")
     private String code;
 
     @NotBlank(message = "Department cannot be blank")
-    @Size(min = 2, max = 50)
+    @Size(min = 2, max = 50, message = "Department must be between 4 and 50 characters")
     private String department;
 
     @NotBlank(message = "Title cannot be blank")
-    @Size(min = 4, max = 100)
+    @Size(min = 4, max = 100, message = "Title must be between 4 and 100 characters")
     private String title;
 
-    @Min(1) @Max(30)
+    @Min(value = 1, message = "Credits must be at least 1")
+    @Max(value = 30, message = "Credits cannot exceed 30")
     private Integer credits;
 
-    @Size(max = 500)
+    @Size(max = 500, message = "Description cannot exceed 500 characters")
     private String description;
 
     private LocalDate startDate;

@@ -13,7 +13,7 @@ public class UserUpdateDTO {
     private Long id;
 
     @Email(message = "Email must be a valid email address")
-    @Size(min = 5, max = 100, message = "Email must be between 5 and 100 characters")
+    @Size(min = 6, max = 100, message = "Email must be between 5 and 100 characters")
     private String email;
 
     @Size(min = 2, max = 50, message = "First name must be between 2 and 50 characters")
