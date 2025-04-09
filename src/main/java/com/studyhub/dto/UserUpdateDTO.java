@@ -4,6 +4,8 @@ import com.studyhub.constant.RoleConstant;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
 
+// Data Transfer Object for updating user in API
+// 'Relaxed' validation that allow flexible updating
 @Data
 public class UserUpdateDTO {
 
