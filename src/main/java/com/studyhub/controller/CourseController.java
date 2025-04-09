@@ -3,6 +3,7 @@ package com.studyhub.controller;
 
 import com.studyhub.dto.CourseCreateDTO;
 import com.studyhub.dto.CourseDTO;
+import com.studyhub.dto.CourseUpdateDTO;
 import com.studyhub.dto.EnrollmentDTO;
 import com.studyhub.service.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -90,5 +91,20 @@ public class CourseController {
     public ResponseEntity<List<CourseDTO>> getCoursesByStudent(@PathVariable Long studentId) {
         List<CourseDTO> courses = courseService.getCoursesByStudent(studentId);
         return ResponseEntity.ok(courses);
+    }
+
+    // Update a course by ID
+    @PutMapping("/{id}")
+     @Operation(summary = "Update a course", description = "Updates an existing course by its ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Course updated successfully", content = @Content(schema = @Schema(implementation = CourseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Course not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<CourseDTO> updateCourse(@PathVariable Long id, @Valid @RequestBody CourseUpdateDTO courseUpdateDTO) {
+        courseUpdateDTO.setId(id);
+        CourseDTO updatedCourse = courseService.updateCourse(courseUpdateDTO);
+        return ResponseEntity.ok(updatedCourse);
     }
 }

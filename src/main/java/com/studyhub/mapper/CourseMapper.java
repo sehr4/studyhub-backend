@@ -2,12 +2,10 @@ package com.studyhub.mapper;
 
 import com.studyhub.dto.CourseCreateDTO;
 import com.studyhub.dto.CourseDTO;
+import com.studyhub.dto.CourseUpdateDTO;
 import com.studyhub.model.Course;
 import com.studyhub.model.User;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,6 +24,10 @@ public interface CourseMapper {
     @Mapping(target = "instructors", ignore = true) // Handle in CourseService
     @Mapping(target = "students", ignore = true) // adding in enrollment
     Course toEntity(CourseCreateDTO courseCreateDTO);
+
+    @Mapping(target = "instructors", ignore = true)
+    @Mapping(target = "students", ignore = true)
+    void updateCourseFromDTO(CourseUpdateDTO courseUpdateDTO, @MappingTarget Course course);
 
     // Helper method to convert a set of User entities to id's
     @Named("usersToIds")

@@ -3,6 +3,7 @@ package com.studyhub.service;
 import com.studyhub.constant.RoleConstant;
 import com.studyhub.dto.CourseCreateDTO;
 import com.studyhub.dto.CourseDTO;
+import com.studyhub.dto.CourseUpdateDTO;
 import com.studyhub.dto.EnrollmentDTO;
 import com.studyhub.exception.BadRequestException;
 import com.studyhub.exception.ResourceNotFoundException;
@@ -117,6 +118,42 @@ public class CourseService {
         }
 
         return convertToDTOList(courses);
+    }
+
+    public CourseDTO updateCourse(CourseUpdateDTO courseUpdateDTO) {
+        Course existingCourse = courseRepository.findById(courseUpdateDTO.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found with ID: " + courseUpdateDTO.getId()));
+
+        // Check for duplicate code or title if it is to be changed
+        if (courseUpdateDTO.getCode() != null &&
+                !existingCourse.getCode().equals(courseUpdateDTO.getCode()) &&
+                courseRepository.findCourseByCode(courseUpdateDTO.getCode()).isPresent()) {
+            throw new BadRequestException("Course with code '" + courseUpdateDTO.getCode() + "' already exists");
+        }
+        if (courseUpdateDTO.getTitle() != null &&
+                !existingCourse.getTitle().equals(courseUpdateDTO.getTitle()) &&
+                courseRepository.findCourseByTitle(courseUpdateDTO.getTitle()).isPresent()) {
+            throw new BadRequestException("Course with title '" + courseUpdateDTO.getTitle() + "' already exists");
+        }
+
+        // Update DTO
+        courseMapper.updateCourseFromDTO(courseUpdateDTO, existingCourse);
+
+        // Update the instructors
+        if (courseUpdateDTO.getInstructorIds() != null) {
+            Set<User> instructors = new HashSet<>();
+            for (Long id : courseUpdateDTO.getInstructorIds()) {
+                User user = userRepository.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Instructor not found with ID: " + id));
+                if (!user.getRole().equals(RoleConstant.INSTRUCTOR)) {
+                    throw new BadRequestException("User with ID " + id + " is not an instructor");
+                }
+                instructors.add(user);
+            }
+            existingCourse.setInstructors(instructors);
+        }
+        Course updatedCourse = courseRepository.save(existingCourse);
+        return courseMapper.toDTO(updatedCourse);
     }
 
     // Helper method to convert a list of Course entities to DTOs

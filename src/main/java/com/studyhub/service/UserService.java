@@ -69,11 +69,11 @@ public class UserService {
     public UserDTO login(LoginRequestDTO loginRequestDTO) {
         // Find the user by email
         User user = userRepository.findByEmail(loginRequestDTO.getEmail())
-                .orElseThrow(() -> new BadRequestException("Invalid email or password"));
+                .orElseThrow(() -> new BadRequestException("Invalid email"));
 
         // Verify the password
         if (!passwordEncoder.matches(loginRequestDTO.getPassword(), user.getPassword())) {
-            throw new BadRequestException("Invalid email or password");
+            throw new BadRequestException("Invalid password");
         }
 
         // Convert to DTO and return
