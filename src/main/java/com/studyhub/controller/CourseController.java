@@ -57,7 +57,7 @@ public class CourseController {
     }
 
     @PostMapping("/enroll")
-    @Operation(summary = "Enroll a student to a course", description = "Enrolls a student to a specified course")
+    @Operation(summary = "Enroll a student in a course", description = "Enrolls a student in a specified course")
     @ApiResponses ({
             @ApiResponse(responseCode = "200", description = "Enrollment successful"),
             @ApiResponse(responseCode = "400", description = "Invalid student role or input", content = @Content),
