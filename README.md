@@ -119,7 +119,7 @@ This document includes project setup instructions, detailed API documentation wi
         "password": "password123"
       }
       ```
-    - **Expected Response**: `200 Created` with `UserDTO`:
+    - **Expected Response**: `200 Created` with `UserResponseDTO`:
       ```json
       {
         "id": 50,
@@ -141,7 +141,7 @@ This document includes project setup instructions, detailed API documentation wi
         "password": "password123"
       }
       ```
-    - **Expected Response**: `200 OK` with `UserDTO`:
+    - **Expected Response**: `200 OK` with `UserResponseDTO`:
       ```json
       {
         "id": 1,
@@ -155,7 +155,7 @@ This document includes project setup instructions, detailed API documentation wi
 3. **Get User by ID (GET /api/users/{id})**
     - **Method**: GET
     - **URL**: `http://localhost:8080/api/users/1`
-    - **Expected Response**: `200 OK` with `UserDTO`:
+    - **Expected Response**: `200 OK` with `UserResponseDTO`:
       ```json
       {
         "id": 1,
@@ -167,7 +167,22 @@ This document includes project setup instructions, detailed API documentation wi
       ```
     - **Error**: `404 Not Found` if user doesn’t exist.
 
-4. **Update User (PUT /api/users/{id})**
+4. **Get User by Email (GET /api/users/email/{email})**
+    - **Method**: GET
+    - **URL**: `http://localhost:8080/api/users/email/john.doe@example.com`
+    - **Expected Response**: `200 OK` with `UserResponseDTO`:
+      ```json
+      {
+        "id": 1,
+        "email": "john.doe@example.com",
+        "firstName": "John",
+        "lastName": "Doe",
+        "role": "STUDENT"
+      }
+    ```
+ - **Error**: `404 Not Found` if user doesn’t exist.
+
+5. **Update User (PUT /api/users/{id})**
     - **Method**: PUT
     - **URL**: `http://localhost:8080/api/users/1`
     - **Headers**: `Content-Type: application/json`
@@ -177,7 +192,7 @@ This document includes project setup instructions, detailed API documentation wi
         "firstName": "UpdatedFirstName"
       }
       ```
-    - **Expected Response**: `200 OK` with updated `UserDTO`:
+    - **Expected Response**: `200 OK` with updated `UserResponseDTO`:
       ```json
       {
         "id": 1,
@@ -188,7 +203,7 @@ This document includes project setup instructions, detailed API documentation wi
       }
       ```
 
-5. **Delete User (DELETE /api/users/{id})**
+6. **Delete User (DELETE /api/users/{id})**
     - **Method**: DELETE
     - **URL**: `http://localhost:8080/api/users/1`
     - **Expected Response**: `204 No Content`
@@ -295,7 +310,7 @@ This document includes project setup instructions, detailed API documentation wi
         }
       ]
 
-5. **Update a Course (PUT /api/courses/{id})**
+6. **Update a Course (PUT /api/courses/{id})**
     - **Method**: PUT
     - **URL**: `http://localhost:8080/api/courses/1`
     - **Headers**: `Content-Type: application/json`
@@ -316,7 +331,7 @@ This document includes project setup instructions, detailed API documentation wi
       }
       ```
 
-6. **Delete a Course (DELETE /api/courses/{id})**
+7. **Delete a Course (DELETE /api/courses/{id})**
     - **Method**: DELETE
     - **URL**: `http://localhost:8080/api/courses/1`
     - **Expected Response**: `204 No Content`
