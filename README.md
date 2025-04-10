@@ -9,6 +9,31 @@ My implementation covers user and course management, supported by a seeded datas
 
 This document includes project setup instructions, detailed API documentation with examples, and highlights key implementation details, to address the assignment requirements.
 
+
+## Package Layout
+```
+studyhub-backend/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   ├── com/studyhub/
+│   │   │   │   ├── config/          # Configuration classes (e.g., CorsConfig, SecurityConfig)
+│   │   │   │   ├── constant/        # Constants (e.g., RoleConstant)
+│   │   │   │   ├── controller/      # REST controllers (UserController, CourseController)
+│   │   │   │   ├── dto/             # Data Transfer Objects (UserDTO, CourseDTO, etc.)
+│   │   │   │   ├── exception/       # Custom exceptions (e.g., UserNotFoundException)
+│   │   │   │   ├── mapper/          # MapStruct mappers (e.g., CourseMapper, UserMapper)
+│   │   │   │   ├── model/           # Entity classes (User, Course)
+│   │   │   │   ├── repository/      # JPA repositories (UserRepository, CourseRepository)
+│   │   │   │   ├── service/         # Service classes (UserService, CourseService)
+│   │   │   │   ├── StudyhubBackendApplication.java  # Main application class
+│   │   ├── resources/
+│   │   │   ├── application.properties   # Application configuration
+│   │   │   ├── data.sql                 # Database seeding script
+├── pom.xml                      # Maven project file
+└── README.md                    # This file
+```
+
 ## Project Setup Instructions
 
 ### Prerequisites
@@ -78,27 +103,28 @@ This document includes project setup instructions, detailed API documentation wi
 ## API Documentation
 
 ### User Controller (`/api/users`)
-| Method | Endpoint         | Description          | Request Body       | Response            |
-|--------|------------------|----------------------|--------------------|---------------------|
-| POST   | `/register`      | Register a new user  | `UserDTO`          | `200 Created` with `UserResponseDTO` |
-| POST   | `/login`         | Authenticate a user  | `LoginRequestDTO`  | `200 OK` with `UserResponseDTO`     |
-| GET    | `/{id}`          | Get user by ID       | -                  | `200 OK` with `UserResponseDTO`     |
-| GET    | `/email/{email}` | Get user by email    | -                  | `200 OK` with `UserResponseDTO`     |
-| PUT    | `/{id}`          | Update user details  | `UserUpdateDTO`    | `200 OK` with `UserResponseDTO`     |
-| DELETE | `/{id}`          | Delete a user        | -                  | `204 No Content`            |
+| Method | Endpoint         | Description          | Request Body       | Response                        |
+|--------|------------------|----------------------|--------------------|---------------------------------|
+| POST   | `/register`      | Register a new user  | `UserDTO`          | `200 ok` with `UserResponseDTO` |
+| POST   | `/login`         | Authenticate a user  | `LoginRequestDTO`  | `200 OK` with `UserResponseDTO` |
+| GET    | `/{id}`          | Get user by ID       | -                  | `200 OK` with `UserResponseDTO` |
+| GET    | `/email/{email}` | Get user by email    | -                  | `200 OK` with `UserResponseDTO` |
+| PUT    | `/{id}`          | Update user details  | `UserUpdateDTO`    | `200 OK` with `UserResponseDTO` |
+| DELETE | `/{id}`          | Delete a user        | -                  | `204 No Content`                |
 
 
 ### Course Controller (`/api/courses`)
-| Method | Endpoint                  | Description                  | Request Body       | Response                  |
-|--------|---------------------------|------------------------------|--------------------|---------------------------|
-| POST   | `/`                      | Create a new course          | `CourseCreateDTO`  | `200 Created` with `CourseDTO` |
-| GET    | `/{id}`                  | Get course by ID             | -                  | `200 OK` with `CourseDTO`      |
-| GET    | `/department/{dept}`     | Get courses by department    | -                  | `200 OK` with `List<CourseDTO>`|
-| GET    | `/department/{dept}/summary` | Get summarized courses by department | -          | `200 OK` with `List<CourseSummaryDTO>` |
-| GET    | `/student/{studentId}`   | Get courses for a student    | -                  | `200 OK` with `List<CourseDTO>`|
-| POST   | `/enroll`                | Enroll a student in a course | `EnrollmentDTO`    | `200 OK`                       |
-| PUT    | `/{id}`                  | Update a course              | `CourseUpdateDTO`  | `200 OK` with `CourseDTO`      |
-| DELETE | `/{id}`                  | Delete a course              | -                  | `204 No Content`               |
+| Method | Endpoint                         | Description                       | Request Body       | Response                       |
+|--------|----------------------------------|-----------------------------------|--------------------|--------------------------------|
+| POST   | `/`                             | Create a new course               | `CourseCreateDTO`  | `200 OK` with `CourseDTO`      |
+| GET    | `/{id}`                         | Get course by ID                  | -                  | `200 OK` with `CourseDTO`      |
+| GET    | `/department/{dept}`            | Get courses by department         | -                  | `200 OK` with `List<CourseDTO>`|
+| GET    | `/department/{dept}/summary`    | Get summarized courses by department | -              | `200 OK` with `List<CourseSummaryDTO>` |
+| GET    | `/student/{studentId}`          | Get courses for a student         | -                  | `200 OK` with `List<CourseDTO>`|
+| GET    | `/student/{studentId}/summary`  | Get summarized courses for a student | -              | `200 OK` with `List<CourseSummaryDTO>` |
+| POST   | `/enroll`                       | Enroll a student in a course      | `EnrollmentDTO`    | `200 OK`                       |
+| PUT    | `/{id}`                         | Update a course                   | `CourseUpdateDTO`  | `200 OK` with `CourseDTO`      |
+| DELETE | `/{id}`                         | Delete a course                   | -                  | `204 No Content`               |
 
 ## API Usage Examples
 
@@ -223,20 +249,20 @@ This document includes project setup instructions, detailed API documentation wi
         "credits": 3
       }
       ```
-    - **Expected Response**: `200 Created` with `CourseDTO`:
+    - **Expected Response**: `200 OK` with `CourseDTO`:
       ```json
-       {
-       "id": 31,
-       "code": "CS50Xi",
-       "department": "Computer Science",
-       "title": "Advanced Programming",
-       "credits": 3,
-       "description": null,
-       "startDate": null,
-       "endDate": null,
-       "instructorIds": [],
-       "studentIds": []
-       }
+      {
+        "id": 31,
+        "code": "CS50Xi",
+        "department": "Computer Science",
+        "title": "Advanced Programming",
+        "credits": 3,
+        "description": null,
+        "startDate": null,
+        "endDate": null,
+        "instructorIds": [],
+        "studentIds": []
+      }
       ```
 
 2. **Get Course by ID (GET /api/courses/{id})**
@@ -245,23 +271,16 @@ This document includes project setup instructions, detailed API documentation wi
     - **Expected Response**: `200 OK` with `CourseDTO`:
       ```json
       {
-       "id": 5,
-       "code": "CS401",
-       "department": "Computer Science",
-       "title": "Operating Systems",
-       "credits": 4,
-       "description": "OS concepts and design",
-       "startDate": "2026-09-01",
-       "endDate": "2026-12-15",
-       "instructorIds": [
-          15
-       ],
-       "studentIds": [
-          48,
-          37,
-          43,
-          31
-       ]
+        "id": 5,
+        "code": "CS401",
+        "department": "Computer Science",
+        "title": "Operating Systems",
+        "credits": 4,
+        "description": "OS concepts and design",
+        "startDate": "2026-09-01",
+        "endDate": "2026-12-15",
+        "instructorIds": [15],
+        "studentIds": [48, 37, 43, 31]
       }
       ```
     - **Error**: `404 Not Found` if course doesn’t exist.
@@ -278,6 +297,7 @@ This document includes project setup instructions, detailed API documentation wi
       }
       ```
     - **Expected Response**: `200 OK`
+    - **Error**: `400 Bad Request` if enrollment fails.
 
 4. **Get Courses by Department (GET /api/courses/department/{department})**
     - **Method**: GET
@@ -295,10 +315,32 @@ This document includes project setup instructions, detailed API documentation wi
       ]
       ```
 
-5. **Get Summarized Courses by Department (GET /api/courses/department/{department}/summary)**
+5. **Get Courses for a Student (GET /api/courses/student/{studentId})**
     - **Method**: GET
-    - **URL**: `http://localhost:8080/api/courses/department/Computer%20Science/summary`
-    - **Expected Response**: `200 OK` with `List<CourseSummaryDTO>`:
+    - **URL**: `http://localhost:8080/api/courses/student/1`
+    - **Expected Response**: `200 OK` with `List<CourseDTO>` (example truncated):
+      ```json
+      [
+        {
+          "id": 1,
+          "code": "CS101A",
+          "department": "Computer Science",
+          "title": "Intro to Programming",
+          "credits": 3,
+          "description": "Introduction to coding concepts",
+          "startDate": "2025-01-15",
+          "endDate": "2025-05-15",
+          "instructorIds": [6],
+          "studentIds": [1, 4, 7]
+        }
+      ]
+      ```
+    - **Error**: `404 Not Found` if student or courses don’t exist; `400 Bad Request` if user isn’t a student.
+
+6. **Get Summarized Courses for a Student (GET /api/courses/student/{studentId}/summary)**
+    - **Method**: GET
+    - **URL**: `http://localhost:8080/api/courses/student/1/summary`
+    - **Expected Response**: `200 OK` with `List<CourseSummaryDTO>` (example truncated):
       ```json
       [
         {
@@ -309,8 +351,26 @@ This document includes project setup instructions, detailed API documentation wi
           "credits": 3
         }
       ]
+      ```
+    - **Error**: `404 Not Found` if student or courses don’t exist; `400 Bad Request` if user isn’t a student.
 
-6. **Update a Course (PUT /api/courses/{id})**
+7. **Get Summarized Courses by Department (GET /api/courses/department/{department}/summary)**
+    - **Method**: GET
+    - **URL**: `http://localhost:8080/api/courses/department/Computer%20Science/summary`
+    - **Expected Response**: `200 OK` with `List<CourseSummaryDTO>` (example truncated):
+      ```json
+      [
+        {
+          "id": 1,
+          "code": "CS101A",
+          "department": "Computer Science",
+          "title": "Intro to Programming",
+          "credits": 3
+        }
+      ]
+      ```
+
+8. **Update a Course (PUT /api/courses/{id})**
     - **Method**: PUT
     - **URL**: `http://localhost:8080/api/courses/1`
     - **Headers**: `Content-Type: application/json`
@@ -331,7 +391,7 @@ This document includes project setup instructions, detailed API documentation wi
       }
       ```
 
-7. **Delete a Course (DELETE /api/courses/{id})**
+9. **Delete a Course (DELETE /api/courses/{id})**
     - **Method**: DELETE
     - **URL**: `http://localhost:8080/api/courses/1`
     - **Expected Response**: `204 No Content`
@@ -345,27 +405,3 @@ This document includes project setup instructions, detailed API documentation wi
 - Click "Execute".
 - View the request URL, response body, and status code.
 - Use the JSON examples from the Postman section to test requests.
-
-## Package Layout
-```
-studyhub-backend/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   ├── com/studyhub/
-│   │   │   │   ├── config/          # Configuration classes (e.g., CorsConfig, SecurityConfig)
-│   │   │   │   ├── constant/        # Constants (e.g., RoleConstant)
-│   │   │   │   ├── controller/      # REST controllers (UserController, CourseController)
-│   │   │   │   ├── dto/             # Data Transfer Objects (UserDTO, CourseDTO, etc.)
-│   │   │   │   ├── exception/       # Custom exceptions (e.g., UserNotFoundException)
-│   │   │   │   ├── mapper/          # MapStruct mappers (e.g., CourseMapper, UserMapper)
-│   │   │   │   ├── model/           # Entity classes (User, Course)
-│   │   │   │   ├── repository/      # JPA repositories (UserRepository, CourseRepository)
-│   │   │   │   ├── service/         # Service classes (UserService, CourseService)
-│   │   │   │   ├── StudyhubBackendApplication.java  # Main application class
-│   │   ├── resources/
-│   │   │   ├── application.properties   # Application configuration
-│   │   │   ├── data.sql                 # Database seeding script
-├── pom.xml                      # Maven project file
-└── README.md                    # This file
-```

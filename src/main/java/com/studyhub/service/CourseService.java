@@ -95,10 +95,9 @@ public class CourseService {
             throw new ResourceNotFoundException("No courses found in department: " + department);
         }
         return courseMapper.toDTOList(courses);
-//        return convertToDTOList(courses);
     }
 
-    // Retrieves summarised courses by department
+    // Retrieves summarized courses by department
     public List<CourseSummaryDTO> getSummarizedCoursesByDepartment(String department) {
         List<Course> courses = courseRepository.findByDepartment(department);
         if (courses.isEmpty()) {
@@ -116,14 +115,26 @@ public class CourseService {
         if (!student.getRole().equals(RoleConstant.STUDENT)) {
             throw new BadRequestException("User with ID " + studentId + " is not a student");
         }
-
         // Retrieve student's courses
         List<Course> courses = courseRepository.findByStudents(student);
         if (courses.isEmpty()) {
             throw new ResourceNotFoundException("No courses found for student with ID: " + studentId);
         }
         return courseMapper.toDTOList(courses);
-//        return convertToDTOList(courses);
+    }
+
+    public List<CourseSummaryDTO> getSummarizedCoursesByStudent(Long studentId) {
+        User student = userRepository.findById(studentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + studentId));
+
+        if (!student.getRole().equals(RoleConstant.STUDENT)) {
+            throw new BadRequestException("User with ID " + studentId + " is not a student");
+        }
+        List<Course> courses = courseRepository.findByStudents(student);
+        if (courses.isEmpty()) {
+            throw new ResourceNotFoundException("No courses found for student with ID: " + studentId);
+        }
+        return courseMapper.toSummaryDTOList(courses);
     }
 
     public CourseDTO updateCourse(CourseUpdateDTO courseUpdateDTO) {

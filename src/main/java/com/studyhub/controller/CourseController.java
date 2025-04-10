@@ -80,7 +80,7 @@ public class CourseController {
     }
 
     @GetMapping("/department/{department}/summary")
-    @Operation(summary = "Get summarised courses by department", description = "Retrieves a summarised version of all courses in a specified department")
+    @Operation(summary = "Get summarized courses by department", description = "Retrieves a summarized version of all courses in a specified department")
     @ApiResponses ({
             @ApiResponse(responseCode = "200", description = "Courses found",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = CourseSummaryDTO.class)))),
@@ -103,6 +103,20 @@ public class CourseController {
     })
     public ResponseEntity<List<CourseDTO>> getCoursesByStudent(@PathVariable Long studentId) {
         List<CourseDTO> courses = courseService.getCoursesByStudent(studentId);
+        return ResponseEntity.ok(courses);
+    }
+
+    @GetMapping("/student/{studentId}/summary")
+    @Operation(summary = "Get summarized courses by student", description = "Retrieves a summarized version of all courses a student is enrolled in")
+    @ApiResponses ({
+            @ApiResponse(responseCode = "200", description = "Courses found",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = CourseSummaryDTO.class)))),
+            @ApiResponse(responseCode = "400", description = "User is not a student", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Student or courses not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Unexpected server error")
+    })
+    public ResponseEntity<List<CourseSummaryDTO>> getSummarizedCoursesByStudent(@PathVariable Long studentId) {
+        List<CourseSummaryDTO> courses = courseService.getSummarizedCoursesByStudent(studentId);
         return ResponseEntity.ok(courses);
     }
 
