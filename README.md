@@ -94,6 +94,7 @@ This document includes project setup instructions, detailed API documentation wi
 | POST   | `/`                      | Create a new course          | `CourseCreateDTO`  | `200 Created` with `CourseDTO` |
 | GET    | `/{id}`                  | Get course by ID             | -                  | `200 OK` with `CourseDTO`      |
 | GET    | `/department/{dept}`     | Get courses by department    | -                  | `200 OK` with `List<CourseDTO>`|
+| GET    | `/department/{dept}/summary` | Get summarized courses by department | -          | `200 OK` with `List<CourseSummaryDTO>` |
 | GET    | `/student/{studentId}`   | Get courses for a student    | -                  | `200 OK` with `List<CourseDTO>`|
 | POST   | `/enroll`                | Enroll a student in a course | `EnrollmentDTO`    | `200 OK`                       |
 | PUT    | `/{id}`                  | Update a course              | `CourseUpdateDTO`  | `200 OK` with `CourseDTO`      |
@@ -278,6 +279,21 @@ This document includes project setup instructions, detailed API documentation wi
         }
       ]
       ```
+
+5. **Get Summarized Courses by Department (GET /api/courses/department/{department}/summary)**
+    - **Method**: GET
+    - **URL**: `http://localhost:8080/api/courses/department/Computer%20Science/summary`
+    - **Expected Response**: `200 OK` with `List<CourseSummaryDTO>`:
+      ```json
+      [
+        {
+          "id": 1,
+          "code": "CS101A",
+          "department": "Computer Science",
+          "title": "Intro to Programming",
+          "credits": 3
+        }
+      ]
 
 5. **Update a Course (PUT /api/courses/{id})**
     - **Method**: PUT
