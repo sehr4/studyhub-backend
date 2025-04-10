@@ -75,7 +75,7 @@ studyhub-backend/
         2. Enter your password when prompted.
         3. Create the database:
         ```sql
-        CREATE DATABASE studyhub-db;
+        CREATE DATABASE 'studyhub-db';
         ```
         4. Exit psql: `\q`
 - **Update Configuration:**
@@ -105,7 +105,7 @@ studyhub-backend/
 ### User Controller (`/api/users`)
 | Method | Endpoint         | Description          | Request Body       | Response                        |
 |--------|------------------|----------------------|--------------------|---------------------------------|
-| POST   | `/register`      | Register a new user  | `UserDTO`          | `200 ok` with `UserResponseDTO` |
+| POST   | `/register`      | Register a new user  | `UserDTO`          | `200 OK` with `UserResponseDTO`  |
 | POST   | `/login`         | Authenticate a user  | `LoginRequestDTO`  | `200 OK` with `UserResponseDTO` |
 | GET    | `/{id}`          | Get user by ID       | -                  | `200 OK` with `UserResponseDTO` |
 | GET    | `/email/{email}` | Get user by email    | -                  | `200 OK` with `UserResponseDTO` |
@@ -145,7 +145,7 @@ studyhub-backend/
         "password": "password123"
       }
       ```
-    - **Expected Response**: `200 Created` with `UserResponseDTO`:
+    - **Expected Response**: `200 OK` with `UserResponseDTO`:
       ```json
       {
         "id": 50,
@@ -205,8 +205,8 @@ studyhub-backend/
         "lastName": "Doe",
         "role": "STUDENT"
       }
-    ```
- - **Error**: `404 Not Found` if user doesn’t exist.
+      ```
+    - **Error**: `404 Not Found` if user doesn’t exist.
 
 5. **Update User (PUT /api/users/{id})**
     - **Method**: PUT
@@ -380,7 +380,7 @@ studyhub-backend/
         "title": "Updated Course Title"
       }
       ```
-    - **Expected Response**: `200 OK` with updated `CourseDTO` (example truncated):
+    - **Expected Response**: `200 OK` with updated `CourseDTO`:
       ```json
       {
         "id": 1,
@@ -398,7 +398,7 @@ studyhub-backend/
     - **Error**: `404 Not Found` if course doesn’t exist.
 
 ### Using Swagger UI
-- Open Swagger UI: `http://localhost:8080/swagger-ui.html`.
+- Open Swagger UI: `http://localhost:8080/api/swagger-ui.html`.
 - Expand the desired endpoint (e.g., `/api/users/{id}`).
 - Click "Try it out".
 - Enter required parameters (e.g., `id = 1`).
