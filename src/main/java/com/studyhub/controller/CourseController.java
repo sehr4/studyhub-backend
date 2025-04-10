@@ -1,9 +1,6 @@
 package com.studyhub.controller;
 
-import com.studyhub.dto.CourseCreateDTO;
-import com.studyhub.dto.CourseDTO;
-import com.studyhub.dto.CourseUpdateDTO;
-import com.studyhub.dto.EnrollmentDTO;
+import com.studyhub.dto.*;
 import com.studyhub.service.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -79,6 +76,19 @@ public class CourseController {
     })
     public ResponseEntity<List<CourseDTO>> getCoursesByDepartment(@PathVariable String department) {
         List<CourseDTO> courses = courseService.getCoursesByDepartment(department);
+        return ResponseEntity.ok(courses);
+    }
+
+    @GetMapping("/department/{department}/summary")
+    @Operation(summary = "Get summarised courses by department", description = "Retrieves a summarised version of all courses in a specified department")
+    @ApiResponses ({
+            @ApiResponse(responseCode = "200", description = "Courses found",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = CourseSummaryDTO.class)))),
+            @ApiResponse(responseCode = "404", description = "No courses found in department", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Unexpected server error")
+    })
+    public ResponseEntity<List<CourseSummaryDTO>> getSummarizedCoursesByDepartment(@PathVariable String department) {
+        List<CourseSummaryDTO> courses = courseService.getSummarizedCoursesByDepartment(department);
         return ResponseEntity.ok(courses);
     }
 

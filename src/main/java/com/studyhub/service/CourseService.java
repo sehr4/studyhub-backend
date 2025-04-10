@@ -1,10 +1,7 @@
 package com.studyhub.service;
 
 import com.studyhub.constant.RoleConstant;
-import com.studyhub.dto.CourseCreateDTO;
-import com.studyhub.dto.CourseDTO;
-import com.studyhub.dto.CourseUpdateDTO;
-import com.studyhub.dto.EnrollmentDTO;
+import com.studyhub.dto.*;
 import com.studyhub.exception.BadRequestException;
 import com.studyhub.exception.ResourceNotFoundException;
 import com.studyhub.mapper.CourseMapper;
@@ -97,8 +94,17 @@ public class CourseService {
         if (courses.isEmpty()) {
             throw new ResourceNotFoundException("No courses found in department: " + department);
         }
+        return courseMapper.toDTOList(courses);
+//        return convertToDTOList(courses);
+    }
 
-        return convertToDTOList(courses);
+    // Retrieves summarised courses by department
+    public List<CourseSummaryDTO> getSummarizedCoursesByDepartment(String department) {
+        List<Course> courses = courseRepository.findByDepartment(department);
+        if (courses.isEmpty()) {
+            throw new ResourceNotFoundException("No courses found in department: " + department);
+        }
+        return courseMapper.toSummaryDTOList(courses);
     }
 
     // Retrieves courses for a specific student
@@ -116,8 +122,8 @@ public class CourseService {
         if (courses.isEmpty()) {
             throw new ResourceNotFoundException("No courses found for student with ID: " + studentId);
         }
-
-        return convertToDTOList(courses);
+        return courseMapper.toDTOList(courses);
+//        return convertToDTOList(courses);
     }
 
     public CourseDTO updateCourse(CourseUpdateDTO courseUpdateDTO) {
@@ -163,11 +169,11 @@ public class CourseService {
     }
 
     // Helper method to convert a list of Course entities to DTOs
-    private List<CourseDTO> convertToDTOList(List<Course> courses) {
-        List<CourseDTO> courseDTOs = new ArrayList<>();
-        for (Course course : courses) {
-            courseDTOs.add(courseMapper.toDTO(course));
-        }
-        return courseDTOs;
-    }
+//    private List<CourseDTO> convertToDTOList(List<Course> courses) {
+//        List<CourseDTO> courseDTOs = new ArrayList<>();
+//        for (Course course : courses) {
+//            courseDTOs.add(courseMapper.toDTO(course));
+//        }
+//        return courseDTOs;
+//    }
 }
