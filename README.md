@@ -12,10 +12,24 @@ StudyHub is a full-stack Learning Management System (LMS) my team and I are deve
 This repo documents my submission for the second ***individual mandatory assignment*** of the course.
 
 This assignment focuses on developing REST API endpoints with Spring Boot and implementing basic CRUD operations.  
-My implementation covers user and course management, supported by a seeded dataset of 49 users (39 students, 9 instructors, 1 admin), 30 courses, and their enrollments.
+My implementation covers user and course management, supported by a seeded dataset.
 
 This document includes project setup instructions, detailed API documentation with examples, and highlights key implementation details, to address the assignment requirements.
 
+## Table of Contents
+- [Package Layout](#package-layout)
+- [Project Setup Instructions](#project-setup-instructions)
+    - [Prerequisites](#prerequisites)
+    - [Local Setup](#local-setup)
+    - [Database Seeding](#database-seeding)
+- [API Documentation](#api-documentation)
+    - [User Controller](#user-controller-apiusers)
+    - [Course Controller](#course-controller-apicourses)
+- [API Usage Examples](#api-usage-examples)
+    - [Using Postman](#using-postman)
+        - [User Controller](#user-controller)
+        - [Course Controller](#course-controller)
+    - [Using Swagger UI](#using-swagger-ui)
 
 ## Package Layout
 ```
@@ -46,7 +60,7 @@ studyhub-backend/
 ### Prerequisites
 - Java 21
 - Maven 3.8+
-- PostgreSQL 15+
+- PostgreSQL 16.4+
 
 ### Local Setup
 
@@ -72,7 +86,7 @@ studyhub-backend/
 - **Create the Database:**
     - **Using pgAdmin:**
         1. Open pgAdmin and connect to your PostgreSQL server.
-        2. Right-click "Databases" and select "Create" -> "Database...".
+        2. Right-click "Databases" and select "Create" → "Database...".
         3. Enter `studyhub-db` as the database name and click "Save".
     - **Using psql (Terminal):**
         1. Open a terminal and connect to PostgreSQL:
@@ -105,7 +119,7 @@ studyhub-backend/
 - Swagger UI: `http://localhost:8080/api/swagger-ui.html`
 
 ### Database Seeding
-- On startup, `data.sql` populates the database with initial data: 50 users (40 students, 9 instructors, 1 admin), 30 courses, and approximately 200 enrollments.
+- On startup, `data.sql` populates the database with initial data: 49 users (39 students, 9 instructors, 1 admin), and 30 courses.
 
 ## API Documentation
 
