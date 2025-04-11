@@ -1,5 +1,3 @@
--- data.sql (Seed Data for StudyHub Backend)
-
 -- Insert Users (Passwords hashed with BCrypt for 'password123')
 INSERT INTO users (first_name, last_name, email, role, password) VALUES
                                                                      ('John', 'Doe', 'john.doe@example.com', 'STUDENT', '$2a$10$GBaAJ7H122Q2XaseNMk2LOYGaiHdmm0wRGrxnYRuABwRiieokrVri'),
