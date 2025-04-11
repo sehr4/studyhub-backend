@@ -1,5 +1,12 @@
 # StudyHub Backend - Individual REST API Implementation
 
+![Java](https://img.shields.io/badge/Java-21-orange)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.4-green)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16.4-blue)
+![Status](https://img.shields.io/badge/Status-Development-red)
+
+[//]: # (![License]&#40;https://img.shields.io/badge/License-MIT-yellow&#41;)
+
 StudyHub is a full-stack Learning Management System (LMS) my team and I are developing for our APP2000 course project, as part of our studies at the University of South-Eastern Norway.
 
 This repo documents my submission for the second ***individual mandatory assignment*** of the course.
@@ -75,7 +82,7 @@ studyhub-backend/
         2. Enter your password when prompted.
         3. Create the database:
         ```sql
-        CREATE DATABASE 'studyhub-db';
+        CREATE DATABASE "studyhub-db";
         ```
         4. Exit psql: `\q`
 - **Update Configuration:**
@@ -302,7 +309,7 @@ studyhub-backend/
 4. **Get Courses by Department (GET /api/courses/department/{department})**
     - **Method**: GET
     - **URL**: `http://localhost:8080/api/courses/department/Computer%20Science`
-    - **Expected Response**: `200 OK` with `List<CourseDTO>` (example truncated):
+    - **Expected Response**: `200 OK` with `List<CourseDTO>`:
       ```json
       [
         {
@@ -318,7 +325,7 @@ studyhub-backend/
 5. **Get Courses for a Student (GET /api/courses/student/{studentId})**
     - **Method**: GET
     - **URL**: `http://localhost:8080/api/courses/student/1`
-    - **Expected Response**: `200 OK` with `List<CourseDTO>` (example truncated):
+    - **Expected Response**: `200 OK` with `List<CourseDTO>`:
       ```json
       [
         {
@@ -340,7 +347,7 @@ studyhub-backend/
 6. **Get Summarized Courses for a Student (GET /api/courses/student/{studentId}/summary)**
     - **Method**: GET
     - **URL**: `http://localhost:8080/api/courses/student/1/summary`
-    - **Expected Response**: `200 OK` with `List<CourseSummaryDTO>` (example truncated):
+    - **Expected Response**: `200 OK` with `List<CourseSummaryDTO>`:
       ```json
       [
         {
@@ -357,7 +364,7 @@ studyhub-backend/
 7. **Get Summarized Courses by Department (GET /api/courses/department/{department}/summary)**
     - **Method**: GET
     - **URL**: `http://localhost:8080/api/courses/department/Computer%20Science/summary`
-    - **Expected Response**: `200 OK` with `List<CourseSummaryDTO>` (example truncated):
+    - **Expected Response**: `200 OK` with `List<CourseSummaryDTO>`:
       ```json
       [
         {
