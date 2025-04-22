@@ -1,4 +1,4 @@
-# StudyHub Backend - Individual REST API Implementation
+# StudyHub Backend - Individual REST API Implementation by Lidor Shachar
 
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.4-green)
@@ -7,14 +7,15 @@
 
 [//]: # (![License]&#40;https://img.shields.io/badge/License-MIT-yellow&#41;)
 
-StudyHub is a full-stack Learning Management System (LMS) my team and I are developing for our APP2000 course project, as part of our studies at the University of South-Eastern Norway.
+StudyHub is a full-stack Learning Management System (LMS) we are currently developing for our APP2000 course project,  
+as part of our studies at the University of South-Eastern Norway.
 
-This repo documents my submission for the second ***individual mandatory assignment*** of the course.
-
-This assignment focuses on developing REST API endpoints with Spring Boot and implementing basic CRUD operations.  
+This repository documents my personal submission for the second ***individual mandatory assignment*** of the course.  
+The assignment focus on developing REST API endpoints with Spring Boot and implementing basic CRUD operations.  
 My implementation covers user and course management, supported by a seeded dataset.
 
-This document includes project setup instructions, detailed API documentation with examples, and highlights key implementation details, to address the assignment requirements.
+This document includes project setup instructions, detailed API documentation with examples,  
+and highlights key implementation details to address the assignment requirements.
 
 ## Table of Contents
 - [Package Layout](#package-layout)
