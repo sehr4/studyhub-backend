@@ -12,7 +12,6 @@ import com.studyhub.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -178,13 +177,4 @@ public class CourseService {
                 .orElseThrow(() -> new ResourceNotFoundException("Course not found with ID: " + id));
         courseRepository.delete(course);
     }
-
-    // Helper method to convert a list of Course entities to DTOs
-//    private List<CourseDTO> convertToDTOList(List<Course> courses) {
-//        List<CourseDTO> courseDTOs = new ArrayList<>();
-//        for (Course course : courses) {
-//            courseDTOs.add(courseMapper.toDTO(course));
-//        }
-//        return courseDTOs;
-//    }
 }
