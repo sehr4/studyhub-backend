@@ -126,7 +126,7 @@ public class CourseService {
         return courseMapper.toDTOList(getCoursesForStudent(studentId));
     }
 
-    // Retrieves a summerize verrsion of courses for a specific student
+    // Retrieves a summarized version of courses for a specific student
     public List<CourseSummaryDTO> getSummarizedCoursesByStudent(Long studentId) {
         return courseMapper.toSummaryDTOList((getCoursesForStudent(studentId)));
     }
