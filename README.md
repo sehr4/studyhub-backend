@@ -7,11 +7,13 @@
 
 [//]: # (![License]&#40;https://img.shields.io/badge/License-MIT-yellow&#41;)
 
+[Repository](https://github.com/Lidizz/studyhub-backend)
+
 StudyHub is a full-stack Learning Management System (LMS) we are currently developing for our APP2000 course project,  
 as part of our studies at the University of South-Eastern Norway.
 
 This repository documents my personal submission for the second ***individual mandatory assignment*** of the course.  
-The assignment focus on developing REST API endpoints with Spring Boot and implementing basic CRUD operations.  
+The assignment focuses on developing REST API endpoints with Spring Boot and implementing basic CRUD operations.  
 My implementation covers user and course management, supported by a seeded dataset.
 
 This document includes project setup instructions, detailed API documentation with examples,  
@@ -134,7 +136,6 @@ studyhub-backend/
 | PUT    | `/{id}`          | Update user details  | `UserUpdateDTO`    | `200 OK` with `UserResponseDTO` |
 | DELETE | `/{id}`          | Delete a user        | -                  | `204 No Content`                |
 
-
 ### Course Controller (`/api/courses`)
 | Method | Endpoint                         | Description                       | Request Body       | Response                       |
 |--------|----------------------------------|-----------------------------------|--------------------|--------------------------------|
@@ -250,6 +251,7 @@ studyhub-backend/
         "role": "STUDENT"
       }
       ```
+    - **Error**: `404 Not Found` if user doesn’t exist.
 
 6. **Delete User (DELETE /api/users/{id})**
     - **Method**: DELETE
@@ -286,6 +288,7 @@ studyhub-backend/
         "studentIds": []
       }
       ```
+    - **Error**: `400 Bad Request` if code or title already exists.
 
 2. **Get Course by ID (GET /api/courses/{id})**
     - **Method**: GET
@@ -319,7 +322,7 @@ studyhub-backend/
       }
       ```
     - **Expected Response**: `200 OK`
-    - **Error**: `400 Bad Request` if enrollment fails.
+    - **Error**: `400 Bad Request` if enrollment fails (e.g., user not a student); `404 Not Found` if course or student doesn’t exist.
 
 4. **Get Courses by Department (GET /api/courses/department/{department})**
     - **Method**: GET
@@ -332,12 +335,35 @@ studyhub-backend/
           "code": "CS101A",
           "department": "Computer Science",
           "title": "Intro to Programming",
+          "credits": 3,
+          "description": "Introduction to coding concepts",
+          "startDate": "2025-01-15",
+          "endDate": "2025-05-15",
+          "instructorIds": [6],
+          "studentIds": [1, 4, 7]
+        }
+      ]
+      ```
+    - **Error**: `404 Not Found` if no courses exist in the department.
+
+5. **Get Summarized Courses by Department (GET /api/courses/department/{department}/summary)**
+    - **Method**: GET
+    - **URL**: `http://localhost:8080/api/courses/department/Computer%20Science/summary`
+    - **Expected Response**: `200 OK` with `List<CourseSummaryDTO>`:
+      ```json
+      [
+        {
+          "id": 1,
+          "code": "CS101A",
+          "department": "Computer Science",
+          "title": "Intro to Programming",
           "credits": 3
         }
       ]
       ```
+    - **Error**: `404 Not Found` if no courses exist in the department.
 
-5. **Get Courses for a Student (GET /api/courses/student/{studentId})**
+6. **Get Courses for a Student (GET /api/courses/student/{studentId})**
     - **Method**: GET
     - **URL**: `http://localhost:8080/api/courses/student/1`
     - **Expected Response**: `200 OK` with `List<CourseDTO>`:
@@ -359,7 +385,7 @@ studyhub-backend/
       ```
     - **Error**: `404 Not Found` if student or courses don’t exist; `400 Bad Request` if user isn’t a student.
 
-6. **Get Summarized Courses for a Student (GET /api/courses/student/{studentId}/summary)**
+7. **Get Summarized Courses for a Student (GET /api/courses/student/{studentId}/summary)**
     - **Method**: GET
     - **URL**: `http://localhost:8080/api/courses/student/1/summary`
     - **Expected Response**: `200 OK` with `List<CourseSummaryDTO>`:
@@ -375,22 +401,6 @@ studyhub-backend/
       ]
       ```
     - **Error**: `404 Not Found` if student or courses don’t exist; `400 Bad Request` if user isn’t a student.
-
-7. **Get Summarized Courses by Department (GET /api/courses/department/{department}/summary)**
-    - **Method**: GET
-    - **URL**: `http://localhost:8080/api/courses/department/Computer%20Science/summary`
-    - **Expected Response**: `200 OK` with `List<CourseSummaryDTO>`:
-      ```json
-      [
-        {
-          "id": 1,
-          "code": "CS101A",
-          "department": "Computer Science",
-          "title": "Intro to Programming",
-          "credits": 3
-        }
-      ]
-      ```
 
 8. **Update a Course (PUT /api/courses/{id})**
     - **Method**: PUT
@@ -409,9 +419,15 @@ studyhub-backend/
         "code": "CS101A",
         "department": "Computer Science",
         "title": "Updated Course Title",
-        "credits": 3
+        "credits": 3,
+        "description": "Introduction to coding concepts",
+        "startDate": "2025-01-15",
+        "endDate": "2025-05-15",
+        "instructorIds": [6],
+        "studentIds": [1, 4, 7]
       }
       ```
+    - **Error**: `404 Not Found` if course doesn’t exist; `400 Bad Request` if code or title already exists.
 
 9. **Delete a Course (DELETE /api/courses/{id})**
     - **Method**: DELETE
