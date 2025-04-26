@@ -8,7 +8,7 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.util.Set;
 
-// Data Transfer Object for course creation
+// Data Transfer Object for updating a course
 @Data
 public class CourseUpdateDTO {
 

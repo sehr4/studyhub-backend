@@ -18,7 +18,7 @@ public class CourseCreateDTO {
     private String code;
 
     @NotBlank(message = "Department cannot be blank")
-    @Size(min = 4, max = 50, message = "Department must be between 4 and 50 characters")
+    @Size(min = 2, max = 50, message = "Department must be between 2 and 50 characters")
     private String department;
 
     @NotBlank(message = "Title cannot be blank")
