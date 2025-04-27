@@ -8,7 +8,8 @@ import lombok.Data;
 // Module entity, maps to 'modules' in the db
 @Data
 @Entity
-@Table(name = "modules")
+@Table(name = "modules",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"course_id", "title"}))
 public class Module {
 
     @Id

@@ -9,7 +9,6 @@ import com.studyhub.model.Course;
 import com.studyhub.model.User;
 import com.studyhub.repository.CourseRepository;
 import com.studyhub.repository.UserRepository;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,6 +82,11 @@ public class CourseService {
         // Validate student role
         if (!student.getRole().equals(RoleConstant.STUDENT)) {
             throw new BadRequestException("User with ID " + enrollmentDTO.getStudentId() + " is not a student");
+        }
+        // We use a Set (HashSet) in the Course, so there will be no error,
+        // but this if test provide the user with more info.
+        if (course.getStudents().contains(student)) {
+            throw new BadRequestException("Student with ID " + student.getId() + " is already enrolled in course with ID " + course.getId());
         }
         course.getStudents().add(student);
         courseRepository.save(course);
