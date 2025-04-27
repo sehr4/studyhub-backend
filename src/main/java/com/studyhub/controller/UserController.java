@@ -99,12 +99,11 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Unexpected server error")
     })
     // URL: defines resource. Body: provides updated state
-    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO userDTO) {
-        userDTO.setId(id);
-        UserResponseDTO updatedUser = userService.updateUser(userDTO);
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO userUpdateDTO) {
+        userUpdateDTO.setId(id);
+        UserResponseDTO updatedUser = userService.updateUser(userUpdateDTO);
         return ResponseEntity.ok(updatedUser);
     }
-
 
     // Delete a user by their ID
     @DeleteMapping("/{id}")

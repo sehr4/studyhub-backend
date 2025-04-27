@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 // Data Transfer Object for updating user in API
-// 'Relaxed' validation that allow flexible updating
+// 'Relaxed' validation, allowing flexible updating
 @Data
 public class UserUpdateDTO {
 

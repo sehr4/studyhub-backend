@@ -2,6 +2,7 @@ package com.studyhub.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 // Module entity, maps to 'modules' in the db
@@ -25,6 +26,6 @@ public class Module {
     private String description;
 
     @Column(nullable = false)
-    @NotBlank(message = "Module number cannot be blank")
+    @NotNull(message = "Module number cannot be null")
     private Integer moduleNumber;
 }

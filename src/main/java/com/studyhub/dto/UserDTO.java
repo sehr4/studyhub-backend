@@ -32,15 +32,4 @@ public class UserDTO {
     @NotBlank(message = "Password cannot be blank")
     @Size(min = 8, max = 100, message = "Password must be between 8 and 100 characters")
     private String password;
-
-//    public UserDTO() {
-//    }
-//
-//    public UserDTO(Long id, String firstName, String lastName, String email, RoleConstant role) {
-//        this.id = id;
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.email = email;
-//        this.role = role;
-//    }
 }

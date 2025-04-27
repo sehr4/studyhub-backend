@@ -44,7 +44,7 @@ public class UserService {
         User user = userMapper.toEntity(userDTO);
 
         // Use the provided password if present, otherwise set a temporary one
-        String password = userDTO.getPassword() != null ? userDTO.getPassword() : "temporaryPassword";
+        String password = userDTO.getPassword() != null ? userDTO.getPassword() : "tempPass";
         user.setPassword(passwordEncoder.encode(password));
 
         // Save the user to the database
