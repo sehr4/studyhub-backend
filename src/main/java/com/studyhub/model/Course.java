@@ -5,7 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 // Course entity, maps to 'courses' table in the db
@@ -50,6 +52,11 @@ public class Course {
             inverseJoinColumns = @JoinColumn(name = "student_id")
     )
     private Set<User> students = new HashSet<>();
+
+    // One-to-Many relationship with Module
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OrderBy("moduleNumber ASC")
+    private List<Module> modules = new ArrayList<>();
 
     public Course() {
     }
