@@ -1,9 +1,13 @@
 package com.studyhub.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 // Module entity, maps to 'modules' in the db
 @Data
@@ -29,4 +33,10 @@ public class Module {
     @Column(nullable = false)
     @NotNull(message = "Module number cannot be null")
     private Integer moduleNumber;
+
+    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Resource> resources = new ArrayList<>();
+
+
 }
