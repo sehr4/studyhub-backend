@@ -17,7 +17,10 @@ public class ResourceDTO {
     @NotBlank(message = "Resource type cannot be blank", groups = CreationValidation.class)
     private String type;
 
-    private String fileUrl;
+    private String fileUrl; // Not used atm
+    private String fileContent;
+    private String originalFileName;
+
     private String content;
 
     // Validation group for creation

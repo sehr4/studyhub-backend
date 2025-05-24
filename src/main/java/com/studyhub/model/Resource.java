@@ -28,7 +28,14 @@ public class Resource {
     private ResourceType type;
 
     @Column(nullable = true)
-    private String fileUrl;
+    private String fileUrl; // Kept for now
+
+    @Lob
+    @Column(nullable = true)
+    private byte[] fileContent; // TEST: Trying to store file bytes for FILE type
+
+    @Column(nullable = true)
+    private String originalFileName;
 
     @Column(columnDefinition = "TEXT", nullable = true)
     private String content;
@@ -44,11 +51,12 @@ public class Resource {
     public Resource() {
     }
 
-    public Resource(Module module, String title, ResourceType type, String fileUrl, String content) {
+    public Resource(Module module, String title, ResourceType type, String fileUrl, byte[] fileContent, String content) {
         this.module = module;
         this.title = title;
         this.type = type;
         this.fileUrl = fileUrl;
+        this.fileContent = fileContent;
         this.content = content;
     }
 }

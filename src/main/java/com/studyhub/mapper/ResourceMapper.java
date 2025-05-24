@@ -18,6 +18,7 @@ public interface ResourceMapper {
     // Converts a Resource entity to ResourceDTO
     @Mapping(target = "moduleId", source = "module.id")
     @Mapping(target = "type", source = "type", qualifiedByName = "mapTypeToString")
+    @Mapping(target = "fileContent", ignore = true)
     ResourceDTO toDTO(Resource resource);
 
     List<ResourceDTO> toDTOList(List<Resource> resources);
@@ -27,12 +28,14 @@ public interface ResourceMapper {
     @Mapping(target = "module", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "type", source = "type", qualifiedByName = "mapStringToType")
+    @Mapping(target = "fileContent", ignore = true)
     Resource toEntity(ResourceDTO resourceDTO);
 
 
     @Mapping(target = "module", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "type", source = "type", qualifiedByName = "mapStringToType")
+    @Mapping(target = "fileContent", ignore = true)
     void updateResourceFromDTO(ResourceDTO resourceDTO, @MappingTarget Resource resource);
 
 

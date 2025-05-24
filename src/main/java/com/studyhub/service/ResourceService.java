@@ -9,9 +9,11 @@ import com.studyhub.model.Resource;
 import com.studyhub.constant.ResourceType;
 import com.studyhub.repository.ModuleRepository;
 import com.studyhub.repository.ResourceRepository;
+import lombok.Getter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -97,25 +99,56 @@ public class ResourceService {
             throw new BadRequestException("Invalid resource type. Must be 'FILE' or 'TEXT'");
         }
 
-        if (type == ResourceType.FILE && (resourceDTO.getFileUrl() == null || resourceDTO.getFileUrl().isBlank())) {
-            throw new BadRequestException("File URL is required for FILE type resources");
+        if (type == ResourceType.FILE && (resourceDTO.getFileContent() == null || resourceDTO.getFileContent().isBlank())) {
+            throw new BadRequestException("File content is required for FILE type resources");
         }
         if (type == ResourceType.TEXT && (resourceDTO.getContent() == null || resourceDTO.getContent().isBlank())) {
             throw new BadRequestException("Content is required for TEXT type resources");
         }
         if ((type == ResourceType.FILE && resourceDTO.getContent() != null) ||
-                (type == ResourceType.TEXT && resourceDTO.getFileUrl() != null)) {
-            throw new BadRequestException("Only one of fileUrl or content should be provided based on type");
+                (type == ResourceType.TEXT && resourceDTO.getFileContent() != null)) {
+            throw new BadRequestException("Only one of fileContent or content should be provided based on type");
         }
     }
 
     // Helper method extracted from createResource and updateResource returns a saved / updated ResourceDTO
     private ResourceDTO getResourceDTO(ResourceDTO resourceDTO, ResourceType type, Resource resource) {
         resource.setType(type);
-        resource.setFileUrl(type == ResourceType.FILE ? resourceDTO.getFileUrl() : null);
+        resource.setFileUrl(null); // Not used in DB for now (testing)
+        if (type == ResourceType.FILE) {
+            resource.setFileContent(Base64.getDecoder().decode(resourceDTO.getFileContent()));
+            resource.setOriginalFileName(resourceDTO.getOriginalFileName());
+        } else {
+            resource.setFileContent(null);
+        }
         resource.setContent(type == ResourceType.TEXT ? resourceDTO.getContent() : null);
 
         Resource savedResource = resourceRepository.save(resource);
         return resourceMapper.toDTO(savedResource);
+    }
+
+    @Getter
+    public static class FileContentResponse {
+        private final byte[] content;
+        private final String fileName;
+
+        public FileContentResponse(byte[] content, String fileName) {
+            this.content = content;
+            this.fileName = fileName;
+        }
+    }
+
+    public FileContentResponse getFileContentAndName(Long resourceId, Long moduleId) {
+        Resource resource = findByIdAndModuleId(resourceId, moduleId);
+
+        if (resource.getFileContent() == null || resource.getFileContent().length == 0) {
+            throw new ResourceNotFoundException("No file content available for resource ID: " + resourceId);
+        }
+
+        String fileName = resource.getOriginalFileName() != null
+                ? resource.getOriginalFileName()
+                : resource.getTitle().replaceAll("[^a-zA-Z0-9.-]", "_") + ".dat";
+
+        return new FileContentResponse(resource.getFileContent(), fileName);
     }
 }
