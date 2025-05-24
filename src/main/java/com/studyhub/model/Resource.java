@@ -28,7 +28,7 @@ public class Resource {
     private ResourceType type;
 
     @Column(nullable = true)
-    private String filePath;
+    private String fileUrl;
 
     @Column(columnDefinition = "TEXT", nullable = true)
     private String content;
@@ -44,11 +44,11 @@ public class Resource {
     public Resource() {
     }
 
-    public Resource(Module module, String title, ResourceType type, String filePath, String content) {
+    public Resource(Module module, String title, ResourceType type, String fileUrl, String content) {
         this.module = module;
         this.title = title;
         this.type = type;
-        this.filePath = filePath;
+        this.fileUrl = fileUrl;
         this.content = content;
     }
 }

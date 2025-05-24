@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+// ResourceRepository interface for Crud operation on the Resource entity
 @Repository
 public interface ResourceRepository extends JpaRepository<Resource, Long> {
     List<Resource> findByModuleId(Long moduleId);

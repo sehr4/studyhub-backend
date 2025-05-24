@@ -37,6 +37,4 @@ public class Module {
     @OneToMany(mappedBy = "module", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Resource> resources = new ArrayList<>();
-
-
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+// ModuleRepository interface for Crud operation on the Module entity
 @Repository
 public interface ModuleRepository extends JpaRepository<Module, Long> {
     List<Module> findByCourseId(Long courseId);

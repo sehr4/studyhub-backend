@@ -166,6 +166,7 @@ public class CourseService {
 //        return courseMapper.toSummaryDTOList(courses);
 //    }
 
+    // Update Course
     public CourseDTO updateCourse(CourseUpdateDTO courseUpdateDTO) {
         Course existingCourse = courseRepository.findById(courseUpdateDTO.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Course not found with ID: " + courseUpdateDTO.getId()));
