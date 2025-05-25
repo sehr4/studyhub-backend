@@ -93,7 +93,7 @@ public class ResourceService {
         return resource;
     }
 
-    // Helper method extracted from createResource and updateResource for ResourceType validation
+    // Helper method extracted from createResource and updateResource for ResourceType validation (return void)
     private void validateResourceType(ResourceDTO resourceDTO, ResourceType type) {
         if (type == null) {
             throw new BadRequestException("Invalid resource type. Must be 'FILE' or 'TEXT'");

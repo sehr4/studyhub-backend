@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
@@ -102,16 +103,27 @@ public class ResourceController {
             @ApiResponse(responseCode = "404", description = "Module not found", content = @Content),
             @ApiResponse(responseCode = "500", description = "Unexpected server error")
     })
+    // Accepts MultipartFile, title, and moduleId from the HTTP request
     public ResponseEntity<ResourceDTO> uploadFileResource(@PathVariable Long moduleId,
                                                           @RequestParam("file") MultipartFile file,
                                                           @RequestParam("title") String title) {
+        //  Checks if the uploaded file is empty, returns 400 Bad Request if so
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body(null);
         }
 
         try {
-            // Convert file to Base64 string
+            // Convert file to bytes Array (a Base64 string)
             byte[] fileBytes = file.getBytes();
+            // TEST print
+            if (fileBytes.length > 10) {
+                System.out.println("First 10 bytes: " + Arrays.toString(Arrays.copyOfRange(fileBytes, 0, 10)));
+            } else {
+                System.out.println("All bytes: " + Arrays.toString(fileBytes));
+            }
+            System.out.println("Total bytes: " + fileBytes.length);
+
+            // Converts the byte array to a Base64 string using
             String fileContentBase64 = Base64.getEncoder().encodeToString(fileBytes);
 
             ResourceDTO resourceDTO = new ResourceDTO();
