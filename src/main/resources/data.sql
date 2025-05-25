@@ -50,6 +50,8 @@ INSERT INTO users (first_name, last_name, email, role, password) VALUES
      ('Sofia', 'Parker', 'sofia.parker@example.com', 'STUDENT', '$2a$10$GBaAJ7H122Q2XaseNMk2LOYGaiHdmm0wRGrxnYRuABwRiieokrVri'),
      ('Julian', 'Edwards', 'julian.edwards@example.com', 'STUDENT', '$2a$10$GBaAJ7H122Q2XaseNMk2LOYGaiHdmm0wRGrxnYRuABwRiieokrVri');
 
+SELECT setval('users_id_seq', (SELECT MAX(id) + 1 FROM users), false);
+
 -- Insert Courses
 INSERT INTO courses (code, department, title, credits, description, start_date, end_date) VALUES
       ('CS101A', 'Computer Science', 'Intro to Programming', 3, 'Basics of coding using Python', '2025-09-01', '2025-12-15'),
@@ -82,6 +84,8 @@ INSERT INTO courses (code, department, title, credits, description, start_date, 
       ('ART101', 'Art', 'Art History', 3, 'Major art movements', '2025-09-01', '2025-12-15'),
       ('MUS101', 'Music', 'Music Theory', 3, 'Fundamentals of music', '2025-09-01', '2025-12-15'),
       ('PHIL101', 'Philosophy', 'Intro to Philosophy', 3, 'Key philosophical concepts', '2025-09-01', '2025-12-15');
+
+SELECT setval('courses_id_seq', (SELECT MAX(id) + 1 FROM courses), false);
 
 -- Link Instructors to Courses (Individual statements)
 INSERT INTO course_instructor (course_id, instructor_id) VALUES
@@ -297,6 +301,8 @@ INSERT INTO modules (id, course_id, title, module_number) VALUES
       (3, 1, 'Module 3: Data Structures', 3),
       (4, 1, 'Module 4: Algorithms', 4);
 
+SELECT setval('modules_id_seq', (SELECT MAX(id) + 1 FROM modules), false);
+
 -- Insert Resources (All TEXT type)
 INSERT INTO resources (id, module_id, title, type, file_url, content, created_at) VALUES
       (1, 1, 'Java Basics Intro', 'TEXT', NULL, 'Introduction to Java variables and data types.', '2025-05-24 17:00:00'),
@@ -307,3 +313,5 @@ INSERT INTO resources (id, module_id, title, type, file_url, content, created_at
       (6, 3, 'Linked Lists', 'TEXT', NULL, 'Basic concepts of linked lists.', '2025-05-24 17:05:00'),
       (7, 4, 'Sorting Algorithms', 'TEXT', NULL, 'Explanation of bubble sort and quicksort.', '2025-05-24 17:06:00'),
       (8, 4, 'Search Techniques', 'TEXT', NULL, 'Overview of binary search and linear search.', '2025-05-24 17:07:00');
+
+SELECT setval('resources_id_seq', (SELECT MAX(id) + 1 FROM resources), false);
