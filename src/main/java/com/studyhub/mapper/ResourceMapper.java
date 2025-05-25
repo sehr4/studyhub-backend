@@ -38,13 +38,13 @@ public interface ResourceMapper {
     @Mapping(target = "fileContent", ignore = true)
     void updateResourceFromDTO(ResourceDTO resourceDTO, @MappingTarget Resource resource);
 
-
+    // Return ResourceType or null
     @Named("mapStringToType")
     default ResourceType mapStringToType(String type) {
         return type != null ? ResourceType.valueOf(type.toUpperCase()) : null;
     }
 
-
+    // Return String or null
     @Named("mapTypeToString")
     default String mapTypeToString(ResourceType type) {
         return type != null ? type.name() : null;

@@ -32,7 +32,7 @@ public class Resource {
 
     @Lob
     @Column(nullable = true)
-    private byte[] fileContent; // TEST: Trying to store file bytes for FILE type
+    private byte[] fileContent;
 
     @Column(nullable = true)
     private String originalFileName;
