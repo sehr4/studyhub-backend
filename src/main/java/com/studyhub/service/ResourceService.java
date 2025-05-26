@@ -114,7 +114,7 @@ public class ResourceService {
     // Helper method extracted from createResource and updateResource returns a saved / updated ResourceDTO
     private ResourceDTO getResourceDTO(ResourceDTO resourceDTO, ResourceType type, Resource resource) {
         resource.setType(type);
-        resource.setFileUrl(null); // Not used in DB for now (testing)
+        resource.setFileUrl(null); // Not used in DB for now
         if (type == ResourceType.FILE) {
             resource.setFileContent(Base64.getDecoder().decode(resourceDTO.getFileContent()));
             resource.setOriginalFileName(resourceDTO.getOriginalFileName());
