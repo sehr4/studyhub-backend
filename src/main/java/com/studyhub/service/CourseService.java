@@ -125,6 +125,27 @@ public class CourseService {
         return courses;
     }
 
+    // CREATE A NEW METHOD TO getActiveCoursesForStudent
+    private List<Course> getActiveCoursesForStudent(Long studentId) {
+        User student = userRepository.findById(studentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + studentId));
+        // Verify student exists and has student role
+        if (!student.getRole().equals(RoleConstant.STUDENT)) {
+            throw new BadRequestException("User with ID " + studentId + " is not a student");
+        }
+        List<Course> courses = courseRepository.findByStudents(student);
+        if (courses.isEmpty()) {
+            throw new ResourceNotFoundException("No courses found for student with ID: " + studentId);
+        }
+
+        // Add a conditional to test that endDate of Course is lower than the current date
+        /** use the summarized version
+         *
+         */
+
+        return courses;
+    }
+
     // Retrieves detailed list of courses for a specific student
     public List<CourseDTO> getCoursesByStudent(Long studentId) {
         return courseMapper.toDTOList(getCoursesForStudent(studentId));
