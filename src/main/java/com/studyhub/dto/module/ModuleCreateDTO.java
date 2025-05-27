@@ -1,4 +1,4 @@
-package com.studyhub.dto;
+package com.studyhub.dto.module;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

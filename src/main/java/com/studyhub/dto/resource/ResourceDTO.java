@@ -1,4 +1,4 @@
-package com.studyhub.dto;
+package com.studyhub.dto.resource;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

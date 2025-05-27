@@ -1,7 +1,8 @@
 package com.studyhub.service;
 
 import com.studyhub.constant.RoleConstant;
-import com.studyhub.dto.*;
+import com.studyhub.constant.Semester;
+import com.studyhub.dto.course.*;
 import com.studyhub.exception.BadRequestException;
 import com.studyhub.exception.ResourceNotFoundException;
 import com.studyhub.mapper.CourseMapper;
@@ -12,6 +13,8 @@ import com.studyhub.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -125,27 +128,6 @@ public class CourseService {
         return courses;
     }
 
-    // CREATE A NEW METHOD TO getActiveCoursesForStudent
-    private List<Course> getActiveCoursesForStudent(Long studentId) {
-        User student = userRepository.findById(studentId)
-                .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + studentId));
-        // Verify student exists and has student role
-        if (!student.getRole().equals(RoleConstant.STUDENT)) {
-            throw new BadRequestException("User with ID " + studentId + " is not a student");
-        }
-        List<Course> courses = courseRepository.findByStudents(student);
-        if (courses.isEmpty()) {
-            throw new ResourceNotFoundException("No courses found for student with ID: " + studentId);
-        }
-
-        // Add a conditional to test that endDate of Course is lower than the current date
-        /** use the summarized version
-         *
-         */
-
-        return courses;
-    }
-
     // Retrieves detailed list of courses for a specific student
     public List<CourseDTO> getCoursesByStudent(Long studentId) {
         return courseMapper.toDTOList(getCoursesForStudent(studentId));
@@ -155,37 +137,6 @@ public class CourseService {
     public List<CourseSummaryDTO> getSummarizedCoursesByStudent(Long studentId) {
         return courseMapper.toSummaryDTOList((getCoursesForStudent(studentId)));
     }
-
-//    // Retrieves courses for a specific student
-//    public List<CourseDTO> getCoursesByStudent(Long studentId) {
-//        // Verify student exists and has student role
-//        User student = userRepository.findById(studentId)
-//                .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + studentId));
-//
-//        if (!student.getRole().equals(RoleConstant.STUDENT)) {
-//            throw new BadRequestException("User with ID " + studentId + " is not a student");
-//        }
-//        // Retrieve student's courses
-//        List<Course> courses = courseRepository.findByStudents(student);
-//        if (courses.isEmpty()) {
-//            throw new ResourceNotFoundException("No courses found for student with ID: " + studentId);
-//        }
-//        return courseMapper.toDTOList(courses);
-//    }
-//
-//    public List<CourseSummaryDTO> getSummarizedCoursesByStudent(Long studentId) {
-//        User student = userRepository.findById(studentId)
-//                .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + studentId));
-//
-//        if (!student.getRole().equals(RoleConstant.STUDENT)) {
-//            throw new BadRequestException("User with ID " + studentId + " is not a student");
-//        }
-//        List<Course> courses = courseRepository.findByStudents(student);
-//        if (courses.isEmpty()) {
-//            throw new ResourceNotFoundException("No courses found for student with ID: " + studentId);
-//        }
-//        return courseMapper.toSummaryDTOList(courses);
-//    }
 
     // Update Course
     public CourseDTO updateCourse(CourseUpdateDTO courseUpdateDTO) {

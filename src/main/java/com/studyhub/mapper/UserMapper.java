@@ -1,8 +1,8 @@
 package com.studyhub.mapper;
 
-import com.studyhub.dto.UserDTO;
-import com.studyhub.dto.UserResponseDTO;
-import com.studyhub.dto.UserUpdateDTO;
+import com.studyhub.dto.user.UserDTO;
+import com.studyhub.dto.user.UserResponseDTO;
+import com.studyhub.dto.user.UserUpdateDTO;
 import com.studyhub.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

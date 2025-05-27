@@ -1,4 +1,4 @@
-package com.studyhub.dto;
+package com.studyhub.dto.assignment;
 
 import lombok.Data;
 
@@ -10,14 +10,9 @@ public class AssignmentDTO {
 
     private Long id;
     private Long courseId;
-    private Long studentId;
     private String title;
     private String description;
     private LocalDateTime dueDate;
-    private LocalDateTime submissionDate;
-    private String submittedFileName;
-    private String feedback;
-    private String grade;
 
     public interface CreationValidation {}
 }

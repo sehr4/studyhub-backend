@@ -1,6 +1,6 @@
 package com.studyhub.controller;
 
-import com.studyhub.dto.*;
+import com.studyhub.dto.course.*;
 import com.studyhub.service.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

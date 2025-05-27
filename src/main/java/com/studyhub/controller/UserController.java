@@ -1,9 +1,9 @@
 package com.studyhub.controller;
 
-import com.studyhub.dto.LoginRequestDTO;
-import com.studyhub.dto.UserDTO;
-import com.studyhub.dto.UserResponseDTO;
-import com.studyhub.dto.UserUpdateDTO;
+import com.studyhub.dto.user.LoginRequestDTO;
+import com.studyhub.dto.user.UserDTO;
+import com.studyhub.dto.user.UserResponseDTO;
+import com.studyhub.dto.user.UserUpdateDTO;
 import com.studyhub.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

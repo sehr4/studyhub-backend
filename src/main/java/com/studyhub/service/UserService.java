@@ -1,9 +1,9 @@
 package com.studyhub.service;
 
-import com.studyhub.dto.LoginRequestDTO;
-import com.studyhub.dto.UserDTO;
-import com.studyhub.dto.UserResponseDTO;
-import com.studyhub.dto.UserUpdateDTO;
+import com.studyhub.dto.user.LoginRequestDTO;
+import com.studyhub.dto.user.UserDTO;
+import com.studyhub.dto.user.UserResponseDTO;
+import com.studyhub.dto.user.UserUpdateDTO;
 import com.studyhub.exception.BadRequestException;
 import com.studyhub.exception.ResourceNotFoundException;
 import com.studyhub.mapper.UserMapper;

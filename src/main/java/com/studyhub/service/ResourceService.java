@@ -1,6 +1,6 @@
 package com.studyhub.service;
 
-import com.studyhub.dto.ResourceDTO;
+import com.studyhub.dto.resource.ResourceDTO;
 import com.studyhub.exception.BadRequestException;
 import com.studyhub.exception.ResourceNotFoundException;
 import com.studyhub.mapper.ResourceMapper;

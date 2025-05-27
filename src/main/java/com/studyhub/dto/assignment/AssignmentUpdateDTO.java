@@ -1,6 +1,5 @@
-package com.studyhub.dto;
+package com.studyhub.dto.assignment;
 
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -19,10 +18,4 @@ public class AssignmentUpdateDTO {
     private String description;
 
     private LocalDateTime dueDate;
-
-    @Size(max = 500, message = "Feedback cannot exceed 500 characters")
-    private String feedback;
-
-    @Pattern(regexp = "^[A-F]$", message = "Grade must be A, B, C, D, E, or F")
-    private String grade;
 }

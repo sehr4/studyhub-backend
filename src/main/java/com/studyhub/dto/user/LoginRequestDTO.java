@@ -1,4 +1,4 @@
-package com.studyhub.dto;
+package com.studyhub.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

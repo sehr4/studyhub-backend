@@ -1,8 +1,8 @@
 package com.studyhub.mapper;
 
-import com.studyhub.dto.ModuleCreateDTO;
-import com.studyhub.dto.ModuleDTO;
-import com.studyhub.dto.ModuleUpdateDTO;
+import com.studyhub.dto.module.ModuleCreateDTO;
+import com.studyhub.dto.module.ModuleDTO;
+import com.studyhub.dto.module.ModuleUpdateDTO;
 import com.studyhub.model.Module;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

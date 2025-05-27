@@ -1,4 +1,4 @@
-package com.studyhub.dto;
+package com.studyhub.dto.module;
 
 import lombok.Data;
 

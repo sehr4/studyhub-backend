@@ -1,4 +1,4 @@
-package com.studyhub.dto;
+package com.studyhub.dto.course;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -9,9 +9,11 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.util.Set;
 
-// Data Transfer Object for course creation
+// Data Transfer Object for course in API
 @Data
-public class CourseCreateDTO {
+public class CourseDTO {
+
+    private Long id;
 
     @NotBlank(message = "Course code cannot be blank")
     @Size(min = 6, max = 6, message = "Course code must be exactly 6 characters")
@@ -35,4 +37,5 @@ public class CourseCreateDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private Set<Long> instructorIds;
+    private Set<Long> studentIds;
 }

@@ -1,8 +1,8 @@
 package com.studyhub.controller;
 
-import com.studyhub.dto.ModuleCreateDTO;
-import com.studyhub.dto.ModuleDTO;
-import com.studyhub.dto.ModuleUpdateDTO;
+import com.studyhub.dto.module.ModuleCreateDTO;
+import com.studyhub.dto.module.ModuleDTO;
+import com.studyhub.dto.module.ModuleUpdateDTO;
 import com.studyhub.service.ModuleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

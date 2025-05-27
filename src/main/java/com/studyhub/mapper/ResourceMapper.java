@@ -1,6 +1,6 @@
 package com.studyhub.mapper;
 
-import com.studyhub.dto.ResourceDTO;
+import com.studyhub.dto.resource.ResourceDTO;
 import com.studyhub.model.Resource;
 import com.studyhub.constant.ResourceType;
 import org.mapstruct.Mapper;

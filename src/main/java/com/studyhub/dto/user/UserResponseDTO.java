@@ -1,4 +1,4 @@
-package com.studyhub.dto;
+package com.studyhub.dto.user;
 
 import com.studyhub.constant.RoleConstant;
 import lombok.Data;

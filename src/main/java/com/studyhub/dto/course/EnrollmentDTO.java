@@ -1,4 +1,4 @@
-package com.studyhub.dto;
+package com.studyhub.dto.course;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

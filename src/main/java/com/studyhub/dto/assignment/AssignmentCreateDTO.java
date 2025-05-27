@@ -1,4 +1,4 @@
-package com.studyhub.dto;
+package com.studyhub.dto.assignment;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

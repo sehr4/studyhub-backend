@@ -1,9 +1,9 @@
 package com.studyhub.mapper;
 
-import com.studyhub.dto.CourseCreateDTO;
-import com.studyhub.dto.CourseDTO;
-import com.studyhub.dto.CourseSummaryDTO;
-import com.studyhub.dto.CourseUpdateDTO;
+import com.studyhub.dto.course.CourseCreateDTO;
+import com.studyhub.dto.course.CourseDTO;
+import com.studyhub.dto.course.CourseSummaryDTO;
+import com.studyhub.dto.course.CourseUpdateDTO;
 import com.studyhub.model.Course;
 import com.studyhub.model.User;
 import org.mapstruct.*;

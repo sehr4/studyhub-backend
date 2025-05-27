@@ -1,4 +1,4 @@
-package com.studyhub.dto;
+package com.studyhub.dto.course;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

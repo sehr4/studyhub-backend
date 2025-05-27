@@ -1,8 +1,8 @@
 package com.studyhub.service;
 
-import com.studyhub.dto.ModuleCreateDTO;
-import com.studyhub.dto.ModuleDTO;
-import com.studyhub.dto.ModuleUpdateDTO;
+import com.studyhub.dto.module.ModuleCreateDTO;
+import com.studyhub.dto.module.ModuleDTO;
+import com.studyhub.dto.module.ModuleUpdateDTO;
 import com.studyhub.exception.BadRequestException;
 import com.studyhub.exception.ResourceNotFoundException;
 import com.studyhub.mapper.ModuleMapper;
