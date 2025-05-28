@@ -4,9 +4,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
-// Simple Data Transfer Object for student enrollment
+// Simple Data Transfer Object for student enrollment in a course
 @Data
-public class EnrollmentDTO {
+public class CourseEnrollmentDTO {
 
     @NotNull(message = "Course ID cannot be null")
     @Positive(message = "Course ID must be positive")

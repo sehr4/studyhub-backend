@@ -296,12 +296,29 @@ WHERE role = 'STUDENT'
 
 -- Insert Modules
 INSERT INTO modules (id, course_id, title, module_number) VALUES
-      (1, 1, 'Module 1: Java Basics', 1),
-      (2, 1, 'Module 2: OOP Concepts', 2),
-      (3, 1, 'Module 3: Data Structures', 3),
-      (4, 1, 'Module 4: Algorithms', 4);
+        (1, 1, 'Module 1: Java Basics', 1),
+        (2, 1, 'Module 2: OOP Concepts', 2),
+        (3, 1, 'Module 3: Data Structures', 3),
+        (4, 1, 'Module 4: Algorithms', 4),
+        (5, 2, 'Module 1: HTML Fundamentals', 1),
+        (6, 2, 'Module 2: CSS Styling', 2),
+        (7, 2, 'Module 3: JavaScript Basics', 3),
+        (8, 3, 'Module 1: Arrays and Lists', 1),
+        (9, 3, 'Module 2: Stacks and Queues', 2),
+        (10, 3, 'Module 3: Trees and Graphs', 3),
+        (11, 4, 'Module 1: Relational Databases', 1),
+        (12, 4, 'Module 2: SQL Queries', 2),
+        (13, 4, 'Module 3: Database Normalization', 3),
+        (14, 5, 'Module 1: Process Management', 1),
+        (15, 5, 'Module 2: Memory Management', 2),
+        (16, 5, 'Module 3: File Systems', 3),
+        (17, 6, 'Module 1: Linear Equations', 1),
+        (18, 6, 'Module 2: Inequalities', 2),
+        (19, 7, 'Module 1: Limits and Continuity', 1),
+        (20, 7, 'Module 2: Derivatives', 2);
 
 SELECT setval('modules_id_seq', (SELECT MAX(id) + 1 FROM modules), false);
+
 
 -- Insert Resources (All TEXT type)
 INSERT INTO resources (id, module_id, title, type, file_url, content, created_at) VALUES
@@ -312,6 +329,53 @@ INSERT INTO resources (id, module_id, title, type, file_url, content, created_at
       (5, 3, 'Arrays Intro', 'TEXT', NULL, 'Introduction to arrays in Java.', '2025-05-24 17:04:00'),
       (6, 3, 'Linked Lists', 'TEXT', NULL, 'Basic concepts of linked lists.', '2025-05-24 17:05:00'),
       (7, 4, 'Sorting Algorithms', 'TEXT', NULL, 'Explanation of bubble sort and quicksort.', '2025-05-24 17:06:00'),
-      (8, 4, 'Search Techniques', 'TEXT', NULL, 'Overview of binary search and linear search.', '2025-05-24 17:07:00');
+      (8, 4, 'Search Techniques', 'TEXT', NULL, 'Overview of binary search and linear search.', '2025-05-24 17:07:00'),
+      (9, 5, 'HTML Basics', 'TEXT', NULL, 'Introduction to HTML tags and structure.', '2025-05-24 17:08:00'),
+      (10, 5, 'HTML Forms', 'TEXT', NULL, 'Creating forms with HTML inputs.', '2025-05-24 17:09:00'),
+      (11, 6, 'CSS Selectors', 'TEXT', NULL, 'Understanding CSS selectors and properties.', '2025-05-24 17:10:00'),
+      (12, 6, 'CSS Layouts', 'TEXT', NULL, 'Flexbox and grid layouts in CSS.', '2025-05-24 17:11:00'),
+      (13, 7, 'JavaScript Variables', 'TEXT', NULL, 'Basics of JavaScript variables and data types.', '2025-05-24 17:12:00'),
+      (14, 7, 'JavaScript Functions', 'TEXT', NULL, 'Creating and using functions in JavaScript.', '2025-05-24 17:13:00'),
+      (15, 8, 'Array Operations', 'TEXT', NULL, 'Common operations on arrays.', '2025-05-24 17:14:00'),
+      (16, 8, 'List Implementations', 'TEXT', NULL, 'Implementing linked lists in code.', '2025-05-24 17:15:00'),
+      (17, 9, 'Stack Basics', 'TEXT', NULL, 'Introduction to stack data structure.', '2025-05-24 17:16:00'),
+      (18, 9, 'Queue Operations', 'TEXT', NULL, 'Queue implementation and usage.', '2025-05-24 17:17:00'),
+      (19, 10, 'Tree Traversal', 'TEXT', NULL, 'Techniques for traversing trees.', '2025-05-24 17:18:00'),
+      (20, 10, 'Graph Representation', 'TEXT', NULL, 'Ways to represent graphs in data structures.', '2025-05-24 17:19:00'),
+      (21, 11, 'Relational Model', 'TEXT', NULL, 'Overview of the relational database model.', '2025-05-24 17:20:00'),
+      (22, 11, 'ER Diagrams', 'TEXT', NULL, 'Creating entity-relationship diagrams.', '2025-05-24 17:21:00'),
+      (23, 12, 'Basic SQL', 'TEXT', NULL, 'Writing SELECT, INSERT, and UPDATE queries.', '2025-05-24 17:22:00'),
+      (24, 12, 'Advanced SQL', 'TEXT', NULL, 'Joins and subqueries in SQL.', '2025-05-24 17:23:00'),
+      (25, 13, 'Normalization Rules', 'TEXT', NULL, 'Understanding 1NF, 2NF, and 3NF.', '2025-05-24 17:24:00'),
+      (26, 13, 'Denormalization', 'TEXT', NULL, 'When and how to denormalize databases.', '2025-05-24 17:25:00'),
+      (27, 14, 'Process Scheduling', 'TEXT', NULL, 'Overview of process scheduling algorithms.', '2025-05-24 17:26:00'),
+      (28, 14, 'Process States', 'TEXT', NULL, 'Lifecycle of a process in OS.', '2025-05-24 17:27:00'),
+      (29, 15, 'Memory Allocation', 'TEXT', NULL, 'Techniques for memory management.', '2025-05-24 17:28:00'),
+      (30, 15, 'Virtual Memory', 'TEXT', NULL, 'Concepts of virtual memory in OS.', '2025-05-24 17:29:00'),
+      (31, 16, 'File System Basics', 'TEXT', NULL, 'Introduction to file system structures.', '2025-05-24 17:30:00'),
+      (32, 16, 'File Permissions', 'TEXT', NULL, 'Managing file permissions in OS.', '2025-05-24 17:31:00'),
+      (33, 17, 'Solving Linear Equations', 'TEXT', NULL, 'Step-by-step methods for linear equations.', '2025-05-24 17:32:00'),
+      (34, 17, 'Graphing Inequalities', 'TEXT', NULL, 'Graphing techniques for inequalities.', '2025-05-24 17:33:00'),
+      (35, 19, 'Limit Definition', 'TEXT', NULL, 'Defining limits in calculus.', '2025-05-24 17:34:00'),
+      (36, 19, 'Continuity Rules', 'TEXT', NULL, 'Rules for determining continuity.', '2025-05-24 17:35:00'),
+      (37, 20, 'Derivative Rules', 'TEXT', NULL, 'Basic rules for differentiation.', '2025-05-24 17:36:00'),
+      (38, 20, 'Chain Rule', 'TEXT', NULL, 'Applying the chain rule in derivatives.', '2025-05-24 17:37:00');
 
 SELECT setval('resources_id_seq', (SELECT MAX(id) + 1 FROM resources), false);
+
+-- Insert Assignments
+INSERT INTO assignments (id, course_id, title, description, due_date, created_at) VALUES
+        (1, 1, 'Java Variables Exercise', 'Write a program to declare and manipulate variables.',  '2025-06-10 23:59:00', now()),
+        (2, 2, 'OOP Class Design', 'Design a class with inheritance.',  '2025-06-15 23:59:00',now() ),
+        (3, 3, 'Array Implementation', 'Implement an array-based solution.',  '2025-06-20 23:59:00', now()),
+        (4, 4, 'Algorithm Analysis', 'Analyze a sorting algorithm.',  '2025-06-25 23:59:00', now()),
+        (5, 5, 'HTML Form Creation', 'Build a simple HTML form.',  '2025-06-10 23:59:00', now()),
+        (6, 6, 'CSS Styling Task', 'Style a webpage with CSS.',  '2025-06-15 23:59:00', now()),
+        (7, 8, 'Array Operations Task', 'Perform array operations.',  '2025-06-20 23:59:00', now()),
+        (8, 9, 'Stack Implementation', 'Implement a stack.',  '2025-06-25 23:59:00', now());
+
+SELECT setval('assignments_id_seq', (SELECT MAX(id) + 1 FROM assignments), false);
+
+-- Insert Submissions
+
+-- SELECT setval('submissions_id_seq', (SELECT MAX(id) + 1 FROM submissions), false);

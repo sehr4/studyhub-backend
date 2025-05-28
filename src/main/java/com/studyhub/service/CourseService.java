@@ -12,9 +12,12 @@ import com.studyhub.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 // Service class for handling course-related operations
 @Service
@@ -73,18 +76,18 @@ public class CourseService {
     }
 
     // Enrolls a student in a course
-    public void enrollStudent(EnrollmentDTO enrollmentDTO) {
-        Course course = courseRepository.findById(enrollmentDTO.getCourseId())
-                .orElseThrow(() -> new ResourceNotFoundException("Course not found with ID: " + enrollmentDTO.getCourseId()));
-        User student = userRepository.findById(enrollmentDTO.getStudentId())
-                .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + enrollmentDTO.getStudentId()));
+    public void enrollStudent(CourseEnrollmentDTO courseEnrollmentDTO) {
+        Course course = courseRepository.findById(courseEnrollmentDTO.getCourseId())
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found with ID: " + courseEnrollmentDTO.getCourseId()));
+        User student = userRepository.findById(courseEnrollmentDTO.getStudentId())
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + courseEnrollmentDTO.getStudentId()));
 
         // Validate student role
         if (!student.getRole().equals(RoleConstant.STUDENT)) {
-            throw new BadRequestException("User with ID " + enrollmentDTO.getStudentId() + " is not a student");
+            throw new BadRequestException("User with ID " + courseEnrollmentDTO.getStudentId() + " is not a student");
         }
         // We use a Set (HashSet) in the Course, so there will be no error,
-        // but this if test provide the user with more info.
+        // the 'if' sentence is only for info.
         if (course.getStudents().contains(student)) {
             throw new BadRequestException("Student with ID " + student.getId() + " is already enrolled in course with ID " + course.getId());
         }
@@ -110,7 +113,7 @@ public class CourseService {
         return courseMapper.toSummaryDTOList(courses);
     }
 
-    // TEST: attempt to reduce code duplication through helper method
+    // Helper method
     private List<Course> getCoursesForStudent(Long studentId) {
         User student = userRepository.findById(studentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + studentId));
@@ -133,6 +136,37 @@ public class CourseService {
     // Retrieves a summarized version of courses for a specific student
     public List<CourseSummaryDTO> getSummarizedCoursesByStudent(Long studentId) {
         return courseMapper.toSummaryDTOList((getCoursesForStudent(studentId)));
+    }
+
+    private List<Course> getActiveCoursesForUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + userId));
+
+        LocalDate now = LocalDate.now();
+        List<Course> courses = new ArrayList<>();
+
+        if (user.getRole().equals(RoleConstant.STUDENT)) {
+            courses = courseRepository.findByStudents(user);
+        } else if (user.getRole().equals(RoleConstant.INSTRUCTOR)) {
+            courses = courseRepository.findByInstructors(user);
+        } else {
+            throw new BadRequestException("Role " + user.getRole() + " is not supported for course retrieval");
+        }
+
+        if (courses.isEmpty()) {
+            throw new ResourceNotFoundException("No courses found for user with ID: " + userId);
+        }
+
+        return courses.stream()
+                .filter(course -> course.getStartDate().isAfter(now)
+
+                        && (course.getEndDate() == null || !course.getEndDate().isBefore(now)))
+                .collect(Collectors.toList());
+    }
+
+    // Retrieves detailed list of active courses for a specific user
+    public List<CourseDTO> getActiveCoursesByUser(Long userId) {
+        return courseMapper.toDTOList(getActiveCoursesForUser(userId));
     }
 
     // Update Course

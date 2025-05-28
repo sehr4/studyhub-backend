@@ -21,8 +21,10 @@ public interface ModuleMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "course", ignore = true)
+    @Mapping(target = "resources", ignore = true)
     Module toEntity(ModuleCreateDTO moduleCreateDTO);
 
     @Mapping(target = "course", ignore = true)
+    @Mapping(target = "resources", ignore = true)
     void updateModuleFromDTO(ModuleUpdateDTO moduleUpdateDTO, @MappingTarget Module module);
 }

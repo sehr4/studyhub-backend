@@ -61,8 +61,8 @@ public class CourseController {
             @ApiResponse(responseCode = "404", description = "Course or student not found", content = @Content),
             @ApiResponse(responseCode = "500", description = "Unexpected server error")
     })
-    public ResponseEntity<Void> enrollStudent(@Valid @RequestBody EnrollmentDTO enrollmentDTO) {
-        courseService.enrollStudent(enrollmentDTO);
+    public ResponseEntity<Void> enrollStudent(@Valid @RequestBody CourseEnrollmentDTO courseEnrollmentDTO) {
+        courseService.enrollStudent(courseEnrollmentDTO);
         return ResponseEntity.ok().build();
     }
 
@@ -117,6 +117,20 @@ public class CourseController {
     })
     public ResponseEntity<List<CourseSummaryDTO>> getSummarizedCoursesByStudent(@PathVariable Long studentId) {
         List<CourseSummaryDTO> courses = courseService.getSummarizedCoursesByStudent(studentId);
+        return ResponseEntity.ok(courses);
+    }
+
+    @GetMapping("/user/{userId}/active")
+    @Operation(summary = "Get active courses by user", description = "Retrieves active courses for a specific user (student or instructor)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Courses found",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = CourseDTO.class)))),
+            @ApiResponse(responseCode = "400", description = "Invalid user role or input", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User or courses not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Unexpected server error")
+    })
+    public ResponseEntity<List<CourseDTO>> getActiveCoursesByUser(@PathVariable Long userId) {
+        List<CourseDTO> courses = courseService.getActiveCoursesByUser(userId);
         return ResponseEntity.ok(courses);
     }
 

@@ -26,10 +26,12 @@ public interface CourseMapper {
     @Mapping(target = "id", ignore = true) // auto-generated
     @Mapping(target = "instructors", ignore = true) // Handle in CourseService
     @Mapping(target = "students", ignore = true) // adding in enrollment
+    @Mapping(target = "modules", ignore = true)
     Course toEntity(CourseCreateDTO courseCreateDTO);
 
     @Mapping(target = "instructors", ignore = true)
     @Mapping(target = "students", ignore = true)
+    @Mapping(target = "modules", ignore = true)
     void updateCourseFromDTO(CourseUpdateDTO courseUpdateDTO, @MappingTarget Course course);
 
     @Mapping(target = "id", source = "id")
