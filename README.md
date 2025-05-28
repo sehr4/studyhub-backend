@@ -7,17 +7,16 @@
 
 [//]: # (![License]&#40;https://img.shields.io/badge/License-MIT-yellow&#41;)
 
-[Repository](https://github.com/Lidizz/studyhub-backend)
+StudyHub is a collaborative full-stack Learning Management System (LMS)
+developed as a group project for the APP2000 course at the University of South-Eastern Norway.  
+In this project, our team of students attempt to create a robust platform for managing users,
+courses, modules, resources, assignments, and submissions.  
+Our efforts in this repository focus on designing a REST API backend using Spring Boot,
+integrated with a PostgreSQL database, and to support a frontend client.
 
-StudyHub is a full-stack Learning Management System (LMS) we are currently developing for our APP2000 course project,  
-as part of our studies at the University of South-Eastern Norway.
-
-This repository documents my personal submission for the second ***individual mandatory assignment*** of the course.  
-The assignment focuses on developing REST API endpoints with Spring Boot and implementing basic CRUD operations.  
-My implementation covers user and course management, supported by a seeded dataset.
-
-This document includes project setup instructions, detailed API documentation with examples,  
-and highlights key implementation details to address the assignment requirements.
+The repository serves as the central hub for our group’s work,
+documenting the project setup, API specifications, and usage examples.  
+It reflects our teamwork and contributions.
 
 ## Table of Contents
 - [Package Layout](#package-layout)
@@ -28,11 +27,20 @@ and highlights key implementation details to address the assignment requirements
 - [API Documentation](#api-documentation)
     - [User Controller](#user-controller-apiusers)
     - [Course Controller](#course-controller-apicourses)
+    - [Assignment Controller](#assignment-controller-apicoursescourseidassignments)
+    - [Module Controller](#module-controller-apicoursescourseidmodules)
+    - [Resource Controller](#resource-controller-apimodulesmoduleidresources)
+    - [Submission Controller](#submission-controller-apicoursescourseidsubmissions)
 - [API Usage Examples](#api-usage-examples)
     - [Using Postman](#using-postman)
         - [User Controller](#user-controller)
         - [Course Controller](#course-controller)
+        - [Assignment Controller](#assignment-controller)
+        - [Module Controller](#module-controller)
+        - [Resource Controller](#resource-controller)
+        - [Submission Controller](#submission-controller)
     - [Using Swagger UI](#using-swagger-ui)
+- [Entity Relationship Diagram](#entity-relationship-diagram)
 
 ## Package Layout
 ```
@@ -41,21 +49,27 @@ studyhub-backend/
 │   ├── main/
 │   │   ├── java/
 │   │   │   ├── com/studyhub/
-│   │   │   │   ├── config/          # Configuration classes (e.g., CorsConfig, SecurityConfig)
-│   │   │   │   ├── constant/        # Constants (e.g., RoleConstant)
-│   │   │   │   ├── controller/      # REST controllers (UserController, CourseController)
-│   │   │   │   ├── dto/             # Data Transfer Objects (UserDTO, CourseDTO, etc.)
-│   │   │   │   ├── exception/       # Custom exceptions (e.g., UserNotFoundException)
-│   │   │   │   ├── mapper/          # MapStruct mappers (e.g., CourseMapper, UserMapper)
-│   │   │   │   ├── model/           # Entity classes (User, Course)
-│   │   │   │   ├── repository/      # JPA repositories (UserRepository, CourseRepository)
-│   │   │   │   ├── service/         # Service classes (UserService, CourseService)
-│   │   │   │   ├── StudyhubBackendApplication.java  # Main application class
+│   │   │   │   ├── config/
+│   │   │   │   ├── constant/
+│   │   │   │   ├── controller/
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── assignment/
+│   │   │   │   │   ├── course/
+│   │   │   │   │   ├── module/
+│   │   │   │   │   ├── resource/
+│   │   │   │   │   ├── submission/
+│   │   │   │   │   ├── user/
+│   │   │   │   ├── exception/
+│   │   │   │   ├── mapper/
+│   │   │   │   ├── model/
+│   │   │   │   ├── repository/
+│   │   │   │   ├── service/
+│   │   │   │   ├── StudyhubBackendApplication.java
 │   │   ├── resources/
-│   │   │   ├── application.properties   # Application configuration
-│   │   │   ├── data.sql                 # Database seeding script
-├── pom.xml                      # Maven project file
-└── README.md                    # This file
+│   │   │   ├── application.properties
+│   │   │   ├── data.sql
+├── pom.xml
+└── README.md
 ```
 
 ## Project Setup Instructions
@@ -122,7 +136,7 @@ studyhub-backend/
 - Swagger UI: `http://localhost:8080/api/swagger-ui.html`
 
 ### Database Seeding
-- On startup, `data.sql` populates the database with initial data: 49 users (39 students, 9 instructors, 1 admin), and 30 courses.
+- On startup, `data.sql` populates the database with initial data.
 
 ## API Documentation
 
@@ -141,19 +155,55 @@ studyhub-backend/
 |--------|----------------------------------|-----------------------------------|--------------------|--------------------------------|
 | POST   | `/`                             | Create a new course               | `CourseCreateDTO`  | `200 OK` with `CourseDTO`      |
 | GET    | `/{id}`                         | Get course by ID                  | -                  | `200 OK` with `CourseDTO`      |
-| GET    | `/department/{dept}`            | Get courses by department         | -                  | `200 OK` with `List<CourseDTO>`|
-| GET    | `/department/{dept}/summary`    | Get summarized courses by department | -              | `200 OK` with `List<CourseSummaryDTO>` |
+| GET    | `/department/{department}`            | Get courses by department         | -                  | `200 OK` with `List<CourseDTO>`|
+| GET    | `/department/{department}/summary`    | Get summarized courses by department | -              | `200 OK` with `List<CourseSummaryDTO>` |
 | GET    | `/student/{studentId}`          | Get courses for a student         | -                  | `200 OK` with `List<CourseDTO>`|
 | GET    | `/student/{studentId}/summary`  | Get summarized courses for a student | -              | `200 OK` with `List<CourseSummaryDTO>` |
-| POST   | `/enroll`                       | Enroll a student in a course      | `EnrollmentDTO`    | `200 OK`                       |
+| GET    | `/user/{userId}/active`         | Get active courses for a user     | -                  | `200 OK` with `List<CourseDTO>`|
+| POST   | `/enroll`                       | Enroll a student in a course      | `CourseEnrollmentDTO` | `200 OK`                   |
 | PUT    | `/{id}`                         | Update a course                   | `CourseUpdateDTO`  | `200 OK` with `CourseDTO`      |
 | DELETE | `/{id}`                         | Delete a course                   | -                  | `204 No Content`               |
+
+### Assignment Controller (`/api/courses/{courseId}/assignments`)
+| Method | Endpoint         | Description                       | Request Body       | Response                       |
+|--------|------------------|-----------------------------------|--------------------|--------------------------------|
+| POST   | `/`              | Create a new assignment           | `AssignmentCreateDTO` | `200 OK` with `AssignmentDTO` |
+| GET    | `/`              | Get assignments by course         | -                  | `200 OK` with `List<AssignmentDTO>` |
+| PUT    | `/{assignmentId}`| Update an assignment              | `AssignmentUpdateDTO` | `200 OK` with `AssignmentDTO` |
+| DELETE | `/{assignmentId}`| Delete an assignment              | -                  | `204 No Content`               |
+
+### Module Controller (`/api/courses/{courseId}/modules`)
+| Method | Endpoint         | Description                       | Request Body       | Response                       |
+|--------|------------------|-----------------------------------|--------------------|--------------------------------|
+| POST   | `/`              | Create a new module               | `ModuleCreateDTO`  | `200 OK` with `ModuleDTO`      |
+| GET    | `/`              | Get modules by course             | -                  | `200 OK` with `List<ModuleDTO>`|
+| PUT    | `/{moduleId}`    | Update a module                   | `ModuleUpdateDTO`  | `200 OK` with `ModuleDTO`      |
+| DELETE | `/{moduleId}`    | Delete a module                   | -                  | `204 No Content`               |
+
+### Resource Controller (`/api/modules/{moduleId}/resources`)
+| Method | Endpoint             | Description                       | Request Body       | Response                       |
+|--------|----------------------|-----------------------------------|--------------------|--------------------------------|
+| POST   | `/`                  | Create a new resource             | `ResourceDTO`      | `200 OK` with `ResourceDTO`    |
+| POST   | `/upload`            | Upload a file resource            | `MultipartFile` + `title` | `200 OK` with `ResourceDTO` |
+| GET    | `/`                  | Get resources by module           | -                  | `200 OK` with `List<ResourceDTO>` |
+| GET    | `/{resourceId}/download` | Download a file resource | -              | `200 OK` with `application/octet-stream` |
+| PUT    | `/{resourceId}`      | Update a resource                 | `ResourceDTO`      | `200 OK` with `ResourceDTO`    |
+| DELETE | `/{resourceId}`      | Delete a resource                 | -                  | `204 No Content`               |
+
+### Submission Controller (`/api/courses/{courseId}/submissions`)
+| Method | Endpoint                     | Description                       | Request Body       | Response                       |
+|--------|------------------------------|-----------------------------------|--------------------|--------------------------------|
+| POST   | `/{assignmentId}/student/{studentId}` | Submit an assignment | `MultipartFile`  | `200 OK` with `SubmissionDTO`  |
+| GET    | `/{assignmentId}/student/{studentId}/download` | Download a submitted assignment | -              | `200 OK` with `application/octet-stream` |
+| GET    | `/student/{studentId}`       | Get submissions by student        | -                  | `200 OK` with `List<SubmissionDTO>` |
+| PUT    | `/{assignmentId}/student/{studentId}` | Update a submission | `SubmissionUpdateDTO` | `200 OK` with `SubmissionDTO` |
 
 ## API Usage Examples
 
 ### Using Postman
 
 #### User Controller
+
 1. **Register a User (POST /api/users/register)**
     - **Method**: POST
     - **URL**: `http://localhost:8080/api/users/register`
@@ -178,6 +228,12 @@ studyhub-backend/
         "role": "STUDENT"
       }
       ```
+    - **Error**: `400 Bad Request` if email already exists:
+      ```json
+      {
+        "message": "Email already exists"
+      }
+      ```
 
 2. **Login (POST /api/users/login)**
     - **Method**: POST
@@ -200,6 +256,12 @@ studyhub-backend/
         "role": "STUDENT"
       }
       ```
+    - **Error**: `400 Bad Request` if credentials are invalid:
+      ```json
+      {
+        "message": "Invalid email or password"
+      }
+      ```
 
 3. **Get User by ID (GET /api/users/{id})**
     - **Method**: GET
@@ -214,7 +276,12 @@ studyhub-backend/
         "role": "STUDENT"
       }
       ```
-    - **Error**: `404 Not Found` if user doesn’t exist.
+    - **Error**: `404 Not Found` if user doesn’t exist:
+      ```json
+      {
+        "message": "User not found with ID: 999"
+      }
+      ```
 
 4. **Get User by Email (GET /api/users/email/{email})**
     - **Method**: GET
@@ -229,7 +296,12 @@ studyhub-backend/
         "role": "STUDENT"
       }
       ```
-    - **Error**: `404 Not Found` if user doesn’t exist.
+    - **Error**: `404 Not Found` if user doesn’t exist:
+      ```json
+      {
+        "message": "User not found with email: unknown@example.com"
+      }
+      ```
 
 5. **Update User (PUT /api/users/{id})**
     - **Method**: PUT
@@ -251,15 +323,26 @@ studyhub-backend/
         "role": "STUDENT"
       }
       ```
-    - **Error**: `404 Not Found` if user doesn’t exist.
+    - **Error**: `404 Not Found` if user doesn’t exist:
+      ```json
+      {
+        "message": "User not found with ID: 999"
+      }
+      ```
 
 6. **Delete User (DELETE /api/users/{id})**
     - **Method**: DELETE
     - **URL**: `http://localhost:8080/api/users/1`
     - **Expected Response**: `204 No Content`
-    - **Error**: `404 Not Found` if user doesn’t exist.
+    - **Error**: `404 Not Found` if user doesn’t exist:
+      ```json
+      {
+        "message": "User not found with ID: 999"
+      }
+      ```
 
-#### Course Controller
+##### Course Controller
+
 1. **Create a Course (POST /api/courses)**
     - **Method**: POST
     - **URL**: `http://localhost:8080/api/courses`
@@ -288,43 +371,39 @@ studyhub-backend/
         "studentIds": []
       }
       ```
-    - **Error**: `400 Bad Request` if code or title already exists.
+    - **Error**: `400 Bad Request` if code or title already exists:
+      ```json
+      {
+        "message": "Course code or title already exists"
+      }
+      ```
 
 2. **Get Course by ID (GET /api/courses/{id})**
     - **Method**: GET
-    - **URL**: `http://localhost:8080/api/courses/5`
+    - **URL**: `http://localhost:8080/api/courses/1`
     - **Expected Response**: `200 OK` with `CourseDTO`:
       ```json
       {
-        "id": 5,
-        "code": "CS401",
+        "id": 1,
+        "code": "CS101A",
         "department": "Computer Science",
-        "title": "Operating Systems",
-        "credits": 4,
-        "description": "OS concepts and design",
-        "startDate": "2026-09-01",
-        "endDate": "2026-12-15",
-        "instructorIds": [15],
-        "studentIds": [48, 37, 43, 31]
+        "title": "Intro to Programming",
+        "credits": 3,
+        "description": "Introduction to coding concepts",
+        "startDate": "2025-01-15",
+        "endDate": "2025-12-31",
+        "instructorIds": [6],
+        "studentIds": [1, 4, 7]
       }
       ```
-    - **Error**: `404 Not Found` if course doesn’t exist.
-
-3. **Enroll a Student (POST /api/courses/enroll)**
-    - **Method**: POST
-    - **URL**: `http://localhost:8080/api/courses/enroll`
-    - **Headers**: `Content-Type: application/json`
-    - **Body (raw/JSON)**:
+    - **Error**: `404 Not Found` if course doesn’t exist:
       ```json
       {
-        "courseId": 1,
-        "studentId": 5
+        "message": "Course not found with ID: 999"
       }
       ```
-    - **Expected Response**: `200 OK`
-    - **Error**: `400 Bad Request` if enrollment fails (e.g., user not a student); `404 Not Found` if course or student doesn’t exist.
 
-4. **Get Courses by Department (GET /api/courses/department/{department})**
+3. **Get Courses by Department (GET /api/courses/department/{department})**
     - **Method**: GET
     - **URL**: `http://localhost:8080/api/courses/department/Computer%20Science`
     - **Expected Response**: `200 OK` with `List<CourseDTO>`:
@@ -338,15 +417,20 @@ studyhub-backend/
           "credits": 3,
           "description": "Introduction to coding concepts",
           "startDate": "2025-01-15",
-          "endDate": "2025-05-15",
+          "endDate": "2025-12-31",
           "instructorIds": [6],
           "studentIds": [1, 4, 7]
         }
       ]
       ```
-    - **Error**: `404 Not Found` if no courses exist in the department.
+    - **Error**: `404 Not Found` if no courses exist:
+      ```json
+      {
+        "message": "No courses found in department: UnknownDept"
+      }
+      ```
 
-5. **Get Summarized Courses by Department (GET /api/courses/department/{department}/summary)**
+4. **Get Summarized Courses by Department (GET /api/courses/department/{department}/summary)**
     - **Method**: GET
     - **URL**: `http://localhost:8080/api/courses/department/Computer%20Science/summary`
     - **Expected Response**: `200 OK` with `List<CourseSummaryDTO>`:
@@ -361,9 +445,14 @@ studyhub-backend/
         }
       ]
       ```
-    - **Error**: `404 Not Found` if no courses exist in the department.
+    - **Error**: `404 Not Found` if no courses exist:
+      ```json
+      {
+        "message": "No courses found in department: UnknownDept"
+      }
+      ```
 
-6. **Get Courses for a Student (GET /api/courses/student/{studentId})**
+5. **Get Courses for a Student (GET /api/courses/student/{studentId})**
     - **Method**: GET
     - **URL**: `http://localhost:8080/api/courses/student/1`
     - **Expected Response**: `200 OK` with `List<CourseDTO>`:
@@ -377,15 +466,26 @@ studyhub-backend/
           "credits": 3,
           "description": "Introduction to coding concepts",
           "startDate": "2025-01-15",
-          "endDate": "2025-05-15",
+          "endDate": "2025-12-31",
           "instructorIds": [6],
           "studentIds": [1, 4, 7]
         }
       ]
       ```
-    - **Error**: `404 Not Found` if student or courses don’t exist; `400 Bad Request` if user isn’t a student.
+    - **Error**: `404 Not Found` if student has no courses:
+      ```json
+      {
+        "message": "No courses found for student with ID: 999"
+      }
+      ```
+    - **Error**: `400 Bad Request` if user isn’t a student:
+      ```json
+      {
+        "message": "User is not a student"
+      }
+      ```
 
-7. **Get Summarized Courses for a Student (GET /api/courses/student/{studentId}/summary)**
+6. **Get Summarized Courses for a Student (GET /api/courses/student/{studentId}/summary)**
     - **Method**: GET
     - **URL**: `http://localhost:8080/api/courses/student/1/summary`
     - **Expected Response**: `200 OK` with `List<CourseSummaryDTO>`:
@@ -400,9 +500,78 @@ studyhub-backend/
         }
       ]
       ```
-    - **Error**: `404 Not Found` if student or courses don’t exist; `400 Bad Request` if user isn’t a student.
+    - **Error**: `404 Not Found` if student has no courses:
+      ```json
+      {
+        "message": "No courses found for student with ID: 999"
+      }
+      ```
+    - **Error**: `400 Bad Request` if user isn’t a student:
+      ```json
+      {
+        "message": "User is not a student"
+      }
+      ```
 
-8. **Update a Course (PUT /api/courses/{id})**
+7. **Get Active Courses for User (GET /api/courses/user/{userId}/active)**
+    - **Method**: GET
+    - **URL**: `http://localhost:8080/api/courses/user/1/active`
+    - **Expected Response**: `200 OK` with `List<CourseDTO>`:
+      ```json
+      [
+        {
+          "id": 1,
+          "code": "CS101A",
+          "department": "Computer Science",
+          "title": "Intro to Programming",
+          "credits": 3,
+          "description": "Introduction to coding concepts",
+          "startDate": "2025-01-15",
+          "endDate": "2025-12-31",
+          "instructorIds": [6],
+          "studentIds": [1, 4, 7]
+        }
+      ]
+      ```
+    - **Error**: `404 Not Found` if user has no active courses:
+      ```json
+      {
+        "message": "No courses found for user with ID: 999"
+      }
+      ```
+    - **Error**: `400 Bad Request` if role is unsupported:
+      ```json
+      {
+        "message": "Role ADMIN is not supported for course retrieval"
+      }
+      ```
+
+8. **Enroll a Student (POST /api/courses/enroll)**
+    - **Method**: POST
+    - **URL**: `http://localhost:8080/api/courses/enroll`
+    - **Headers**: `Content-Type: application/json`
+    - **Body (raw/JSON)**:
+      ```json
+      {
+        "courseId": 1,
+        "studentId": 5
+      }
+      ```
+    - **Expected Response**: `200 OK`
+    - **Error**: `404 Not Found` if course or student doesn’t exist:
+      ```json
+      {
+        "message": "Course not found with ID: 999"
+      }
+      ```
+    - **Error**: `400 Bad Request` if user isn’t a student:
+      ```json
+      {
+        "message": "Invalid student role"
+      }
+      ```
+
+9. **Update a Course (PUT /api/courses/{id})**
     - **Method**: PUT
     - **URL**: `http://localhost:8080/api/courses/1`
     - **Headers**: `Content-Type: application/json`
@@ -422,18 +591,449 @@ studyhub-backend/
         "credits": 3,
         "description": "Introduction to coding concepts",
         "startDate": "2025-01-15",
-        "endDate": "2025-05-15",
+        "endDate": "2025-12-31",
         "instructorIds": [6],
         "studentIds": [1, 4, 7]
       }
       ```
-    - **Error**: `404 Not Found` if course doesn’t exist; `400 Bad Request` if code or title already exists.
+    - **Error**: `404 Not Found` if course doesn’t exist:
+      ```json
+      {
+        "message": "Course not found with ID: 999"
+      }
+      ```
 
-9. **Delete a Course (DELETE /api/courses/{id})**
+10. **Delete a Course (DELETE /api/courses/{id})**
     - **Method**: DELETE
     - **URL**: `http://localhost:8080/api/courses/1`
     - **Expected Response**: `204 No Content`
-    - **Error**: `404 Not Found` if course doesn’t exist.
+    - **Error**: `404 Not Found` if course doesn’t exist:
+      ```json
+      {
+        "message": "Course not found with ID: 999"
+      }
+      ```
+
+##### Assignment Controller
+
+1. **Create an Assignment (POST /api/courses/{courseId}/assignments)**
+    - **Method**: POST
+    - **URL**: `http://localhost:8080/api/courses/1/assignments`
+    - **Headers**: `Content-Type: application/json`
+    - **Body (raw/JSON)**:
+      ```json
+      {
+        "title": "Homework 1",
+        "description": "Complete Chapter 1 exercises",
+        "dueDate": "2025-06-15"
+      }
+      ```
+    - **Expected Response**: `200 OK` with `AssignmentDTO`:
+      ```json
+      {
+        "id": 1,
+        "title": "Homework 1",
+        "description": "Complete Chapter 1 exercises",
+        "dueDate": "2025-06-15",
+        "courseId": 1
+      }
+      ```
+    - **Error**: `404 Not Found` if course doesn’t exist:
+      ```json
+      {
+        "message": "Course not found with ID: 999"
+      }
+      ```
+
+2. **Get Assignments by Course (GET /api/courses/{courseId}/assignments)**
+    - **Method**: GET
+    - **URL**: `http://localhost:8080/api/courses/1/assignments`
+    - **Expected Response**: `200 OK` with `List<AssignmentDTO>`:
+      ```json
+      [
+        {
+          "id": 1,
+          "title": "Homework 1",
+          "description": "Complete Chapter 1 exercises",
+          "dueDate": "2025-06-15",
+          "courseId": 1
+        }
+      ]
+      ```
+    - **Error**: `404 Not Found` if no assignments exist:
+      ```json
+      {
+        "message": "No assignments found for course with ID: 999"
+      }
+      ```
+
+3. **Update an Assignment (PUT /api/courses/{courseId}/assignments/{assignmentId})**
+    - **Method**: PUT
+    - **URL**: `http://localhost:8080/api/courses/1/assignments/1`
+    - **Headers**: `Content-Type: application/json`
+    - **Body (raw/JSON)**:
+      ```json
+      {
+        "title": "Updated Homework 1"
+      }
+      ```
+    - **Expected Response**: `200 OK` with updated `AssignmentDTO`:
+      ```json
+      {
+        "id": 1,
+        "title": "Updated Homework 1",
+        "description": "Complete Chapter 1 exercises",
+        "dueDate": "2025-06-15",
+        "courseId": 1
+      }
+      ```
+    - **Error**: `404 Not Found` if assignment or course doesn’t exist:
+      ```json
+      {
+        "message": "Assignment not found with ID: 999"
+      }
+      ```
+
+4. **Delete an Assignment (DELETE /api/courses/{courseId}/assignments/{assignmentId})**
+    - **Method**: DELETE
+    - **URL**: `http://localhost:8080/api/courses/1/assignments/1`
+    - **Expected Response**: `204 No Content`
+    - **Error**: `404 Not Found` if assignment or course doesn’t exist:
+      ```json
+      {
+        "message": "Assignment not found with ID: 999"
+      }
+      ```
+
+##### Module Controller
+
+1. **Create a Module (POST /api/courses/{courseId}/modules)**
+    - **Method**: POST
+    - **URL**: `http://localhost:8080/api/courses/1/modules`
+    - **Headers**: `Content-Type: application/json`
+    - **Body (raw/JSON)**:
+      ```json
+      {
+        "title": "Module 1",
+        "description": "Introduction to the course"
+      }
+      ```
+    - **Expected Response**: `200 OK` with `ModuleDTO`:
+      ```json
+      {
+        "id": 1,
+        "title": "Module 1",
+        "description": "Introduction to the course",
+        "courseId": 1
+      }
+      ```
+    - **Error**: `404 Not Found` if course doesn’t exist:
+      ```json
+      {
+        "message": "Course not found with ID: 999"
+      }
+      ```
+
+2. **Get Modules by Course (GET /api/courses/{courseId}/modules)**
+    - **Method**: GET
+    - **URL**: `http://localhost:8080/api/courses/1/modules`
+    - **Expected Response**: `200 OK` with `List<ModuleDTO>`:
+      ```json
+      [
+        {
+          "id": 1,
+          "title": "Module 1",
+          "description": "Introduction to the course",
+          "courseId": 1
+        }
+      ]
+      ```
+    - **Error**: `404 Not Found` if no modules exist:
+      ```json
+      {
+        "message": "No modules found for course with ID: 999"
+      }
+      ```
+
+3. **Update a Module (PUT /api/courses/{courseId}/modules/{moduleId})**
+    - **Method**: PUT
+    - **URL**: `http://localhost:8080/api/courses/1/modules/1`
+    - **Headers**: `Content-Type: application/json`
+    - **Body (raw/JSON)**:
+      ```json
+      {
+        "title": "Updated Module 1"
+      }
+      ```
+    - **Expected Response**: `200 OK` with updated `ModuleDTO`:
+      ```json
+      {
+        "id": 1,
+        "title": "Updated Module 1",
+        "description": "Introduction to the course",
+        "courseId": 1
+      }
+      ```
+    - **Error**: `404 Not Found` if module or course doesn’t exist:
+      ```json
+      {
+        "message": "Module not found with ID: 999"
+      }
+      ```
+
+4. **Delete a Module (DELETE /api/courses/{courseId}/modules/{moduleId})**
+    - **Method**: DELETE
+    - **URL**: `http://localhost:8080/api/courses/1/modules/1`
+    - **Expected Response**: `204 No Content`
+    - **Error**: `404 Not Found` if module or course doesn’t exist:
+      ```json
+      {
+        "message": "Module not found with ID: 999"
+      }
+      ```
+
+##### Resource Controller
+
+1. **Create a Resource (POST /api/modules/{moduleId}/resources)**
+    - **Method**: POST
+    - **URL**: `http://localhost:8080/api/modules/1/resources`
+    - **Headers**: `Content-Type: application/json`
+    - **Body (raw/JSON)**:
+      ```json
+      {
+        "title": "Text Resource",
+        "type": "TEXT",
+        "textContent": "This is a text resource."
+      }
+      ```
+    - **Expected Response**: `200 OK` with `ResourceDTO`:
+      ```json
+      {
+        "id": 1,
+        "title": "Text Resource",
+        "type": "TEXT",
+        "textContent": "This is a text resource.",
+        "moduleId": 1
+      }
+      ```
+    - **Error**: `404 Not Found` if module doesn’t exist:
+      ```json
+      {
+        "message": "Module not found with ID: 999"
+      }
+      ```
+
+2. **Upload a File Resource (POST /api/modules/{moduleId}/resources/upload)**
+    - **Method**: POST
+    - **URL**: `http://localhost:8080/api/modules/1/resources/upload`
+    - **Headers**: `Content-Type: multipart/form-data`
+    - **Body**: Form-data with `file` (e.g., `example.pdf`) and `title` (e.g., `Lecture Notes`)
+    - **Expected Response**: `200 OK` with `ResourceDTO`:
+      ```json
+      {
+        "id": 2,
+        "title": "Lecture Notes",
+        "type": "FILE",
+        "fileContent": "...base64encodedcontent...",
+        "originalFileName": "example.pdf",
+        "moduleId": 1
+      }
+      ```
+    - **Error**: `400 Bad Request` if file is empty:
+      ```json
+      {
+        "message": "File cannot be empty"
+      }
+      ```
+    - **Error**: `404 Not Found` if module doesn’t exist:
+      ```json
+      {
+        "message": "Module not found with ID: 999"
+      }
+      ```
+
+3. **Get Resources by Module (GET /api/modules/{moduleId}/resources)**
+    - **Method**: GET
+    - **URL**: `http://localhost:8080/api/modules/1/resources`
+    - **Expected Response**: `200 OK` with `List<ResourceDTO>`:
+      ```json
+      [
+        {
+          "id": 1,
+          "title": "Text Resource",
+          "type": "TEXT",
+          "textContent": "This is a text resource.",
+          "moduleId": 1
+        },
+        {
+          "id": 2,
+          "title": "Lecture Notes",
+          "type": "FILE",
+          "fileContent": "...base64encodedcontent...",
+          "originalFileName": "example.pdf",
+          "moduleId": 1
+        }
+      ]
+      ```
+    - **Error**: `404 Not Found` if no resources exist:
+      ```json
+      {
+        "message": "No resources found for module with ID: 999"
+      }
+      ```
+
+4. **Download a File Resource (GET /api/modules/{moduleId}/resources/{resourceId}/download)**
+    - **Method**: GET
+    - **URL**: `http://localhost:8080/api/modules/1/resources/2/download`
+    - **Expected Response**: `200 OK` with `application/octet-stream`
+        - Headers: `Content-Disposition: attachment; filename=example.pdf`
+        - Body: Binary file content
+    - **Error**: `404 Not Found` if resource or module doesn’t exist:
+      ```json
+      {
+        "message": "Resource not found with ID: 999"
+      }
+      ```
+
+5. **Update a Resource (PUT /api/modules/{moduleId}/resources/{resourceId})**
+    - **Method**: PUT
+    - **URL**: `http://localhost:8080/api/modules/1/resources/1`
+    - **Headers**: `Content-Type: application/json`
+    - **Body (raw/JSON)**:
+      ```json
+      {
+        "title": "Updated Text Resource"
+      }
+      ```
+    - **Expected Response**: `200 OK` with updated `ResourceDTO`:
+      ```json
+      {
+        "id": 1,
+        "title": "Updated Text Resource",
+        "type": "TEXT",
+        "textContent": "This is a text resource.",
+        "moduleId": 1
+      }
+      ```
+    - **Error**: `404 Not Found` if resource or module doesn’t exist:
+      ```json
+      {
+        "message": "Resource not found with ID: 999"
+      }
+      ```
+
+6. **Delete a Resource (DELETE /api/modules/{moduleId}/resources/{resourceId})**
+    - **Method**: DELETE
+    - **URL**: `http://localhost:8080/api/modules/1/resources/1`
+    - **Expected Response**: `204 No Content`
+    - **Error**: `404 Not Found` if resource or module doesn’t exist:
+      ```json
+      {
+        "message": "Resource not found with ID: 999"
+      }
+      ```
+
+##### Submission Controller
+
+1. **Submit an Assignment (POST /api/courses/{courseId}/submissions/{assignmentId}/student/{studentId})**
+    - **Method**: POST
+    - **URL**: `http://localhost:8080/api/courses/1/submissions/1/student/1`
+    - **Headers**: `Content-Type: multipart/form-data`
+    - **Body**: Form-data with `file` (e.g., `submission.pdf`)
+    - **Expected Response**: `200 OK` with `SubmissionDTO`:
+      ```json
+      {
+        "id": 1,
+        "assignmentId": 1,
+        "studentId": 1,
+        "fileContent": "...base64encodedcontent...",
+        "originalFileName": "submission.pdf",
+        "submissionDate": "2025-05-28",
+        "grade": null,
+        "feedback": null
+      }
+      ```
+    - **Error**: `400 Bad Request` if file is empty:
+      ```json
+      {
+        "message": "File cannot be empty"
+      }
+      ```
+    - **Error**: `404 Not Found` if assignment or student doesn’t exist:
+      ```json
+      {
+        "message": "Assignment not found with ID: 999"
+      }
+      ```
+
+2. **Download a Submitted Assignment (GET /api/courses/{courseId}/submissions/{assignmentId}/student/{studentId}/download)**
+    - **Method**: GET
+    - **URL**: `http://localhost:8080/api/courses/1/submissions/1/student/1/download`
+    - **Expected Response**: `200 OK` with `application/octet-stream`
+        - Headers: `Content-Disposition: attachment; filename=submission.pdf`
+        - Body: Binary file content
+    - **Error**: `404 Not Found` if submission doesn’t exist:
+      ```json
+      {
+        "message": "No file submitted for assignment with ID: 999 and student with ID: 1"
+      }
+      ```
+
+3. **Get Submissions by Student (GET /api/courses/{courseId}/submissions/student/{studentId})**
+    - **Method**: GET
+    - **URL**: `http://localhost:8080/api/courses/1/submissions/student/1`
+    - **Expected Response**: `200 OK` with `List<SubmissionDTO>`:
+      ```json
+      [
+        {
+          "id": 1,
+          "assignmentId": 1,
+          "studentId": 1,
+          "fileContent": "...base64encodedcontent...",
+          "originalFileName": "submission.pdf",
+          "submissionDate": "2025-05-28",
+          "grade": "A",
+          "feedback": "Great work!"
+        }
+      ]
+      ```
+    - **Error**: `404 Not Found` if no submissions exist:
+      ```json
+      {
+        "message": "No submissions found for student with ID: 1 in course with ID: 999"
+      }
+      ```
+
+4. **Update a Submission (PUT /api/courses/{courseId}/submissions/{assignmentId}/student/{studentId})**
+    - **Method**: PUT
+    - **URL**: `http://localhost:8080/api/courses/1/submissions/1/student/1`
+    - **Headers**: `Content-Type: application/json`
+    - **Body (raw/JSON)**:
+      ```json
+      {
+        "grade": "A",
+        "feedback": "Great work!"
+      }
+      ```
+    - **Expected Response**: `200 OK` with updated `SubmissionDTO`:
+      ```json
+      {
+        "id": 1,
+        "assignmentId": 1,
+        "studentId": 1,
+        "fileContent": "...base64encodedcontent...",
+        "originalFileName": "submission.pdf",
+        "submissionDate": "2025-05-28",
+        "grade": "A",
+        "feedback": "Great work!"
+      }
+      ```
+    - **Error**: `404 Not Found` if submission doesn’t exist:
+      ```json
+      {
+        "message": "Submission not found for assignment with ID: 999 and student with ID: 1"
+      }
+      ```
 
 ### Using Swagger UI
 - Open Swagger UI: `http://localhost:8080/api/swagger-ui.html`.
@@ -443,3 +1043,9 @@ studyhub-backend/
 - Click "Execute".
 - View the request URL, response body, and status code.
 - Use the JSON examples from the Postman section to test requests.
+
+## Entity Relationship Diagram
+![ERD Placeholder](src/main/resources/static/StudyHubERD.png)  
+
+
+[Back to Repository](https://github.com/Lidizz/studyhub-backend)
