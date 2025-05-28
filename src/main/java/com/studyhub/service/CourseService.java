@@ -1,7 +1,6 @@
 package com.studyhub.service;
 
 import com.studyhub.constant.RoleConstant;
-import com.studyhub.constant.Semester;
 import com.studyhub.dto.course.*;
 import com.studyhub.exception.BadRequestException;
 import com.studyhub.exception.ResourceNotFoundException;
@@ -13,8 +12,6 @@ import com.studyhub.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
