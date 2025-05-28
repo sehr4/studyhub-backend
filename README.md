@@ -141,62 +141,62 @@ studyhub-backend/
 ## API Documentation
 
 ### User Controller (`/api/users`)
-| Method | Endpoint         | Description          | Request Body       | Response                        |
-|--------|------------------|----------------------|--------------------|---------------------------------|
-| POST   | `/register`      | Register a new user  | `UserDTO`          | `200 OK` with `UserResponseDTO`  |
-| POST   | `/login`         | Authenticate a user  | `LoginRequestDTO`  | `200 OK` with `UserResponseDTO` |
-| GET    | `/{id}`          | Get user by ID       | -                  | `200 OK` with `UserResponseDTO` |
-| GET    | `/email/{email}` | Get user by email    | -                  | `200 OK` with `UserResponseDTO` |
-| PUT    | `/{id}`          | Update user details  | `UserUpdateDTO`    | `200 OK` with `UserResponseDTO` |
-| DELETE | `/{id}`          | Delete a user        | -                  | `204 No Content`                |
+| Method | Endpoint         | Description         | Request Body      | Response                        |
+|--------|------------------|---------------------|-------------------|---------------------------------|
+| POST   | `/register`      | Register a new user | `UserDTO`         | `200 OK` with `UserResponseDTO` |
+| POST   | `/login`         | Authenticate a user | `LoginRequestDTO` | `200 OK` with `UserResponseDTO` |
+| GET    | `/{id}`          | Get user by ID      | -                 | `200 OK` with `UserResponseDTO` |
+| GET    | `/email/{email}` | Get user by email   | -                 | `200 OK` with `UserResponseDTO` |
+| PUT    | `/{id}`          | Update user details | `UserUpdateDTO`   | `200 OK` with `UserResponseDTO` |
+| DELETE | `/{id}`          | Delete a user       | -                 | `204 No Content`                |
 
 ### Course Controller (`/api/courses`)
-| Method | Endpoint                         | Description                       | Request Body       | Response                       |
-|--------|----------------------------------|-----------------------------------|--------------------|--------------------------------|
-| POST   | `/`                             | Create a new course               | `CourseCreateDTO`  | `200 OK` with `CourseDTO`      |
-| GET    | `/{id}`                         | Get course by ID                  | -                  | `200 OK` with `CourseDTO`      |
-| GET    | `/department/{department}`            | Get courses by department         | -                  | `200 OK` with `List<CourseDTO>`|
-| GET    | `/department/{department}/summary`    | Get summarized courses by department | -              | `200 OK` with `List<CourseSummaryDTO>` |
-| GET    | `/student/{studentId}`          | Get courses for a student         | -                  | `200 OK` with `List<CourseDTO>`|
-| GET    | `/student/{studentId}/summary`  | Get summarized courses for a student | -              | `200 OK` with `List<CourseSummaryDTO>` |
-| GET    | `/user/{userId}/active`         | Get active courses for a user     | -                  | `200 OK` with `List<CourseDTO>`|
-| POST   | `/enroll`                       | Enroll a student in a course      | `CourseEnrollmentDTO` | `200 OK`                   |
-| PUT    | `/{id}`                         | Update a course                   | `CourseUpdateDTO`  | `200 OK` with `CourseDTO`      |
-| DELETE | `/{id}`                         | Delete a course                   | -                  | `204 No Content`               |
+| Method | Endpoint                           | Description                          | Request Body          | Response                               |
+|--------|------------------------------------|--------------------------------------|-----------------------|----------------------------------------|
+| POST   | `/`                                | Create a new course                  | `CourseCreateDTO`     | `200 OK` with `CourseDTO`              |
+| GET    | `/{id}`                            | Get course by ID                     | -                     | `200 OK` with `CourseDTO`              |
+| GET    | `/department/{department}`         | Get courses by department            | -                     | `200 OK` with `List<CourseDTO>`        |
+| GET    | `/department/{department}/summary` | Get summarized courses by department | -                     | `200 OK` with `List<CourseSummaryDTO>` |
+| GET    | `/student/{studentId}`             | Get courses for a student            | -                     | `200 OK` with `List<CourseDTO>`        |
+| GET    | `/student/{studentId}/summary`     | Get summarized courses for a student | -                     | `200 OK` with `List<CourseSummaryDTO>` |
+| GET    | `/user/{userId}/active`            | Get active courses for a user        | -                     | `200 OK` with `List<CourseDTO>`        |
+| POST   | `/enroll`                          | Enroll a student in a course         | `CourseEnrollmentDTO` | `200 OK`                               |
+| PUT    | `/{id}`                            | Update a course                      | `CourseUpdateDTO`     | `200 OK` with `CourseDTO`              |
+| DELETE | `/{id}`                            | Delete a course                      | -                     | `204 No Content`                       |
 
 ### Assignment Controller (`/api/courses/{courseId}/assignments`)
-| Method | Endpoint         | Description                       | Request Body       | Response                       |
-|--------|------------------|-----------------------------------|--------------------|--------------------------------|
-| POST   | `/`              | Create a new assignment           | `AssignmentCreateDTO` | `200 OK` with `AssignmentDTO` |
-| GET    | `/`              | Get assignments by course         | -                  | `200 OK` with `List<AssignmentDTO>` |
-| PUT    | `/{assignmentId}`| Update an assignment              | `AssignmentUpdateDTO` | `200 OK` with `AssignmentDTO` |
-| DELETE | `/{assignmentId}`| Delete an assignment              | -                  | `204 No Content`               |
+| Method | Endpoint          | Description               | Request Body          | Response                            |
+|--------|-------------------|---------------------------|-----------------------|-------------------------------------|
+| POST   | `/`               | Create a new assignment   | `AssignmentCreateDTO` | `200 OK` with `AssignmentDTO`       |
+| GET    | `/`               | Get assignments by course | -                     | `200 OK` with `List<AssignmentDTO>` |
+| PUT    | `/{assignmentId}` | Update an assignment      | `AssignmentUpdateDTO` | `200 OK` with `AssignmentDTO`       |
+| DELETE | `/{assignmentId}` | Delete an assignment      | -                     | `204 No Content`                    |
 
 ### Module Controller (`/api/courses/{courseId}/modules`)
-| Method | Endpoint         | Description                       | Request Body       | Response                       |
-|--------|------------------|-----------------------------------|--------------------|--------------------------------|
-| POST   | `/`              | Create a new module               | `ModuleCreateDTO`  | `200 OK` with `ModuleDTO`      |
-| GET    | `/`              | Get modules by course             | -                  | `200 OK` with `List<ModuleDTO>`|
-| PUT    | `/{moduleId}`    | Update a module                   | `ModuleUpdateDTO`  | `200 OK` with `ModuleDTO`      |
-| DELETE | `/{moduleId}`    | Delete a module                   | -                  | `204 No Content`               |
+| Method | Endpoint      | Description           | Request Body      | Response                        |
+|--------|---------------|-----------------------|-------------------|---------------------------------|
+| POST   | `/`           | Create a new module   | `ModuleCreateDTO` | `200 OK` with `ModuleDTO`       |
+| GET    | `/`           | Get modules by course | -                 | `200 OK` with `List<ModuleDTO>` |
+| PUT    | `/{moduleId}` | Update a module       | `ModuleUpdateDTO` | `200 OK` with `ModuleDTO`       |
+| DELETE | `/{moduleId}` | Delete a module       | -                 | `204 No Content`                |
 
 ### Resource Controller (`/api/modules/{moduleId}/resources`)
-| Method | Endpoint             | Description                       | Request Body       | Response                       |
-|--------|----------------------|-----------------------------------|--------------------|--------------------------------|
-| POST   | `/`                  | Create a new resource             | `ResourceDTO`      | `200 OK` with `ResourceDTO`    |
-| POST   | `/upload`            | Upload a file resource            | `MultipartFile` + `title` | `200 OK` with `ResourceDTO` |
-| GET    | `/`                  | Get resources by module           | -                  | `200 OK` with `List<ResourceDTO>` |
-| GET    | `/{resourceId}/download` | Download a file resource | -              | `200 OK` with `application/octet-stream` |
-| PUT    | `/{resourceId}`      | Update a resource                 | `ResourceDTO`      | `200 OK` with `ResourceDTO`    |
-| DELETE | `/{resourceId}`      | Delete a resource                 | -                  | `204 No Content`               |
+| Method | Endpoint                 | Description              | Request Body              | Response                                 |
+|--------|--------------------------|--------------------------|---------------------------|------------------------------------------|
+| POST   | `/`                      | Create a new resource    | `ResourceDTO`             | `200 OK` with `ResourceDTO`              |
+| POST   | `/upload`                | Upload a file resource   | `MultipartFile` + `title` | `200 OK` with `ResourceDTO`              |
+| GET    | `/`                      | Get resources by module  | -                         | `200 OK` with `List<ResourceDTO>`        |
+| GET    | `/{resourceId}/download` | Download a file resource | -                         | `200 OK` with `application/octet-stream` |
+| PUT    | `/{resourceId}`          | Update a resource        | `ResourceDTO`             | `200 OK` with `ResourceDTO`              |
+| DELETE | `/{resourceId}`          | Delete a resource        | -                         | `204 No Content`                         |
 
 ### Submission Controller (`/api/courses/{courseId}/submissions`)
-| Method | Endpoint                     | Description                       | Request Body       | Response                       |
-|--------|------------------------------|-----------------------------------|--------------------|--------------------------------|
-| POST   | `/{assignmentId}/student/{studentId}` | Submit an assignment | `MultipartFile`  | `200 OK` with `SubmissionDTO`  |
-| GET    | `/{assignmentId}/student/{studentId}/download` | Download a submitted assignment | -              | `200 OK` with `application/octet-stream` |
-| GET    | `/student/{studentId}`       | Get submissions by student        | -                  | `200 OK` with `List<SubmissionDTO>` |
-| PUT    | `/{assignmentId}/student/{studentId}` | Update a submission | `SubmissionUpdateDTO` | `200 OK` with `SubmissionDTO` |
+| Method | Endpoint                                       | Description                     | Request Body          | Response                                 |
+|--------|------------------------------------------------|---------------------------------|-----------------------|------------------------------------------|
+| POST   | `/{assignmentId}/student/{studentId}`          | Submit an assignment            | `MultipartFile`       | `200 OK` with `SubmissionDTO`            |
+| GET    | `/{assignmentId}/student/{studentId}/download` | Download a submitted assignment | -                     | `200 OK` with `application/octet-stream` |
+| GET    | `/student/{studentId}`                         | Get submissions by student      | -                     | `200 OK` with `List<SubmissionDTO>`      |
+| PUT    | `/{assignmentId}/student/{studentId}`          | Update a submission             | `SubmissionUpdateDTO` | `200 OK` with `SubmissionDTO`            |
 
 ## API Usage Examples
 
