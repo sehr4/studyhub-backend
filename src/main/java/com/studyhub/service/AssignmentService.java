@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 // Service class for handling assignment-related operations
 @Service
@@ -47,6 +48,18 @@ public class AssignmentService {
             throw new ResourceNotFoundException("No assignments found for course ID: " + courseId);
         }
         return assignmentMapper.toDTOList(assignments);
+    }
+
+    // Retrieves assignment by ID
+    public AssignmentDTO getAssignmentById(Long courseId, Long id) {
+        Assignment assignment = assignmentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No assignment found with ID: " + id));
+
+        if (!assignment.getCourse().getId().equals(courseId)) {
+            throw new ResourceNotFoundException("Assignment with ID " + id + " does not belong to course with ID " + courseId);
+        }
+
+        return assignmentMapper.toDTO(assignment);
     }
 
     // Updates an assignment

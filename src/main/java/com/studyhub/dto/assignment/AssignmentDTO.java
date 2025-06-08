@@ -14,5 +14,5 @@ public class AssignmentDTO {
     private String description;
     private LocalDateTime dueDate;
 
-    public interface CreationValidation {}
+//    public interface CreationValidation {}
 }

@@ -58,6 +58,21 @@ public class AssignmentController {
         return ResponseEntity.ok(assignments);
     }
 
+    @GetMapping("/{assignmentId}")
+    @Operation(summary = "Get assignment by ID", description = "Retrieves an assignment by its ID for a specified course")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Assignment found",
+                    content = @Content(schema = @Schema(implementation = AssignmentDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Assignment or course not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Unexpected server error")
+    })
+    public ResponseEntity<AssignmentDTO> getAssignmentById(
+            @PathVariable Long courseId,
+            @PathVariable Long assignmentId) {
+        AssignmentDTO assignmentDTO = assignmentService.getAssignmentById(courseId, assignmentId);
+        return ResponseEntity.ok(assignmentDTO);
+    }
+
     @PutMapping("/{assignmentId}")
     @Operation(summary = "Update an assignment", description = "Updates an existing assignment")
     @ApiResponses({
