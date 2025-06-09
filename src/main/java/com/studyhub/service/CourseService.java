@@ -128,6 +128,21 @@ public class CourseService {
         return courses;
     }
 
+    // Helper method
+    private List<Course> getCoursesForInstructor(Long instructorId) {
+        User instructor = userRepository.findById(instructorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Instructor not found with ID: " + instructorId));
+        // Verify instructor exists and has instructor role
+        if (!instructor.getRole().equals(RoleConstant.INSTRUCTOR)) {
+            throw new BadRequestException("User with ID " + instructorId + " is not a instructor");
+        }
+        List<Course> courses = courseRepository.findByInstructors(instructor);
+        if (courses.isEmpty()) {
+            throw new ResourceNotFoundException("No courses found for instructor with ID: " + instructorId);
+        }
+        return courses;
+    }
+
     // Retrieves detailed list of courses for a specific student
     public List<CourseDTO> getCoursesByStudent(Long studentId) {
         return courseMapper.toDTOList(getCoursesForStudent(studentId));
@@ -136,6 +151,11 @@ public class CourseService {
     // Retrieves a summarized version of courses for a specific student
     public List<CourseSummaryDTO> getSummarizedCoursesByStudent(Long studentId) {
         return courseMapper.toSummaryDTOList((getCoursesForStudent(studentId)));
+    }
+
+    // Retrieves a summarized version of courses for a specific instructor
+    public List<CourseSummaryDTO> getSummarizedCoursesByInstructor(Long instructorId) {
+        return courseMapper.toSummaryDTOList((getCoursesForInstructor(instructorId)));
     }
 
     private List<Course> getActiveCoursesForUser(Long userId) {
