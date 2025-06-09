@@ -153,6 +153,11 @@ public class CourseService {
         return courseMapper.toSummaryDTOList((getCoursesForStudent(studentId)));
     }
 
+    // Retrieves detailed list of courses for a specific student
+    public List<CourseDTO> getCoursesByInstructor(Long instructorId) {
+        return courseMapper.toDTOList(getCoursesForInstructor(instructorId));
+    }
+
     // Retrieves a summarized version of courses for a specific instructor
     public List<CourseSummaryDTO> getSummarizedCoursesByInstructor(Long instructorId) {
         return courseMapper.toSummaryDTOList((getCoursesForInstructor(instructorId)));

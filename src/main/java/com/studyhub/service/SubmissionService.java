@@ -116,6 +116,15 @@ public class SubmissionService {
         return submissionMapper.toDTOList(submissions);
     }
 
+    public List<SubmissionDTO> getSubmissionsByAssignment(Long assignmentId) {
+        Assignment assignment = assignmentRepository.findById(assignmentId).orElseThrow(() -> new ResourceNotFoundException("Assignment not found with ID: " + assignmentId));
+        List<Submission> submissions = submissionRepository.findByAssignmentId(assignmentId);
+        if (submissions.isEmpty()) {
+            throw new ResourceNotFoundException("No submissions found for assignment ID: " + assignmentId);
+        }
+        return submissionMapper.toDTOList(submissions);
+    }
+
     // Updates a submission with feedback and grade
     public SubmissionDTO updateSubmission(Long assignmentId, Long studentId, SubmissionUpdateDTO submissionUpdateDTO) {
         Submission submission = submissionRepository.findFirstByAssignmentIdAndStudentId(assignmentId, studentId)

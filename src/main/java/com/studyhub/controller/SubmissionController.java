@@ -114,4 +114,16 @@ public class SubmissionController {
         SubmissionDTO updatedSubmission = submissionService.updateSubmission(assignmentId, studentId, submissionUpdateDTO);
         return ResponseEntity.ok(updatedSubmission);
     }
+
+    @GetMapping("/{assignmentId}/submissions")
+    @Operation(summary = "Get all submissions for an assignment", description = "Retrieves all student submissions for a specific assignment (for instructors)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Submissions found",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = SubmissionDTO.class)))),
+            @ApiResponse(responseCode = "404", description = "No submissions found for assignment", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Unexpected server error")})
+    public ResponseEntity<List<SubmissionDTO>> getSubmissionsByAssignment(@PathVariable Long courseId, @PathVariable Long assignmentId) {
+        List<SubmissionDTO> submissions = submissionService.getSubmissionsByAssignment(assignmentId);
+        return ResponseEntity.ok(submissions);
+    }
 }

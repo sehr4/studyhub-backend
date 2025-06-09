@@ -120,6 +120,20 @@ public class CourseController {
         return ResponseEntity.ok(courses);
     }
 
+    @GetMapping("/instructor/{instructorId}")
+    @Operation(summary = "Get courses by instructor", description = "Retrieves all courses an instructor has")
+    @ApiResponses ({
+            @ApiResponse(responseCode = "200", description = "Courses found",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = CourseDTO.class)))),
+            @ApiResponse(responseCode = "400", description = "User is not an instructor", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Instructor or courses not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Unexpected server error")
+    })
+    public ResponseEntity<List<CourseDTO>> getCoursesByInstructor(@PathVariable Long instructorId) {
+        List<CourseDTO> courses = courseService.getCoursesByInstructor(instructorId);
+        return ResponseEntity.ok(courses);
+    }
+
     @GetMapping("/instructor/{instructorId}/summary")
     @Operation(summary = "Get summarized courses by instructor", description = "Retrieves a summarized version of all courses an instructor has")
     @ApiResponses ({
