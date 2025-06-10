@@ -122,7 +122,9 @@ public class SubmissionController {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = SubmissionDTO.class)))),
             @ApiResponse(responseCode = "404", description = "No submissions found for assignment", content = @Content),
             @ApiResponse(responseCode = "500", description = "Unexpected server error")})
-    public ResponseEntity<List<SubmissionDTO>> getSubmissionsByAssignment(@PathVariable Long courseId, @PathVariable Long assignmentId) {
+    public ResponseEntity<List<SubmissionDTO>> getSubmissionsByAssignment(
+            @PathVariable Long courseId,
+            @PathVariable Long assignmentId) {
         List<SubmissionDTO> submissions = submissionService.getSubmissionsByAssignment(assignmentId);
         return ResponseEntity.ok(submissions);
     }

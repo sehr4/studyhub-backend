@@ -17,7 +17,7 @@ public class CourseUpdateDTO {
     @Size(min = 6, max = 6, message = "Course code must be exactly 6 characters")
     private String code;
 
-    @Size(min = 4, max = 50, message = "Department must be between 4 and 50 characters")
+    @Size(min = 2, max = 50, message = "Department must be between 2 and 50 characters")
     private String department;
 
     @Size(min = 4, max = 100, message = "Title must be between 4 and 100 characters")

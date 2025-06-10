@@ -117,7 +117,9 @@ public class SubmissionService {
     }
 
     public List<SubmissionDTO> getSubmissionsByAssignment(Long assignmentId) {
-        Assignment assignment = assignmentRepository.findById(assignmentId).orElseThrow(() -> new ResourceNotFoundException("Assignment not found with ID: " + assignmentId));
+        Assignment assignment = assignmentRepository.findById(assignmentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Assignment not found with ID: " + assignmentId));
+
         List<Submission> submissions = submissionRepository.findByAssignmentId(assignmentId);
         if (submissions.isEmpty()) {
             throw new ResourceNotFoundException("No submissions found for assignment ID: " + assignmentId);
