@@ -365,11 +365,11 @@ SELECT setval('resources_id_seq', (SELECT MAX(id) + 1 FROM resources), false);
 
 -- Insert Assignments
 INSERT INTO assignments (id, course_id, title, description, due_date, created_at) VALUES
-        (1, 1, 'Java Variables Exercise', 'Write a program to declare and manipulate variables.',  '2025-06-10 23:59:00', now()),
-        (2, 2, 'OOP Class Design', 'Design a class with inheritance.',  '2025-06-15 23:59:00',now() ),
+        (1, 1, 'Java Variables Exercise', 'Write a program to declare and manipulate variables.',  '2025-06-20 23:59:00', now()),
+        (2, 2, 'OOP Class Design', 'Design a class with inheritance.',  '2025-06-21 23:59:00',now() ),
         (3, 3, 'Array Implementation', 'Implement an array-based solution.',  '2025-06-20 23:59:00', now()),
         (4, 4, 'Algorithm Analysis', 'Analyze a sorting algorithm.',  '2025-06-25 23:59:00', now()),
-        (5, 5, 'HTML Form Creation', 'Build a simple HTML form.',  '2025-06-10 23:59:00', now()),
+        (5, 5, 'HTML Form Creation', 'Build a simple HTML form.',  '2025-06-28 23:59:00', now()),
         (6, 6, 'CSS Styling Task', 'Style a webpage with CSS.',  '2025-06-15 23:59:00', now()),
         (7, 8, 'Array Operations Task', 'Perform array operations.',  '2025-06-20 23:59:00', now()),
         (8, 9, 'Stack Implementation', 'Implement a stack.',  '2025-06-25 23:59:00', now());
